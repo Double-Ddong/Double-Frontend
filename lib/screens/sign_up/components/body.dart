@@ -17,15 +17,19 @@ class Body extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                Text("Register Account", style: headingStyle),
+                SizedBox(height: SizeConfig.screenHeight * 0.007), // 4%
+                Image.asset("assets/images/logo.png", width: 150, height: 100),
                 Text(
-                  "Complete your details or continue \nwith social media",
-                  textAlign: TextAlign.center,
+                  "회원가입",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(20),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
                 SignUpForm(),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                SizedBox(height: SizeConfig.screenHeight * 0.06),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -45,7 +49,7 @@ class Body extends StatelessWidget {
                 ),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 Text(
-                  'By continuing your confirm that you agree \nwith our Term and Condition',
+                  '가입하면 약관, 데이터 정책 및 쿠키 정책에 \n동의하는 것입니다.',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.caption,
                 )

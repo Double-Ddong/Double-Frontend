@@ -16,16 +16,18 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "대학교 인증 \n 인증된 사용자들과 함께 소통해보세요.",
-      "image": "assets/images/splash_1.png"
+      "title": "대학교 인증",
+      "text": "\n 인증된 사용자들과 함께 소통해보세요.",
+      "image": "assets/images/splash_1.png",
     },
     {
-      "text":
-          "We help people conect with store \naround United State of America",
+      "title": "카테고리별 추천",
+      "text": "\n 자신과 비슷한 카테고리를 가진 \n사용자들을 추천합니다.",
       "image": "assets/images/splash_2.png"
     },
     {
-      "text": "We show the easy way to shop. \nJust stay at home with us",
+      "title": "쿠키를 통한 연결",
+      "text": "\n 마음에 드는 상대와 쿠키를 주고 받아 \n함께 채팅할 수 있습니다.",
       "image": "assets/images/splash_3.png"
     },
   ];
@@ -37,7 +39,7 @@ class _BodyState extends State<Body> {
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 3,
+              flex: 4,
               child: PageView.builder(
                 onPageChanged: (value) {
                   setState(() {
@@ -48,6 +50,7 @@ class _BodyState extends State<Body> {
                 itemBuilder: (context, index) => SplashContent(
                   image: splashData[index]["image"],
                   text: splashData[index]['text'],
+                  title: splashData[index]['title'],
                 ),
               ),
             ),
@@ -66,9 +69,9 @@ class _BodyState extends State<Body> {
                         (index) => buildDot(index: index),
                       ),
                     ),
-                    Spacer(flex: 3),
+                    Spacer(flex: 2),
                     DefaultButton(
-                      text: "Continue",
+                      text: "시작하기",
                       press: () {
                         Navigator.pushNamed(context, SignInScreen.routeName);
                       },

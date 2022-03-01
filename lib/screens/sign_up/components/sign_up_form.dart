@@ -49,7 +49,7 @@ class _SignUpFormState extends State<SignUpForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
-            text: "Continue",
+            text: "다음",
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
@@ -86,8 +86,8 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Confirm Password",
-        hintText: "Re-enter your password",
+        labelText: "비밀번호 확인",
+        hintText: "비밀번호 한 번 더 입력",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -119,8 +119,8 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Password",
-        hintText: "Enter your password",
+        labelText: "비밀번호",
+        hintText: "비밀번호를 입력하세요",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -152,8 +152,8 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Email",
-        hintText: "Enter your email",
+        labelText: "이메일",
+        hintText: "이메일을 입력하세요",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,

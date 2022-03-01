@@ -56,13 +56,13 @@ class _SignFormState extends State<SignForm> {
                   });
                 },
               ),
-              Text("Remember me"),
+              Text("자동 로그인"),
               Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(
                     context, ForgotPasswordScreen.routeName),
                 child: Text(
-                  "Forgot Password",
+                  "비밀번호찾기",
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
               )
@@ -71,7 +71,7 @@ class _SignFormState extends State<SignForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
-            text: "Continue",
+            text: "로그인",
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
@@ -109,8 +109,8 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Password",
-        hintText: "Enter your password",
+        labelText: "비밀번호",
+        hintText: "비밀번호를 입력하세요",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -142,8 +142,8 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Email",
-        hintText: "Enter your email",
+        labelText: "이메일",
+        hintText: "이메일을 입력하세요",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
