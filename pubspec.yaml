@@ -66,6 +66,20 @@ flutter:
           weight: 700
         - asset: assets/fonts/muli/Muli-Light.ttf
           weight: 300
+    - family: Noto
+      fonts:
+        - asset: assets/fonts/Noto/NotoSansKR-Medium.otf
+        - asset: assets/fonts/Noto/NotoSansKR-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Noto/NotoSansKR-Light.otf
+          weight: 300
+    - family: godo
+      fonts:
+        - asset: assets/fonts/godo/GodoM.ttf
+        - asset: assets/fonts/godo/GodoB.ttf
+          weight: 700
+        - asset: assets/fonts/godo/GodoM.otf
+          weight: 300
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
