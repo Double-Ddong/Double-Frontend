@@ -25,14 +25,16 @@ const defaultDuration = Duration(milliseconds: 250);
 // Form Error
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-const String kEmailNullError = "Please Enter your email";
-const String kInvalidEmailError = "Please Enter Valid Email";
-const String kPassNullError = "Please Enter your password";
-const String kShortPassError = "Password is too short";
-const String kMatchPassError = "Passwords don't match";
-const String kNamelNullError = "Please Enter your name";
-const String kPhoneNumberNullError = "Please Enter your phone number";
-const String kAddressNullError = "Please Enter your address";
+const String kEmailNullError = "이메일을 입력해주세요";
+const String kInvalidEmailError = "유효한 이메일을 입력해주세요";
+const String kPassNullError = "비밀번호를 입력해주세요";
+const String kShortPassError = "패스워드 길이가 너무 짧습니다";
+const String kMatchPassError = "패스워드가 일치하지 않습니다.";
+const String kNamelNullError = "이름을 입력해주세요";
+const String kPhoneNumberNullError = "핸드폰 번호를 입력해주세요";
+const String kAddressNullError = "주소를 입력해주세요";
+const String kAuthPhoneNullError = "인증번호를 입력해주세요";
+const String kMatchAuthPhoneError = "인증번호가 일치하지 않습니다";
 
 final otpInputDecoration = InputDecoration(
   contentPadding:
