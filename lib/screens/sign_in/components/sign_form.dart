@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/helper/keyboard.dart';
+import 'package:shop_app/screens/forgot_id/forgot_id_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 
@@ -60,10 +61,20 @@ class _SignFormState extends State<SignForm> {
               Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(
-                    context, ForgotPasswordScreen.routeName),
+                    context, ForgotIdScreen.routeName),
                 child: Text(
-                  "비밀번호찾기",
-                  style: TextStyle(decoration: TextDecoration.underline),
+                  "아이디 찾기",
+                  style: TextStyle(color: kPrimaryColor, decoration: TextDecoration.underline),
+                ),
+              ),
+              SizedBox(width: getProportionateScreenWidth(10)),
+              GestureDetector(
+                onTap: () =>
+                    Navigator.pushNamed(
+                    context, ForgotPwScreen.routeName),
+                child: Text(
+                  "비밀번호 찾기",
+                  style: TextStyle(color: kPrimaryColor,decoration: TextDecoration.underline),
                 ),
               )
             ],

@@ -4,20 +4,21 @@ import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/send_button.dart';
 import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/screens/auth_school/auth_school_screen.dart';
+
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import '../forgot_password_screen.dart';
 
 
-class AuthPhoneForm extends StatefulWidget {
+class ForgotPwForm extends StatefulWidget {
   @override
-  _AuthPhoneFormState createState() => _AuthPhoneFormState();
+  _ForgotPwFormState createState() => _ForgotPwFormState();
 }
 
-class _AuthPhoneFormState extends State<AuthPhoneForm> {
+class _ForgotPwFormState extends State<ForgotPwForm> {
   final _formKey = GlobalKey<FormState>();
   String? phone;
   String? auth_num;
@@ -51,15 +52,16 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           FormError(errors: errors),
           DefaultButton(
-            text: "다음",
+            text: "완료",
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, AuthSchoolScreen.routeName);
+                Navigator.pushNamed(context, ForgotPwScreen.routeName);
               }
             },
-          ),SizedBox(height: getProportionateScreenHeight(10)),
+          ),
+          SizedBox(height: getProportionateScreenHeight(10)),
           CancelButton(
             text: "취소",
             press: () {
@@ -151,23 +153,23 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
             onChanged: (value) {
               if (value.isNotEmpty) {
                 removeError(error: kPhoneNumberNullError);
-                }
-                return null;
-              },
+              }
+              return null;
+            },
             validator: (value) {
               if (value!.isEmpty) {
                 addError(error: kPhoneNumberNullError);
                 return "";
               }
               return null;
-              },
+            },
             decoration: InputDecoration(
-            labelText: "핸드폰 번호",
-            hintText: "핸드폰 번호",
-            // If  you are using latest version of flutter then lable text and hint text shown like this
-            // if you r using flutter less then 1.20.* then maybe this is not working properly
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
+              labelText: "핸드폰 번호",
+              hintText: "핸드폰 번호",
+              // If  you are using latest version of flutter then lable text and hint text shown like this
+              // if you r using flutter less then 1.20.* then maybe this is not working properly
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
             ),
           ),
         ),
@@ -177,13 +179,12 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
           press: () {
             // 서버에서 인증번호 전송하고, 인증번호 받아오기
             //if (_formKey.currentState!.validate()) {
-              //_formKey.currentState!.save();
-              // if all are valid then go to success screen
-              //Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+            //_formKey.currentState!.save();
+            // if all are valid then go to success screen
+            //Navigator.pushNamed(context, CompleteProfileScreen.routeName);
             //}
           },
         ),
-
       ],
     );
   }

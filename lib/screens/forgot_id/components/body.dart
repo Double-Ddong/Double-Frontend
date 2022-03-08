@@ -3,14 +3,14 @@ import 'package:shop_app/components/no_account_text.dart';
 import 'package:shop_app/components/socal_card.dart';
 import 'package:shop_app/screens/forgot_id/forgot_id_screen.dart';
 import '../../../size_config.dart';
-import 'forgot_password_form.dart';
+import 'forgot_id_form.dart';
 
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child:
-      SizedBox(
+        SizedBox(
         width: double.infinity,
         child:
         Padding(
@@ -24,7 +24,7 @@ class Body extends StatelessWidget {
                 Container(
                   alignment: Alignment(-0.9, 0.0),
                   child: Text(
-                    "비밀번호 찾기",
+                    "아이디 찾기",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(18),
@@ -44,13 +44,13 @@ class Body extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.04),
-                ForgotPwForm(),
+                ForgotIdForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SizedBox(height: getProportionateScreenHeight(20)),
               ],
             ),
           ),
-        ),
+          ),
 
 
       ),

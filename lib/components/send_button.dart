@@ -15,8 +15,8 @@ class SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 70,//double.infinity,
-      height: getProportionateScreenHeight(56),
+      width: SizeConfig.screenWidth * 0.22,//double.infinity,
+      height: SizeConfig.screenHeight * 0.08,
       child: TextButton(
         style: TextButton.styleFrom(
           shape:
