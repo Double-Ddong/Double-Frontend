@@ -74,10 +74,8 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
               }
             },
           ),
-
         ],
       ),
-
     );
   }
 
@@ -85,10 +83,8 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
     return Row(
       children: <Widget>[
         SizedBox(
-          width: 160,
+          width: SizeConfig.screenWidth * 0.45,
           child: TextFormField(
-            // keyboardType: TextInputType.phone,
-            // onSaved: (newValue) => phone = newValue,
             onChanged: (value) {
               if (value.isNotEmpty) {
                 removeError(error: kIdNullError);
@@ -113,11 +109,11 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
         ),
         Spacer(),
         SizedBox(
-          width: 200,
+          width: SizeConfig.screenWidth * 0.43,
           child:
-          MailButton(
-            text: "@ 학교웹메일주소",
-          ),
+            MailButton(
+              text: "@ 학교웹메일주소",
+            ),
         ),
       ],
     );

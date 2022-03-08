@@ -20,23 +20,32 @@ class Body extends StatelessWidget {
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.01),
                 Image.asset("assets/images/logo.png", width: 150, height: 100),
-                Text(
-                  "학교 메일 인증하기",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(20),
-                    fontWeight: FontWeight.bold,
+                Container(
+                  alignment: Alignment(-0.9, 0.0),
+                  child: Text(
+                    "학교 메일 인증하기",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                SizedBox(height: SizeConfig.screenHeight * 0.01),
-                Text(
-                  "등록한 학교메일로 전송된 인증번호를 입력해주세요",
-                  textAlign: TextAlign.left,
+                SizedBox(height: SizeConfig.screenHeight * 0.02),
+                Container(
+                  alignment: Alignment(-0.8, 0.0),
+                  child: Text(
+                    "등록한 학교메일로 전송된 인증번호를 입력해주세요",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(13),
+                    ),
+                  ),
                 ),
-                buildTimer(),
-                SizedBox(height: SizeConfig.screenHeight * 0.05),
-                // AuthSchoolForm(),
+                SizedBox(height: SizeConfig.screenHeight * 0.02),
+
                 AuthSchoolForm2(),
+                //buildTimer(),
                 SizedBox(height: SizeConfig.screenHeight * 0.1),
                 GestureDetector(
                   onTap: () {
@@ -47,8 +56,6 @@ class Body extends StatelessWidget {
                     style: TextStyle(decoration: TextDecoration.underline),
                   ),
                 ),
-
-                // NoAccountText(),
               ],
             ),
           ),

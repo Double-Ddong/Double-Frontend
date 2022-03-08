@@ -206,7 +206,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
     return Form(
       child: Column(
         children: [
-          SizedBox(height: SizeConfig.screenHeight * 0.01),
+          SizedBox(height: SizeConfig.screenHeight * 0.03),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -214,7 +214,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
                 width: getProportionateScreenWidth(60),
                 child: TextFormField(
                   autofocus: true,
-                  obscureText: true,
+                  obscureText: false,
                   style: TextStyle(fontSize: 24),
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
@@ -228,7 +228,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
                 width: getProportionateScreenWidth(60),
                 child: TextFormField(
                   focusNode: pin2FocusNode,
-                  obscureText: true,
+                  obscureText: false,
                   style: TextStyle(fontSize: 24),
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
@@ -240,7 +240,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
                 width: getProportionateScreenWidth(60),
                 child: TextFormField(
                   focusNode: pin3FocusNode,
-                  obscureText: true,
+                  obscureText: false,
                   style: TextStyle(fontSize: 24),
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
@@ -252,7 +252,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
                 width: getProportionateScreenWidth(60),
                 child: TextFormField(
                   focusNode: pin4FocusNode,
-                  obscureText: true,
+                  obscureText: false,
                   style: TextStyle(fontSize: 24),
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
@@ -265,12 +265,24 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
                   },
                 ),
               ),
-
             ],
           ),
-          SizedBox(height: SizeConfig.screenHeight * 0.1),
-
-
+          SizedBox(height: SizeConfig.screenHeight * 0.03),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("1분 내로 입력해주세요 "),
+              TweenAnimationBuilder(
+                tween: Tween(begin: 60.0, end: 0.0),
+                duration: Duration(seconds: 30),
+                builder: (_, dynamic value, child) => Text(
+                  "00:${value.toInt()}",
+                  style: TextStyle(color: kPrimaryColor),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: SizeConfig.screenHeight * 0.09),
           DefaultButton(
             text: "완료",
             press: () {
