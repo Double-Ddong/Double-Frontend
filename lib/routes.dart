@@ -32,8 +32,16 @@ final Map<String, WidgetBuilder> routes = {
   CartScreen.routeName: (context) => CartScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
 <<<<<<< HEAD
+<<<<<<< HEAD
   SchoolVaildateScreen.routeName : (context) => SchoolVaildateScreen(),
 =======
   AuthPhoneScreen.routeName: (context) => AuthPhoneScreen(),
 >>>>>>> 1765f3c0191f0080e66bd6f1000f3992b2e6bb3f
+=======
+
+  SchoolVaildateScreen.routeName : (context) => SchoolVaildateScreen(),
+
+  AuthPhoneScreen.routeName: (context) => AuthPhoneScreen(),
+
+>>>>>>> 999a3cd9a69b1d257ae2f1faffbc9f83e82650af
 };

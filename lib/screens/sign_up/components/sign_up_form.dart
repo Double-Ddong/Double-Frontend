@@ -4,11 +4,18 @@ import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/auth_phone/auth_phone_screen.dart';
 >>>>>>> 1765f3c0191f0080e66bd6f1000f3992b2e6bb3f
+=======
+
+import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
+import 'package:shop_app/screens/auth_phone/auth_phone_screen.dart';
+
+>>>>>>> 999a3cd9a69b1d257ae2f1faffbc9f83e82650af
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -61,10 +68,18 @@ class _SignUpFormState extends State<SignUpForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
 <<<<<<< HEAD
+<<<<<<< HEAD
                 Navigator.pushNamed(context, CompleteProfileScreen2.routeName);
 =======
                 Navigator.pushNamed(context, AuthPhoneScreen.routeName);
 >>>>>>> 1765f3c0191f0080e66bd6f1000f3992b2e6bb3f
+=======
+
+                Navigator.pushNamed(context, CompleteProfileScreen2.routeName);
+
+                Navigator.pushNamed(context, AuthPhoneScreen.routeName);
+
+>>>>>>> 999a3cd9a69b1d257ae2f1faffbc9f83e82650af
               }
             },
           ),
