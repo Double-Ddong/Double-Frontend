@@ -18,12 +18,15 @@ class Body extends StatelessWidget {
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.01),
                 Image.asset("assets/images/logo.png", width: 150, height: 100),
-                Text(
-                  "로그인",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(20),
-                    fontWeight: FontWeight.bold,
+                Container(
+                  alignment: Alignment(-0.9, 0.0),
+                  child: Text(
+                    "로그인",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.05),

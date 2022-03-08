@@ -18,41 +18,32 @@ class Body extends StatelessWidget {
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.01),
                 Image.asset("assets/images/logo.png", width: 150, height: 100),
-                Text(
-                  "핸드폰 인증하기",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(20),
-                    fontWeight: FontWeight.bold,
+                Container(
+                  alignment: Alignment(-0.9, 0.0),
+                  child: Text(
+                    "핸드폰 인증하기",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                SizedBox(height: SizeConfig.screenHeight * 0.01),
-                Text(
-                  "입력한 핸드폰 번호로 \n전송된 인증번호를 입력해주세요",
-                  textAlign: TextAlign.left,
+                SizedBox(height: SizeConfig.screenHeight * 0.02),
+                Container(
+                  alignment: Alignment(-0.8, 0.0),
+                  child: Text(
+                    "입력한 핸드폰 번호로 \n전송된 인증번호를 입력해주세요",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(13),
+                    ),
+                  ),
                 ),
-                SizedBox(height: SizeConfig.screenHeight * 0.05),
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
                 AuthPhoneForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     SocalCard(
-                //       icon: "assets/icons/google-icon.svg",
-                //       press: () {},
-                //     ),
-                //     SocalCard(
-                //       icon: "assets/icons/facebook-2.svg",
-                //       press: () {},
-                //     ),
-                //     SocalCard(
-                //       icon: "assets/icons/twitter.svg",
-                //       press: () {},
-                //     ),
-                //   ],
-                // ),
                 SizedBox(height: getProportionateScreenHeight(20)),
-                // NoAccountText(),
               ],
             ),
           ),
