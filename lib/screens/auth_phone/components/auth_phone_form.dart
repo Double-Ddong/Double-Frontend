@@ -4,7 +4,7 @@ import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/send_button.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/screens/auth_school/auth_school_screen.dart';
-import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
+
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -19,7 +19,7 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
   final _formKey = GlobalKey<FormState>();
   String? phone;
   String? auth_num;
-  String? conform_auth_num;
+  String? conform_auth_num = '123456';
   bool remember = false;
   final List<String?> errors = [];
 
@@ -44,22 +44,10 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
       child: Column(
         children: [
           buildPhoneFormField(),
-          SendButton(
-            text: "전송",
-            press: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                // if all are valid then go to success screen
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
-              }
-            },
-          ),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildAuthNumFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildConformAuthNumFormField(),
           FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "다음",
             press: () {
@@ -104,7 +92,6 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        //suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
@@ -112,24 +99,23 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
   TextFormField buildAuthNumFormField() {
     return TextFormField(
       keyboardType: TextInputType.phone,
-      obscureText: true,
+      obscureText: false,
       onSaved: (newValue) => auth_num = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
+      onChanged: (newValue) {
+        if (newValue.isNotEmpty) {
           removeError(error: kAuthPhoneNullError);
-        } //else if (value.length >= 8) {
-          //removeError(error: kShortPassError);
-        //}
-        auth_num = value;
+        } else if (newValue.isNotEmpty && auth_num == conform_auth_num) {
+          removeError(error: kMatchAuthPhoneError);
+        }
       },
-      validator: (value) {
-        if (value!.isEmpty) {
+      validator: (newValue) {
+        if (newValue!.isEmpty) {
           addError(error: kAuthPhoneNullError);
           return "";
-        } //else if (value.length < 8) {
-          //addError(error: kShortPassError);
-          //return "";
-        //}
+        } else if ((conform_auth_num != newValue)) {
+          addError(error: kMatchAuthPhoneError);
+          return "";
+        }
         return null;
       },
       decoration: InputDecoration(
@@ -138,41 +124,54 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        //suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
 
-  TextFormField buildPhoneFormField() {
-    return TextFormField(
-      keyboardType: TextInputType.phone,
-      onSaved: (newValue) => phone = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPhoneNumberNullError);
-        } //else if (emailValidatorRegExp.hasMatch(value)) {
-          //removeError(error: kInvalidEmailError);
-        //}
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kPhoneNumberNullError);
-          return "";
-        } //else if (!emailValidatorRegExp.hasMatch(value)) {
-          //addError(error: kInvalidEmailError);
-          //return "";
-        //}
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "핸드폰 번호",
-        hintText: "핸드폰 번호를 입력하세요",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
-      ),
+  Row buildPhoneFormField() {
+    return Row(
+      children: <Widget> [
+        SizedBox(
+          width: 245,
+          child: TextFormField(
+            keyboardType: TextInputType.phone,
+            onSaved: (newValue) => phone = newValue,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: kPhoneNumberNullError);
+                }
+                return null;
+              },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: kPhoneNumberNullError);
+                return "";
+              }
+              return null;
+              },
+            decoration: InputDecoration(
+            labelText: "핸드폰 번호",
+            hintText: "핸드폰 번호",
+            // If  you are using latest version of flutter then lable text and hint text shown like this
+            // if you r using flutter less then 1.20.* then maybe this is not working properly
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
+            ),
+          ),
+        ),
+        Spacer(),
+        SendButton(
+          text: "전송",
+          press: () {
+            // 서버에서 인증번호 전송하고, 인증번호 받아오기
+            //if (_formKey.currentState!.validate()) {
+              //_formKey.currentState!.save();
+              // if all are valid then go to success screen
+              //Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+            //}
+          },
+        ),
+      ],
     );
   }
 }

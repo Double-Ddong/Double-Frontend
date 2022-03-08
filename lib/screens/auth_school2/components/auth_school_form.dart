@@ -161,6 +161,7 @@ import 'package:shop_app/components/cancel_button.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/size_config.dart';
+import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 
 import '../../../constants.dart';
 
@@ -272,7 +273,9 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
 
           DefaultButton(
             text: "완료",
-            press: () {},
+            press: () {
+              Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+            },
           ),
           SizedBox(height: getProportionateScreenHeight(10)),
           CancelButton(
