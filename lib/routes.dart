@@ -1,18 +1,16 @@
 import 'package:flutter/widgets.dart';
+import 'package:shop_app/screens/auth_school2/auth_school_screen2.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
-import 'package:shop_app/complete_profile2/complete_profile_screen2.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:shop_app/screens/otp/otp_screen.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
-import 'package:shop_app/screens/school_vaildate/school_screen.dart';
-
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
-
+import 'screens/auth_school/auth_school_screen.dart';
 import 'screens/auth_phone/auth_phone_screen.dart';
 import 'screens/sign_up/sign_up_screen.dart';
 
@@ -24,24 +22,16 @@ final Map<String, WidgetBuilder> routes = {
   ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
   LoginSuccessScreen.routeName: (context) => LoginSuccessScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
-  CompleteProfileScreen2.routeName: (context) => CompleteProfileScreen2(),
   CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
   OtpScreen.routeName: (context) => OtpScreen(),
   HomeScreen.routeName: (context) => HomeScreen(),
   DetailsScreen.routeName: (context) => DetailsScreen(),
   CartScreen.routeName: (context) => CartScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
-<<<<<<< HEAD
-<<<<<<< HEAD
-  SchoolVaildateScreen.routeName : (context) => SchoolVaildateScreen(),
-=======
   AuthPhoneScreen.routeName: (context) => AuthPhoneScreen(),
->>>>>>> 1765f3c0191f0080e66bd6f1000f3992b2e6bb3f
-=======
+  AuthSchoolScreen.routeName: (context) => AuthSchoolScreen(),
+  AuthSchoolScreen2.routeName: (context) => AuthSchoolScreen2(),
 
-  SchoolVaildateScreen.routeName : (context) => SchoolVaildateScreen(),
 
-  AuthPhoneScreen.routeName: (context) => AuthPhoneScreen(),
 
->>>>>>> 999a3cd9a69b1d257ae2f1faffbc9f83e82650af
 };
