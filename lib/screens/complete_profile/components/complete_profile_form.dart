@@ -1,10 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/screens/otp/otp_screen.dart';
 import 'package:shop_app/components/send_button.dart';
-
+import 'package:dropdown_button2/dropdown_button2.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -20,6 +21,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? phoneNumber;
   String? birthday;
   bool genderMode = false;  // true - 남자, false - 여자
+  String? department;
+  final items = ['One', 'Two', 'Three', 'Four'];
+  String selectedValue = 'Four';
 
   DateTime? _selectedDate;
 
@@ -48,6 +52,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildGenderFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildBirthFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildDepartmentFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -59,6 +65,40 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Container buildDepartmentFormField() {
+    return Container(
+      width: SizeConfig.screenWidth,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: Colors.black54
+        ),
+      ),
+      child: DropdownButton<String>(
+        value: selectedValue,
+        onChanged: (String? newValue) =>
+            setState(() => selectedValue = newValue!),
+        items: items
+            .map<DropdownMenuItem<String>>(
+                (String value) => DropdownMenuItem<String>(
+              value: value,
+              child: Text(
+                  value,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
+              ),
+            ))
+            .toList(),
+        // add extra sugar..
+        icon: Icon(Icons.arrow_drop_down),
+        iconSize: 40,
+        underline: SizedBox(),
       ),
     );
   }
@@ -78,7 +118,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
               ),
               child: Text(
                   _selectedDate != null
-                      ? _selectedDate.toString()
+                      ? _selectedDate.toString().substring(0,10)
                       : 'No date selected!',
                   style: Theme.of(context).textTheme.bodyText1,
               ),
@@ -109,6 +149,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       setState(() {
         // using state so that the UI will be rerendered when date is picked
         _selectedDate = pickedDate;
+        birthday = _selectedDate.toString().substring(0,10);
       });
     });
   }
