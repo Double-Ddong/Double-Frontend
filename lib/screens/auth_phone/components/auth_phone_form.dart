@@ -3,6 +3,7 @@ import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/send_button.dart';
 import 'package:shop_app/components/form_error.dart';
+import 'package:shop_app/screens/auth_school/auth_school_screen.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 
 import '../../../constants.dart';
@@ -65,7 +66,7 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+                Navigator.pushNamed(context, AuthSchoolScreen.routeName);
               }
             },
           ),

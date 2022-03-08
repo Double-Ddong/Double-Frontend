@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/complete_profile2/complete_profile_screen2.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
-
-import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/auth_phone/auth_phone_screen.dart';
-
-
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -58,11 +53,7 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-
-                Navigator.pushNamed(context, CompleteProfileScreen2.routeName);
-
                 Navigator.pushNamed(context, AuthPhoneScreen.routeName);
-
               }
             },
           ),

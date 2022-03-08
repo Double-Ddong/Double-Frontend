@@ -25,6 +25,8 @@ const defaultDuration = Duration(milliseconds: 250);
 // Form Error
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+const String kSchoolNullError = "학교를 입력해주세요";
+const String kIdNullError = "아이디를 입력해주세요";
 const String kEmailNullError = "이메일을 입력해주세요";
 const String kInvalidEmailError = "유효한 이메일을 입력해주세요";
 const String kPassNullError = "비밀번호를 입력해주세요";

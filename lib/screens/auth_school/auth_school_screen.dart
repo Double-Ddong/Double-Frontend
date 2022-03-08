@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'components/body.dart';
 
-class SchoolVaildateScreen extends StatelessWidget {
-  static String routeName = "/school_vaildate";
+class AuthSchoolScreen extends StatelessWidget {
+  static String routeName = "/auth_school";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text("Auth School"),
       ),
       body: Body(),
     );
