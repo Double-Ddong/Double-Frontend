@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/complete_profile2/complete_profile_screen2.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/components/send_button.dart';
 import 'package:shop_app/components/form_error.dart';
-
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
-import 'package:shop_app/screens/auth_phone/auth_phone_screen.dart';
-
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
 
-class SignUpForm extends StatefulWidget {
+class AuthPhoneForm extends StatefulWidget {
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  _AuthPhoneFormState createState() => _AuthPhoneFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _AuthPhoneFormState extends State<AuthPhoneForm> {
   final _formKey = GlobalKey<FormState>();
-  String? email;
-  String? password;
-  String? conform_password;
+  String? phone;
+  String? auth_num;
+  String? conform_auth_num;
   bool remember = false;
   final List<String?> errors = [];
 
@@ -45,11 +42,21 @@ class _SignUpFormState extends State<SignUpForm> {
       key: _formKey,
       child: Column(
         children: [
-          buildEmailFormField(),
+          buildPhoneFormField(),
+          SendButton(
+            text: "전송",
+            press: () {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                // if all are valid then go to success screen
+                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+              }
+            },
+          ),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildPasswordFormField(),
+          buildAuthNumFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildConformPassFormField(),
+          buildConformAuthNumFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -58,11 +65,7 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-
-                Navigator.pushNamed(context, CompleteProfileScreen2.routeName);
-
-                Navigator.pushNamed(context, AuthPhoneScreen.routeName);
-
+                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
               }
             },
           ),
@@ -71,24 +74,25 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  TextFormField buildConformPassFormField() {
+  TextFormField buildConformAuthNumFormField() {
     return TextFormField(
+      keyboardType: TextInputType.phone,
       obscureText: true,
-      onSaved: (newValue) => conform_password = newValue,
+      onSaved: (newValue) => conform_auth_num = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        } else if (value.isNotEmpty && password == conform_password) {
-          removeError(error: kMatchPassError);
+          removeError(error: kAuthPhoneNullError);
+        } else if (value.isNotEmpty && auth_num == conform_auth_num) {
+          removeError(error: kMatchAuthPhoneError);
         }
-        conform_password = value;
+        conform_auth_num = value;
       },
       validator: (value) {
         if (value!.isEmpty) {
-          addError(error: kPassNullError);
+          addError(error: kAuthPhoneNullError);
           return "";
-        } else if ((password != value)) {
-          addError(error: kMatchPassError);
+        } else if ((auth_num != value)) {
+          addError(error: kMatchAuthPhoneError);
           return "";
         }
         return null;
@@ -99,73 +103,74 @@ class _SignUpFormState extends State<SignUpForm> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        //suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
 
-  TextFormField buildPasswordFormField() {
+  TextFormField buildAuthNumFormField() {
     return TextFormField(
+      keyboardType: TextInputType.phone,
       obscureText: true,
-      onSaved: (newValue) => password = newValue,
+      onSaved: (newValue) => auth_num = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        } else if (value.length >= 8) {
-          removeError(error: kShortPassError);
-        }
-        password = value;
+          removeError(error: kAuthPhoneNullError);
+        } //else if (value.length >= 8) {
+          //removeError(error: kShortPassError);
+        //}
+        auth_num = value;
       },
       validator: (value) {
         if (value!.isEmpty) {
-          addError(error: kPassNullError);
+          addError(error: kAuthPhoneNullError);
           return "";
-        } else if (value.length < 8) {
-          addError(error: kShortPassError);
-          return "";
-        }
+        } //else if (value.length < 8) {
+          //addError(error: kShortPassError);
+          //return "";
+        //}
         return null;
       },
       decoration: InputDecoration(
-        labelText: "비밀번호",
-        hintText: "비밀번호를 입력하세요",
+        labelText: "인증번호",
+        hintText: "인증번호를 입력하세요",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        //suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
 
-  TextFormField buildEmailFormField() {
+  TextFormField buildPhoneFormField() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
+      keyboardType: TextInputType.phone,
+      onSaved: (newValue) => phone = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kEmailNullError);
-        } else if (emailValidatorRegExp.hasMatch(value)) {
-          removeError(error: kInvalidEmailError);
-        }
+          removeError(error: kPhoneNumberNullError);
+        } //else if (emailValidatorRegExp.hasMatch(value)) {
+          //removeError(error: kInvalidEmailError);
+        //}
         return null;
       },
       validator: (value) {
         if (value!.isEmpty) {
-          addError(error: kEmailNullError);
+          addError(error: kPhoneNumberNullError);
           return "";
-        } else if (!emailValidatorRegExp.hasMatch(value)) {
-          addError(error: kInvalidEmailError);
-          return "";
-        }
+        } //else if (!emailValidatorRegExp.hasMatch(value)) {
+          //addError(error: kInvalidEmailError);
+          //return "";
+        //}
         return null;
       },
       decoration: InputDecoration(
-        labelText: "이메일",
-        hintText: "이메일을 입력하세요",
+        labelText: "핸드폰 번호",
+        hintText: "핸드폰 번호를 입력하세요",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
       ),
     );
   }
