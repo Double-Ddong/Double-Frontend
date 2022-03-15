@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../size_config.dart';
 
-class CancelButton extends StatelessWidget {
-  const CancelButton({
+class LogOutButton extends StatelessWidget {
+  const LogOutButton({
     Key? key,
     this.text,
     this.press,
@@ -15,8 +15,7 @@ class CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      //width: getProportionateScreenWidth(250),
+      width: getProportionateScreenWidth(330),
       height: getProportionateScreenHeight(56),
       child: TextButton(
         style: TextButton.styleFrom(
