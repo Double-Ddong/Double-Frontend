@@ -11,7 +11,7 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(context),
       body: Body(),
-      bottomNavigationBar: CheckoutCard(),
+      // bottomNavigationBar: CheckoutCard(),
     );
   }
 
@@ -19,14 +19,14 @@ class CartScreen extends StatelessWidget {
     return AppBar(
       title: Column(
         children: [
-          Text(
-            "Your Cart",
-            style: TextStyle(color: Colors.black),
-          ),
-          Text(
-            "${demoCarts.length} items",
-            style: Theme.of(context).textTheme.caption,
-          ),
+          // Text(
+          //   "Your Cart",
+          //   style: TextStyle(color: Colors.black),
+          // ),
+          // Text(
+          //   "${demoCarts.length} items",
+          //   style: Theme.of(context).textTheme.caption,
+          // ),
         ],
       ),
     );
