@@ -18,39 +18,35 @@ class Body extends StatelessWidget {
       SizedBox(
         width: double.infinity,
         child:
-        Padding(
-          padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-              Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(width: getProportionateScreenWidth(12),),
-                IconButton(
-                  icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
-                  onPressed: () {
-                    Navigator.pushNamed(context, SettingScreen.routeName);
-                  }
-              ),
-                SizedBox(width: getProportionateScreenWidth(90),),
-
-                Container(
-                  alignment: Alignment(-0.0, 0.0),
-                  child: Text(
-                  "회원 탈퇴",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(15),
-                  ),
+          Padding(
+            padding:
+            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                Row(
+                children: [
+                  //SizedBox(width: getProportionateScreenWidth(12),),
+                  IconButton(
+                    icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
+                    onPressed: () {
+                      Navigator.pushNamed(context, SettingScreen.routeName);
+                    }
                 ),
-              ),
-
+                  SizedBox(width: getProportionateScreenWidth(90),),
+                  Container(
+                    alignment: Alignment(-0.0, 0.0),
+                    child: Text(
+                    "회원 탈퇴",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(15),
+                      ),
+                    ),
+                  ),
                 ],
-              ),
+                ),
                 SizedBox(height: SizeConfig.screenHeight * 0.02),
-
                 Container(
                   alignment: Alignment(-0.1, 0.0),
                   child: Text(
@@ -89,76 +85,16 @@ class Body extends StatelessWidget {
                 CancelButton(
                   text: "취소",
                   press: () {
-
                     Navigator.pushNamed(context, SettingScreen.routeName);
-
                   },
-
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SizedBox(height: getProportionateScreenHeight(20)),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-
-
-      ),
-    );
-    //
-    //   SingleChildScrollView(
-    //   //padding: EdgeInsets.symmetric(vertical: 1),
-    //   child: Column(
-    //     children: [
-    //       Row(
-    //         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             SizedBox(width: getProportionateScreenWidth(12),),
-    //             IconButton(
-    //                 icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
-    //                 onPressed: () {
-    //                   Navigator.pushNamed(context, SettingScreen.routeName);
-    //                 }
-    //             ),
-    //             SizedBox(width: getProportionateScreenWidth(100),),
-    //             Container(
-    //               alignment: Alignment(-0.8, 0.0),
-    //               child: Text(
-    //                 "회원 탈퇴",
-    //                 textAlign: TextAlign.left,
-    //                 style: TextStyle(
-    //                   fontSize: getProportionateScreenWidth(15),
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(height: SizeConfig.screenHeight * 0.04),
-    //             // ForgotIdForm(),
-    //             // CompleteProfileForm(),
-    //             // DeleteAccountForm(),
-    //             DefaultButton(
-    //             text: "완료",
-    //             press: () {
-    //             // if (_formKey.currentState!.validate()) {
-    //             // _formKey.currentState!.save();
-    //             // // if all are valid then go to success screen
-    //             // Navigator.pushNamed(context, SignInScreen.routeName);
-    //             // }
-    //             },
-    //             ),
-    //             SizedBox(height: getProportionateScreenHeight(10)),
-    //             CancelButton(
-    //             text: "취소",
-    //             press: () {
-    //             // if (_formKey.currentState!.validate()) {
-    //             // {  _formKey.currentState!.save();
-    //             // if all are valid then go to success screen
-    //             // Navigator.pushNamed(context, SignInScreen.routeName);
-    //             // }
-    //             },
-    //
-    //       ),
-    //     ],
-    //   ),
-    // );
-  }
+      );
+    }
 }
