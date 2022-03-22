@@ -1,45 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/home/home_screen.dart';
-import 'package:shop_app/screens/modify_profile/modify_profile_screen.dart';
-import 'package:shop_app/screens/setting/setting_screen.dart';
+import 'package:shop_app/constants.dart';
+import 'package:shop_app/size_config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../size_config.dart';
-import '../../../constants.dart';
+import 'package:shop_app/screens/setting/setting_screen.dart';
+import 'package:shop_app/screens/modify_profile/modify_profile_screen.dart';
+
+import 'view_profile_form.dart';
 
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      //padding: EdgeInsets.symmetric(vertical: 1),
-      child: Column(
-        children: [
-          Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding:
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                SizedBox(width: getProportionateScreenWidth(12),),
-                IconButton(
-                    icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
-                    onPressed: () {
-                      Navigator.pushNamed(context, SettingScreen.routeName);
-                    }
-                ),
-                SizedBox(width: getProportionateScreenWidth(230),),
-                TextButton(
-                  child: Text(
-                    "수정",
-                    style: TextStyle(
-                      color: kPrimaryColor,
-                      fontSize: getProportionateScreenWidth(18),
-                      //fontWeight: FontWeight.bold,
+                Row(
+                  children: [
+                    //SizedBox(width: getProportionateScreenWidth(5),),
+                    IconButton(
+                        icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
+                        onPressed: () {
+                          Navigator.pushNamed(context, SettingScreen.routeName);
+                        }
                     ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, ModifyProfileScreen.routeName);
-                  },
+                    SizedBox(width: getProportionateScreenWidth(210),),
+                    TextButton(
+                      child: Text(
+                        "수정",
+                        style: TextStyle(
+                          color: kPrimaryColor,
+                          fontSize: getProportionateScreenWidth(18),
+                          //fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, ModifyProfileScreen.routeName);
+                      },
+                    ),
+                  ],
                 ),
-              ]
+                SizedBox(height: getProportionateScreenHeight(30)),
+                ViewProfileForm(),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
