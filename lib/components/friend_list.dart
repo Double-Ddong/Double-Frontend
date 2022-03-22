@@ -7,8 +7,8 @@ import 'package:shop_app/screens/friends_list/friends_list_screen.dart';
 import '../constants.dart';
 import '../size_config.dart';
 
-class ProductCard extends StatelessWidget {
-  const ProductCard({
+class FriendList extends StatelessWidget {
+  const FriendList({
     Key? key,
     this.width = 140,
     this.aspectRetio = 1.02,
@@ -27,8 +27,7 @@ class ProductCard extends StatelessWidget {
         child: GestureDetector(
           onTap: () => Navigator.pushNamed(
             context,
-            // DetailsScreen.routeName,
-            FriendsListScreen.routeName,
+            DetailsScreen.routeName,
             arguments: ProductDetailsArguments(product: product),
           ),
           child: Column(

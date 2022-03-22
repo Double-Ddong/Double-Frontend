@@ -6,14 +6,14 @@ import 'package:shop_app/models/Product.dart';
 import '../../../size_config.dart';
 import 'section_title.dart';
 
-class PopularProducts extends StatelessWidget {
+class FriendsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(title: "Popular Products", press: () {}),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
@@ -23,10 +23,10 @@ class PopularProducts extends StatelessWidget {
             children: [
               ...List.generate(
                 demoProducts.length,
-                (index) {
+                    (index) {
                   if (demoProducts[index].isPopular)
-                    return ProductCard(product: demoProducts[index]);
-                    // return FriendsList();
+                    return FriendList(product: demoProducts[index]);
+
                   return SizedBox
                       .shrink(); // here by default width and height is 0
                 },
