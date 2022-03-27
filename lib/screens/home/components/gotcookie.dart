@@ -13,14 +13,21 @@ class CookieGotScreen extends StatelessWidget{
     return Scaffold(
         appBar: AppBar(
           title:
-          Text(
-            "받은 쿠키",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: getProportionateScreenWidth(20),
-              color: Colors.black,
-            ),
-          ),
+          Padding (
+              padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
+              child : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children : [
+                    Text(
+                      "받은 쿠키",
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(20),
+                        color: Colors.black,
+                      ),
+          ),]
+            )
+          )
         ),
         body: CookieList()
     );
