@@ -10,11 +10,11 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
+      padding: const EdgeInsets.all((30)),
       child: Column(
         children: [
-          HomeHeader(),
-          SizedBox(height: getProportionateScreenWidth(20)),
+          // HomeHeader(),
+          // SizedBox(height: getProportionateScreenWidth(20)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -34,6 +34,7 @@ class Body extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
+
                     width: 190,
                     height: 150,
                     padding: EdgeInsets.only(left: 30, right: 30,bottom: 5),
@@ -42,7 +43,8 @@ class Body extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       image: DecorationImage(
                         image: AssetImage(
-                          "assets/images/logo.png"
+                          "assets/images/google-pay.png"
+
                         )
                       ),
                       boxShadow: [
@@ -83,7 +85,7 @@ class Body extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
                             image: AssetImage(
-                                "assets/images/logo.png"
+                                "assets/images/paypal.png"
                             )
                         ),
                         boxShadow: [

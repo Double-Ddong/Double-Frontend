@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/home/components/cookie.dart';
 
+import '../../../size_config.dart';
 import 'gotcookie.dart';
 
 class NavBar extends StatelessWidget {
@@ -11,16 +12,23 @@ class NavBar extends StatelessWidget {
     return Drawer(
       child: ListView(
         padding: const EdgeInsets.all(20.0),
-        // padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
         children: [
           UserAccountsDrawerHeader(
-              accountName: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            // currentAccountPicture: CircleAvatar(
+            //   child: ClipOval(
+            //     child: Image.network("https://randomuser.me/api/portraits/women/14.jpg"),
+            //   ),
+            // ),
+
+              accountName: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
+                    // height : 10,
+                    // width: 10,
+                    // alignment: Alignment.center,
+                    padding: const EdgeInsets.only(top: 10),
                       decoration: BoxDecoration(
-                      // color: Colors.white,
-                      //   borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                             image: AssetImage(
                                 "assets/images/logo.png"
@@ -28,13 +36,14 @@ class NavBar extends StatelessWidget {
                         ),
                       )
                   ),
+                  SizedBox(height: getProportionateScreenWidth(15)),
                   Text(
                       '보똥이',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.black)),
                 ],
               ),
-              accountEmail: Text('980926a@gmail.com'),
+              accountEmail: null,
 
             decoration: BoxDecoration(
 
@@ -43,6 +52,7 @@ class NavBar extends StatelessWidget {
           ),
           Column(
             children : [
+
               ListTile(
                 leading: Icon(Icons.favorite),
                 title: Text('받은 쿠키'),

@@ -12,15 +12,22 @@ class CookieScreen extends StatelessWidget{
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title:
-          Text(
-            "보낸 쿠키",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: getProportionateScreenWidth(20),
-              color: Colors.black,
-            ),
-        ),
+          title:
+          Padding (
+              padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
+              child : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children : [
+                    Text(
+                      "보낸 쿠키",
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(20),
+                        color: Colors.black,
+                      ),
+                    ),]
+              )
+          )
       ),
       body: CookieList()
     );

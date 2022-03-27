@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/setting/components/profile_pic.dart';
+// import 'package:shop_app/screens/setting/components/profile_pic.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -8,21 +8,12 @@ class CookieList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.yellowAccent,
-      //   visualDensity: VisualDensity.adaptivePlatformDensity,
-      // ),
-      home: Scaffold(
-        // appBar: AppBar(
-        //   title: Text("리스트 입니다!"),
-        // ),
+    return
+      Scaffold(
         body: Center(
           child: _buildList(),
         ),
-      ),
-    );
+      );
     // return
       // Column(
       //   children : [
@@ -130,10 +121,8 @@ class CookieList extends StatelessWidget{
 Widget _buildList() => ListView(
   children: [
     _tile("김보현", "23", "광운대학교", "소프트웨어학과"),
-    _tile("김보현", "23", "광운대학교", "소프트웨어학과"),
-    _tile("김보현", "23", "광운대학교", "소프트웨어학과"),
-
-
+    _tile("최보현", "20", "서울대학교", "소프트웨어학과"),
+    _tile("박보현", "23", "연세대학교", "소프트웨어학과"),
   ],
 );
 
