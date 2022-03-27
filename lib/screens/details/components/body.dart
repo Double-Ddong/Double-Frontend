@@ -1,58 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/size_config.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/screens/setting/setting_screen.dart';
+import 'package:shop_app/screens/modify_profile/modify_profile_screen.dart';
+import 'package:shop_app/screens/friends_list/friends_list_screen.dart';
 
-import 'color_dots.dart';
-import 'product_description.dart';
-import 'top_rounded_container.dart';
-import 'product_images.dart';
+import 'details_form.dart';
 
 class Body extends StatelessWidget {
-  final Product product;
-
-  const Body({Key? key, required this.product}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        ProductImages(product: product),
-        TopRoundedContainer(
-          color: Colors.white,
-          child: Column(
-            children: [
-              ProductDescription(
-                product: product,
-                pressOnSeeMore: () {},
-              ),
-              TopRoundedContainer(
-                color: Color(0xFFF6F7F9),
-                child: Column(
+    return SafeArea(
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding:
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    ColorDots(product: product),
-                    TopRoundedContainer(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.screenWidth * 0.15,
-                          right: SizeConfig.screenWidth * 0.15,
-                          bottom: getProportionateScreenWidth(40),
-                          top: getProportionateScreenWidth(15),
-                        ),
-                        child: DefaultButton(
-                          text: "Add To Cart",
-                          press: () {},
-                        ),
-                      ),
+                    IconButton(
+                        icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
+                        onPressed: () {
+                          Navigator.pushNamed(context, FriendsListScreen.routeName);
+                        }
                     ),
                   ],
                 ),
-              ),
-            ],
+                SizedBox(height: getProportionateScreenHeight(30)),
+                ViewProfileForm(),
+              ],
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

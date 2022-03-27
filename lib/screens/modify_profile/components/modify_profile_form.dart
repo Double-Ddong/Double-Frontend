@@ -258,9 +258,9 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     // showDatePicker is a pre-made funtion of Flutter
     showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now())
+        initialDate:DateTime.now(),
+        firstDate:DateTime(1900),
+        lastDate:DateTime.now())
         .then((pickedDate) {
       // Check if no date is selected
       if (pickedDate == null) {
