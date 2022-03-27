@@ -22,6 +22,7 @@ import 'screens/modify_profile/modify_profile_screen.dart';
 import 'screens/scope_setting/scope_setting_screen.dart';
 import 'screens/modify_password/modify_password_screen.dart';
 import 'screens/delete_account/delete_account_screen.dart';
+import 'package:shop_app/screens/match/match_screen.dart';
 
 // We use name route
 // All our routes will be available here
@@ -47,8 +48,12 @@ final Map<String, WidgetBuilder> routes = {
   ModifyPasswordScreen.routeName: (context) => ModifyPasswordScreen(),
   DeleteAccountScreen.routeName: (context) => DeleteAccountScreen(),
   FriendsListScreen.routeName: (context) => FriendsListScreen(),
+
   CookieScreen.routeName : (context) => CookieScreen(),
   CookieGotScreen.routeName : (context) => CookieGotScreen(),
+
+
+  MatchScreen.routeName: (context) => MatchScreen(),
 
 
 };

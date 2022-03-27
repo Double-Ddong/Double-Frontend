@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
+import 'package:shop_app/components/default_button_half.dart';
+import 'package:shop_app/components/cancel_button_half.dart';
+import 'package:shop_app/components/mail_text.dart';
+import 'package:shop_app/screens/match/match_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -13,8 +16,9 @@ class ViewProfileForm extends StatefulWidget {
 class _ViewProfileFormState extends State<ViewProfileForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String?> errors = [];
-  bool universityMode = false;  // true - 같은 대학교 소개, false - 다른 대학교 소개
-  bool personMode = false; // true - 아는 사람 차단, false - 아른 사람 차단 X
+  //bool universityMode = false;  // true - 같은 대학교 소개, false - 다른 대학교 소개
+  //bool personMode = false; // true - 아는 사람 차단, false - 아른 사람 차단 X
+  bool isMatch = true; // true - match 성공, false - match 아직 안됨
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -46,8 +50,10 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
 
   Center buildProfileImageFormField() {
     return Center(
-      child: 
-        Image.asset("assets/images/Profile Image Basic.png", width: getProportionateScreenWidth(300), height: getProportionateScreenHeight(300)),
+      child:
+      Image.asset("assets/images/Profile Image Basic.png",
+          width: getProportionateScreenWidth(300),
+          height: getProportionateScreenHeight(300)),
     );
   }
 
@@ -78,11 +84,11 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                 ),
               ),
               style:
-                OutlinedButton.styleFrom(
+              OutlinedButton.styleFrom(
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(50))
+                      borderRadius: BorderRadius.all(Radius.circular(50))
                   )
-                ),
+              ),
             ),
             SizedBox(width: getProportionateScreenWidth(5)),
             OutlinedButton(
@@ -135,6 +141,29 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
           ],
         ),
         SizedBox(height: getProportionateScreenHeight(10)),
+        Row(
+          children: [
+            SizedBox(width: getProportionateScreenWidth(15)),
+            DefaultButtonHalf(
+              text: "쿠키 보내기",
+              press: () {
+                if (isMatch) {
+                  Navigator.pushNamed(context, MatchScreen.routeName);
+                } else {
+
+                }
+              },
+            ),
+            SizedBox(width: getProportionateScreenWidth(8)),
+            CancelButtonHalf(
+              text: "채팅하기",
+              press: () {
+                //Navigator.pushNamed(context, SignInScreen.routeName);
+              },
+            )
+          ],
+        ),
+        SizedBox(height: getProportionateScreenHeight(20)),
         Container(
           alignment: Alignment(-0.8, 0.0),
           child: Text(
