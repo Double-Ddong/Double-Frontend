@@ -68,17 +68,112 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         ),
         Row(
           children: [
+            SizedBox(width: getProportionateScreenWidth(15)),
             OutlinedButton(
-                onPressed: () => {},
-                child: Text(
-                  "나이",
+              onPressed: () => {},
+              child: Text(
+                "나이",
+                style: TextStyle(
+                  color: Colors.black,
                 ),
+              ),
+              style:
+                OutlinedButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50))
+                  )
+                ),
+            ),
+            SizedBox(width: getProportionateScreenWidth(5)),
+            OutlinedButton(
+              onPressed: () => {},
+              child: Text(
+                "학교",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              style:
+              OutlinedButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50))
+                  )
+              ),
+            ),
+            SizedBox(width: getProportionateScreenWidth(5)),
+            OutlinedButton(
+              onPressed: () => {},
+              child: Text(
+                "학과",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              style:
+              OutlinedButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50))
+                  )
+              ),
+            ),
+            SizedBox(width: getProportionateScreenWidth(5)),
+            OutlinedButton(
+              onPressed: () => {},
+              child: Text(
+                "MBTI",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              style:
+              OutlinedButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50))
+                  )
+              ),
             ),
           ],
         ),
+        SizedBox(height: getProportionateScreenHeight(10)),
         Container(
+          alignment: Alignment(-0.8, 0.0),
           child: Text(
-            "해당 옵션을 설정하면 아는 사람들이 소개되지 않습니다.\n 해제하면 모든 친구들이 소개됩니다.",
+            "자기소개",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenWidth(15),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: getProportionateScreenHeight(8)),
+        Container(
+          alignment: Alignment(-0.4, 0.0),
+          child: Text(
+            "안녕하세요~~ 저는 땡땡대학교 누구입니다",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: getProportionateScreenWidth(12),
+            ),
+          ),
+        ),
+        SizedBox(height: getProportionateScreenHeight(20)),
+        Container(
+          alignment: Alignment(-0.8, 0.0),
+          child: Text(
+            "취미",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenWidth(15),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: getProportionateScreenHeight(8)),
+        Container(
+          alignment: Alignment(-0.3, 0.0),
+          child: Text(
+            "저는 컴퓨터게임 좋아해요 롤 좋아하시는 분~",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: getProportionateScreenWidth(12),

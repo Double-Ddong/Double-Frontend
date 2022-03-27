@@ -9,7 +9,6 @@ import 'package:shop_app/screens/delete_account/delete_account_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../size_config.dart';
 import 'setting_menu.dart';
-import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -42,7 +41,7 @@ class Body extends StatelessWidget {
             ]
           ),
           SizedBox(height: 20),
-          ProfilePic(),
+          Image.asset("assets/images/Profile Image Basic.png",  width: getProportionateScreenWidth(150), height: getProportionateScreenHeight(150)),
           SizedBox(height: 20),
           SettingMenu(
             text: "내 프로필 보기",
