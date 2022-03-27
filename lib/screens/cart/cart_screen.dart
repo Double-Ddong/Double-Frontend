@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
+import 'package:shop_app/screens/home/components/NavBar.dart';
 
 import 'components/body.dart';
 import 'components/check_out_card.dart';
@@ -9,8 +10,9 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
-      body: Body(),
+      // appBar: buildAppBar(context),
+
+      body: NavBar(),
       // bottomNavigationBar: CheckoutCard(),
     );
   }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/constants.dart';
+import 'package:shop_app/screens/friends_list/components/section_title.dart';
+import 'package:shop_app/screens/home/components/MBTI_friends.dart';
+import 'package:shop_app/screens/home/components/similar_friends.dart';
 
 import '../../../size_config.dart';
 import 'categories.dart';
 import 'discount_banner.dart';
 import 'home_header.dart';
-import 'popular_product.dart';
+import 'nearby_friends.dart';
+
 import 'special_offers.dart';
 
 class Body extends StatelessWidget {
@@ -16,16 +21,15 @@ class Body extends StatelessWidget {
           children: [
             SizedBox(height: getProportionateScreenHeight(20)),
             HomeHeader(),
+
             SizedBox(height: getProportionateScreenWidth(20)),
-            // DiscountBanner(),
             Categories(),
-            // SpecialOffers(),
             SizedBox(height: getProportionateScreenWidth(15)),
-            PopularProducts(),
+            SimilarFriends(),
             SizedBox(height: getProportionateScreenWidth(30)),
-            PopularProducts(),
+            NearbyFriends(),
             SizedBox(height: getProportionateScreenWidth(30)),
-            PopularProducts(),
+            MBTIFriends(),
           ],
         ),
       ),
