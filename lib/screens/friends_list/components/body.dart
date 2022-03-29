@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/home/components/home_header.dart';
+import 'package:shop_app/screens/setting/setting_screen.dart';
 
 import '../../../size_config.dart';
 import '../friends_list_screen.dart';
@@ -24,61 +26,24 @@ class Body extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.black
-                  ),),
+                  ),
+              ),
             ],
           ),
           Expanded(child: ListView.builder(
             itemCount: 4,
             itemBuilder: (_,i){
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              return GestureDetector(
+                onTap: () => {
+                  Navigator.pushNamed(context, DetailsScreen.routeName)
+                },
+                child : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-
-                    width: 190,
-                    height: 150,
-                    padding: EdgeInsets.only(left: 30, right: 30,bottom: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "assets/images/google-pay.png"
-
-                        )
-                      ),
-                      boxShadow: [
-                        // BoxShadow(
-                        //   blurRadius: 3,
-                        //   offset: Offset(5, 5),
-                        //   // color: color.
-                        //
-                        // ),
-                        // BoxShadow(
-                        //   blurRadius: 3,
-                        //   offset: Offset(-5, -5),
-                        //   // color: color.
-                        //
-                        // )
-                      ],
-
-                    ),
-                    child: Center(
-                      child : Align(
-                        alignment: Alignment.bottomCenter,
-
-                        child: Text(
-                          "김보현",
-                          style: TextStyle(
-                            fontSize: 20,
-                            // color: Color.black
-                          ),
-                        ),
-                    ),)
-                  ),
-                  Container(
-                      width: 150,
-                      height: 150,
+                      width: SizeConfig.screenWidth * 0.35,
+                      height: SizeConfig.screenHeight * 0.25,
                       padding: EdgeInsets.only(left: 30, right: 30,bottom: 5),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -89,20 +54,7 @@ class Body extends StatelessWidget {
                             )
                         ),
                         boxShadow: [
-                          // BoxShadow(
-                          //   blurRadius: 3,
-                          //   offset: Offset(5, 5),
-                          //   // color: color.
-                          //
-                          // ),
-                          // BoxShadow(
-                          //   blurRadius: 3,
-                          //   offset: Offset(-5, -5),
-                          //   // color: color.
-                          //
-                          // )
                         ],
-
                       ),
                       child: Center(
                         child : Align(
@@ -116,8 +68,52 @@ class Body extends StatelessWidget {
                             ),
                           ),
                         ),)
+                  ),
+
+                  Container(
+                      width: SizeConfig.screenWidth * 0.35,
+                      height: SizeConfig.screenHeight * 0.25,
+                      padding: EdgeInsets.only(left: 30, right: 30,bottom: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        image: DecorationImage(
+                            image: AssetImage(
+                                "assets/images/paypal.png"
+                            )
+                        ),
+                        boxShadow: [
+
+                        ],
+
+                      ),
+                      child: Center(
+                        child : Align(
+                          alignment: Alignment.bottomCenter,
+
+                          child:
+                          Text(
+                            "김보현",
+                            style: TextStyle(
+                              fontSize: 20,
+                              // color: Color.black
+                            ),
+                          ),
+                          // Column(
+                          //   children: [
+                          //     Text(
+                          //     "김보현",
+                          //     style: TextStyle(
+                          //       fontSize: 20,
+                          //       // color: Color.black
+                          //     ),
+                          //   ),
+                          //   ],
+                          // )
+                        ),)
                   )
                 ],
+              )
               );
 
 
