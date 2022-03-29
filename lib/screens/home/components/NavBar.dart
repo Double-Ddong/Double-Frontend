@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/chat/chat_screen.dart';
 import 'package:shop_app/screens/home/components/cookie.dart';
 
 import '../../../size_config.dart';
@@ -79,7 +80,9 @@ class NavBar extends StatelessWidget {
           ListTile(
             // leading: Icon(Icons.favorite),
             title: Text('채팅'),
-            onTap: () => null,
+            onTap: () {
+              Navigator.pushNamed(context, ChatScreen.routeName);
+            },
           ),
           ListTile(
             // leading: Icon(Icons.favorite),

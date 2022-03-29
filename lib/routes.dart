@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shop_app/screens/auth_school2/auth_school_screen2.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
+import 'package:shop_app/screens/chat/chat_screen.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/forgot_id/forgot_id_screen.dart';
@@ -51,7 +53,7 @@ final Map<String, WidgetBuilder> routes = {
 
   CookieScreen.routeName : (context) => CookieScreen(),
   CookieGotScreen.routeName : (context) => CookieGotScreen(),
-
+  ChatScreen.routeName : (context) => ChatScreen(),
 
   MatchScreen.routeName: (context) => MatchScreen(),
 
