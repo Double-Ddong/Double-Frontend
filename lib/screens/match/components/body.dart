@@ -3,6 +3,8 @@ import 'package:shop_app/constants.dart';
 import 'package:shop_app/size_config.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/cancel_button.dart';
+import 'package:shop_app/screens/chat/chat_screen.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 import 'dart:math';
 import 'User_1.dart';
 import 'User_2.dart';
@@ -56,14 +58,14 @@ class Body extends StatelessWidget {
               DefaultButton(
                 text: "채팅 시작하기",
                 press: () {
-                  //Navigator.pushNamed(context, MatchScreen.routeName);
+                  Navigator.pushNamed(context, ChatScreen.routeName);
                 }
               ),
               SizedBox(height: getProportionateScreenHeight(10)),
               CancelButton(
                 text: "취소",
                 press: () {
-                  //Navigator.pushNamed(context, MatchScreen.routeName);
+                  Navigator.pushNamed(context, HomeScreen.routeName);
                 }
               ),
             ],

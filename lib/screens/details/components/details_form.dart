@@ -4,6 +4,7 @@ import 'package:shop_app/components/default_button_half.dart';
 import 'package:shop_app/components/cancel_button_half.dart';
 import 'package:shop_app/components/mail_text.dart';
 import 'package:shop_app/screens/match/match_screen.dart';
+import 'package:shop_app/screens/chat/chat_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -158,7 +159,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             CancelButtonHalf(
               text: "채팅하기",
               press: () {
-                //Navigator.pushNamed(context, SignInScreen.routeName);
+                Navigator.pushNamed(context, ChatScreen.routeName);
               },
             )
           ],
