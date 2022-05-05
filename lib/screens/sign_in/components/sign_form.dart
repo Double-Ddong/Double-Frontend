@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
@@ -6,6 +8,7 @@ import 'package:shop_app/screens/forgot_id/forgot_id_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:dio/dio.dart';
+import 'package:shop_app/models/Person.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -94,8 +97,52 @@ class _SignFormState extends State<SignForm> {
                 KeyboardUtil.hideKeyboard(context);
                 //response = await dio.get('http://192.168.35.217:3000/auth/getUnivName');
                 response = await dio.post('http://192.168.35.217:3000/auth/signin', data: {'Email': email, 'Password': password});
-                print(response.data.toString());
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                Map responseBody = response.data;
+                bool success = responseBody['success'];
+                if(success) {
+                  print(responseBody['data']['userid']);
+                  Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                } else {
+                  void FlutterDialog() {
+                    showDialog(
+                        context: context,
+                        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            //Dialog Main Title
+                            title: Column(
+                              children: <Widget>[
+                                new Text("로그인 실패"),
+                              ],
+                            ),
+                            //
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "ID 혹은 비밀번호가 \n일치하지 않습니다",
+                                ),
+                              ],
+                            ),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Text("확인"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                  FlutterDialog();
+                }
+
               }
             },
           ),

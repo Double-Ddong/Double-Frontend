@@ -1,29 +1,46 @@
 import 'package:flutter/material.dart';
 
-class Person {
-  final int id;
-  final String name, nickName, age, university, department, mbti, area, height, smoke, drink;
-  final List<String> images;
-  final List<int> sendCookie;
-  final List<int> receiveCookie;
+class LogInPerson {
+  final int userid;
 
-  Person({
-    required this.id,
-    required this.images,
-    required this.sendCookie,
-    required this.receiveCookie,
-    required this.name,
-    required this.nickName,
-    required this.age,
-    required this.university,
-    required this.department,
-    required this.mbti,
-    required this.area,
-    required this.height,
-    required this.smoke,
-    required this.drink,
+  LogInPerson({
+    required this.userid,
   });
+
+  factory LogInPerson.fromJson(Map <String, dynamic> json){
+    return LogInPerson(
+      userid: int.parse(json['userid']),
+    );
+  }
+
+  Map<String, dynamic> toJson() =>
+      {'userid' : userid};
 }
+
+// class Person {
+//   final int id;
+//   final String name, nickName, age, university, department, mbti, area, height, smoke, drink;
+//   final List<String> images;
+//   final List<int> sendCookie;
+//   final List<int> receiveCookie;
+//
+//   Person({
+//     required this.id,
+//     required this.images,
+//     required this.sendCookie,
+//     required this.receiveCookie,
+//     required this.name,
+//     required this.nickName,
+//     required this.age,
+//     required this.university,
+//     required this.department,
+//     required this.mbti,
+//     required this.area,
+//     required this.height,
+//     required this.smoke,
+//     required this.drink,
+//   });
+// }
 
 // Our demo Products
 
