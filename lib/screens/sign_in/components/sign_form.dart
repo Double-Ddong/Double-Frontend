@@ -5,6 +5,7 @@ import 'package:shop_app/helper/keyboard.dart';
 import 'package:shop_app/screens/forgot_id/forgot_id_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
+import 'package:dio/dio.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -21,6 +22,9 @@ class _SignFormState extends State<SignForm> {
   String? password;
   bool? remember = false;
   final List<String?> errors = [];
+  late Response response;
+  var dio = Dio();
+
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -83,11 +87,14 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "로그인",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
+                //response = await dio.get('http://192.168.35.217:3000/auth/getUnivName');
+                response = await dio.post('http://192.168.35.217:3000/auth/signin', data: {'Email': email, 'Password': password});
+                print(response.data.toString());
                 Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
