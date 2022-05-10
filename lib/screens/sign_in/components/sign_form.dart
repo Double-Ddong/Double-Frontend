@@ -95,10 +95,11 @@ class _SignFormState extends State<SignForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                //response = await dio.get('http://192.168.35.217:3000/auth/getUnivName');
-                response = await dio.post('http://192.168.35.217:3000/auth/signin', data: {'Email': email, 'Password': password});
+
+                response = await dio.post('http://13.125.168.216:3000/auth/signin', data: {'Email': email, 'Password': password});
                 Map responseBody = response.data;
                 bool success = responseBody['success'];
+
                 if(success) {
                   print(responseBody['data']['userid']);
                   Navigator.pushNamed(context, LoginSuccessScreen.routeName);
