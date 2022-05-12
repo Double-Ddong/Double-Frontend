@@ -14,6 +14,7 @@ import 'package:dio/dio.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
+String? confirm_auth_num;
 
 class AuthSchoolForm extends StatefulWidget {
   @override
@@ -23,23 +24,48 @@ class AuthSchoolForm extends StatefulWidget {
 class _AuthSchoolFormState extends State<AuthSchoolForm> {
   final _formKey = GlobalKey<FormState>();
   String? email;
+  String? sendEmail;
   String? password;
-  String? conform_password;
-  bool remember = false;
-  String selectedDrink = '';
-  final drinks = ['음주를 하지 않음', '적당히 함', '즐김'];
-  final smokes = ['비흡연', '흡연'];
+
+  //String? confirm_password;
+  //bool remember = false;
+  var university = ['KDB금융대학교'];
+  String selectedUniversity = 'KDB금융대학교';
+  late String universityMail = '';
   final List<String?> errors = [];
   late Response response;
   var dio = Dio();
 
-  @override
-  Future<void> initState() async {
-    // TODO: implement initState
-    super.initState();
-    response = await dio.get('http://13.125.168.216:3000/auth/signupPhoneAuth');
-    Map responseBody = response.data;
-    print(response.data);
+  void getUnivList() async {
+    try {
+      response = await dio.get('http://13.125.168.216:3000/auth/getUnivName');
+      Map responseBody = response.data;
+      bool success = responseBody['success'];
+
+      if (success) {
+        int univlen = responseBody['data'].length;
+        for (int i = 1; i < univlen; i++) {
+          university.add(responseBody['data'][i].toString());
+        }
+      }
+
+      var myRes = university.toSet();
+      university = myRes.toList();
+
+    } catch(e) { print(e); }
+  }
+
+  void getUnivMail() async {
+    try {
+      response = await dio.get('http://13.125.168.216:3000/auth/getUnivName/getMail/${selectedUniversity}');
+      Map responseBody = response.data;
+      bool success = responseBody['success'];
+
+      if (success) {
+        universityMail = responseBody['data'];
+      }
+
+    } catch(e) { print(e); }
   }
 
   void addError({String? error}) {
@@ -58,6 +84,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
 
   @override
   Widget build(BuildContext context) {
+    getUnivList();
     return Form(
       key: _formKey,
       child: Column(
@@ -69,11 +96,20 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "다음",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, AuthSchoolScreen2.routeName);
+                sendEmail = '${email}@${universityMail}.ac.kr';
+                response = await dio.post('http://13.125.168.216:3000/auth/univMailAuth', data: {'Email': sendEmail});
+                Map responseBody = response.data;
+                bool success = responseBody['success'];
+
+                if (success) {
+                  confirm_auth_num = responseBody['data']['sendNum'];
+                  Navigator.pushNamed(context, AuthSchoolScreen2.routeName, arguments: confirm_auth_num);
+                }
+
               }
             },
           ),
@@ -100,6 +136,8 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
           width: SizeConfig.screenWidth * 0.45,
           child: TextFormField(
             onChanged: (value) {
+              email = value;
+              print(email);
               if (value.isNotEmpty) {
                 removeError(error: kIdNullError);
               }
@@ -126,7 +164,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
           width: SizeConfig.screenWidth * 0.43,
           child:
             MailButton(
-              text: "@ 학교웹메일주소",
+              text: '@${universityMail}.ac.kr',
             ),
         ),
       ],
@@ -147,10 +185,13 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
        ),
        child: DropdownButton<String>(
          isExpanded: true,
-         value: selectedDrink,
+         value: selectedUniversity,
          onChanged: (String? newValue) =>
-             setState(() => selectedDrink = newValue!),
-         items: drinks
+             setState(() {
+               selectedUniversity = newValue!;
+               getUnivMail();
+             }),
+         items: university
              .map<DropdownMenuItem<String>>(
                  (String value) => DropdownMenuItem<String>(
                value: value,
@@ -161,44 +202,10 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
                ),
              ))
              .toList(),
-         // add extra sugar..
          icon: Icon(Icons.arrow_drop_down),
          iconSize: 35,
          underline: SizedBox(),
        ),
      );
-    // return TextFormField(
-    //   // onSaved: (newValue) => email = newValue,
-    //   onChanged: (value) {
-    //     if (value.isNotEmpty) {
-    //       removeError(error: kSchoolNullError);
-    //     }
-    //     // else if (emailValidatorRegExp.hasMatch(value)) {
-    //     //   removeError(error: kSchoolNullError);
-    //     // }
-    //     return null;
-    //   },
-    //   validator: (value) {
-    //     if (value!.isEmpty) {
-    //       addError(error: kSchoolNullError);
-    //       return "";
-    //     }
-    //     // else if (!emailValidatorRegExp.hasMatch(value)) {
-    //     //   addError(error: kSchoolNullError);
-    //     //   return "";
-    //     // }
-    //     return null;
-    //   },
-    //   decoration: InputDecoration(
-    //     labelText: "학교",
-    //     hintText: "학교를 선택하세요",
-    //     // If  you are using latest version of flutter then lable text and hint text shown like this
-    //     // if you r using flutter less then 1.20.* then maybe this is not working properly
-    //     floatingLabelBehavior: FloatingLabelBehavior.always,
-    //     suffixIcon: CustomSurffixIcon(
-    //       svgIcon: "assets/icons/Plus Icon.svg",
-    //     ),
-    //   ),
-    // );
   }
 }
