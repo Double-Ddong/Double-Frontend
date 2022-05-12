@@ -56,6 +56,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   @override
   Widget build(BuildContext context) {
     final userId = ModalRoute.of(context)?.settings.arguments;
+    print(userId);
     return Form(
       key: _formKey,
       child: Column(
@@ -158,7 +159,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                       'Introduce': introduce
                     });
                 Map responseBody = response.data;
-                print(response.data);
                 bool success = responseBody['success'];
 
                 if (success) {
