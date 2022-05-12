@@ -76,6 +76,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   @override
   Widget build(BuildContext context) {
     final userId = ModalRoute.of(context)?.settings.arguments;
+    print(userId);
     return Form(
       key: _formKey,
       child: Column(

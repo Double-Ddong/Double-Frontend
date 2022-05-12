@@ -108,7 +108,15 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
 
                 if (success) {
                   confirm_auth_num = responseBody['data']['sendNum'];
-                  Navigator.pushNamed(context, AuthSchoolScreen2.routeName, arguments: [confirm_auth_num,userId]);
+                  response = await dio.post('http://13.125.168.216:3000/auth/univMailAuth/OK/${userId}',
+                      data: {'University': selectedUniversity, 'UniversityEmail': sendEmail});
+                  Map responseBody2 = response.data;
+                  print(responseBody2);
+                  bool success2 = responseBody2['success'];
+
+                  if (success2) {
+                    Navigator.pushNamed(context, AuthSchoolScreen2.routeName, arguments: [confirm_auth_num, userId]);
+                  }
                 }
 
               }
@@ -138,7 +146,6 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
           child: TextFormField(
             onChanged: (value) {
               email = value;
-              print(email);
               if (value.isNotEmpty) {
                 removeError(error: kIdNullError);
               }

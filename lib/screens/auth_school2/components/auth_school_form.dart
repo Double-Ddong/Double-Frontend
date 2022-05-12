@@ -57,8 +57,6 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
     argument = argument.toString().replaceAll("]", "");
     String confirm_auth_num = argument.substring(0,4);
     String userId = argument.substring(6, argument.length);
-    // String confirm_auth_num = 'argument.substring(0,4)';
-    // int userId = 3;
 
 
     return Form(
