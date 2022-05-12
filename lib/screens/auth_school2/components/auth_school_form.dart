@@ -53,12 +53,12 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
   Widget build(BuildContext context) {
     var arg = ModalRoute.of(context)?.settings.arguments;
 
-    // String argument = arg.toString().replaceAll("{", "");
-    // argument = argument.toString().replaceAll("}", "");
-    // String confirm_auth_num = argument.substring(0,4);
-    // int userId = int.parse(argument.substring(6, argument.length));
-    String confirm_auth_num = 'argument.substring(0,4)';
-    int userId = 3;
+    String argument = arg.toString().replaceAll("[", "");
+    argument = argument.toString().replaceAll("]", "");
+    String confirm_auth_num = argument.substring(0,4);
+    String userId = argument.substring(6, argument.length);
+    // String confirm_auth_num = 'argument.substring(0,4)';
+    // int userId = 3;
 
 
     return Form(
