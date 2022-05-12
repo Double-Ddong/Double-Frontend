@@ -58,6 +58,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
     String confirm_auth_num = argument.substring(0,4);
     String userId = argument.substring(6, argument.length);
 
+
     return Form(
       child: Column(
         children: [

@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
@@ -7,7 +10,7 @@ import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/components/send_button.dart';
 import 'package:shop_app/components/cancel_button.dart';
 import 'package:dio/dio.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -38,6 +41,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   DateTime? _selectedDate;
   late Response response;
   var dio = Dio();
+  File? _image;
+  final _picker = ImagePicker();
+  String sendimage= '';
+  File? _image2 = File("assets/images/Profile Image.png");
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -53,6 +60,19 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       });
   }
 
+  Future<void> _openImagePicker() async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+        sendimage = pickedImage.path;
+      });
+    }
+    else{
+      sendimage = 'assets/images/Profile Image.png';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final userId = ModalRoute.of(context)?.settings.arguments;
@@ -61,6 +81,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       key: _formKey,
       child: Column(
         children: [
+          image(),
+          SizedBox(height: getProportionateScreenHeight(40)),
           buildNickNameFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildGenderFormField(),
@@ -132,17 +154,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             text: "회원가입 완료",
             press: () async {
               if (_formKey.currentState!.validate()) {
-                // print(nickName);
-                // print(genderMode);
-                // print(birthday);
-                // print(department);
-                // print(selectedMbti);
-                // print(selectedArea);
-                // print(height);
-                // print(selectedDrink);
-                // print(selectedSmoke);
-                // print(hobby);
-                // print(introduce);
                 response = await dio.post(
                     'http://13.125.168.216:3000/auth/signupProfile/${userId}',
                     data: {
@@ -162,7 +173,25 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 bool success = responseBody['success'];
 
                 if (success) {
-                  Navigator.pushNamed(context, SignInScreen.routeName);
+
+                  dio.options.contentType = 'multipart/form-data';
+                  dio.options.maxRedirects.isFinite;
+
+
+                  var formData3 = FormData.fromMap({
+                      "img": await MultipartFile.fromFile(sendimage,filename: 'upload.png')
+                    });
+                  response = await dio.post(
+                      'http://13.125.168.216:3000/auth/signupProfileImg/${userId}',
+                      data: formData3
+                      );
+                  print(response.data);
+                  Map responseBody2 = response.data;
+                  bool success2 = responseBody2['success'];
+
+                  if (success2) {
+                    Navigator.pushNamed(context, SignInScreen.routeName);
+                  }
                 }
 
               }
@@ -173,7 +202,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             text: "취소",
             press: () {
               Navigator.pushNamed(context, SignInScreen.routeName);
-              // }
             },
           ),
         ],
@@ -347,32 +375,32 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   Row buildBirthFormField() {
     return Row(
-      children: [
-        SizedBox(
-          width: SizeConfig.screenWidth * 0.65,
-          child: Container(
-            child: InputDecorator(
-              decoration: InputDecoration(
-                labelText: '생년월일',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+        children: [
+          SizedBox(
+            width: SizeConfig.screenWidth * 0.65,
+            child: Container(
+              child: InputDecorator(
+                decoration: InputDecoration(
+                  labelText: '생년월일',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
-              ),
-              child: Text(
+                child: Text(
                   _selectedDate != null
                       ? _selectedDate.toString().substring(0,10)
                       : 'No date selected!',
                   style: Theme.of(context).textTheme.bodyText1,
+                ),
               ),
             ),
           ),
-        ),
-        Spacer(),
-        SendButton(
-          text: "선택",
-          press:  _presentDatePicker,
-        ),
-      ]
+          Spacer(),
+          SendButton(
+            text: "선택",
+            press:  _presentDatePicker,
+          ),
+        ]
     );
   }
 
@@ -436,7 +464,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           ),
           style: OutlinedButton.styleFrom(
             shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
             primary: Colors.white,
             minimumSize: Size(160, 55),
             side: BorderSide(
@@ -606,4 +634,52 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       ),
     );
   }
+
+  Widget image() {
+    return SizedBox(
+      height: getProportionateScreenHeight(200),
+      width: getProportionateScreenWidth(200),
+      child: Stack(
+        fit: StackFit.expand,
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: getProportionateScreenWidth(200),
+            height: getProportionateScreenHeight(200),
+            child: _image != null
+                ? Image.file(_image!, fit: BoxFit.fill)
+                : const Text('Please select an image'),
+          ),
+          Positioned(
+            right: -16,
+            bottom: -5,
+            child: SizedBox(
+              height: 46,
+              width: 46,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    side: BorderSide(color: Colors.white),
+                  ),
+                  primary: Colors.white,
+                  backgroundColor: Color(0xFFF5F6F9),
+                ),
+                onPressed: _openImagePicker,
+                child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
+
+// _uploadImage() async {
+//   var formData = FormData.fromMap({
+//     "image" : await MultipartFile.fromFile(imageFile!.path)
+//   });
+//   var response = await Dio
+// }
