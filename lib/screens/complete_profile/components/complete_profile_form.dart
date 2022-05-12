@@ -6,6 +6,7 @@ import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/components/send_button.dart';
 import 'package:shop_app/components/cancel_button.dart';
+import 'package:dio/dio.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -23,20 +24,20 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? birthday;
   bool genderMode = false;  // true - 남자, false - 여자
   String? department;
-  final departments = ['소프트웨어학과', '경영학과', '법학과', '전자공학과', '전기공학과'];
-  String selectedDepartment = '소프트웨어학과';
+  String? height;
+  String? hobby;
+  String? introduce;
   final mbtis = ['ENTJ', 'ENTP', 'ENFJ', 'ENFP', 'ESTJ', 'ESTP', 'ESFJ', 'ESFP', 'INTJ', 'INTP', 'INFJ', 'INFP', 'ISTJ', 'ISTP', 'ISFJ', 'ISFP'];
   String selectedMbti = 'ENTJ';
-  final areas = ['서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시','울산광역시', '세종특별자치시', '경기도', '강원도', '충청북도', '충청남도', '전라북도', '전라남도', '경상북도', '경상남도', '제주특별자치도'];
-  String selectedArea = '서울특별시';
-  final heights = ['140', '141', '142', '143', '144', '145', '146', '147', '148', '149', '150', '151','152', '153', '154', '155', '156', '157','158', '159', '160', '161', '162', '163','164', '165', '166', '167', '168', '169', '170', '171', '172', '173', '174', '175'];
-  String selectedHeight = '140';
+  final areas = ['강남구', '강동구', '강북구', '강서구', '관악구','구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', '양천구', '영등포구','용산구','은평구','종로구','중구','중랑구'];
+  String selectedArea = '강남구';
   final drinks = ['음주를 하지 않음', '적당히 함', '즐김'];
   String selectedDrink = '음주를 하지 않음';
   final smokes = ['비흡연', '흡연'];
   String selectedSmoke = '비흡연';
-
   DateTime? _selectedDate;
+  late Response response;
+  var dio = Dio();
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -54,6 +55,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    final userId = ModalRoute.of(context)?.settings.arguments;
     return Form(
       key: _formKey,
       child: Column(
@@ -63,18 +65,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildGenderFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildBirthFormField(),
-          SizedBox(height: getProportionateScreenHeight(20)),
-          Container(
-            alignment: Alignment(-0.8, 0.0),
-            child: Text(
-              "학과",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: getProportionateScreenWidth(13),
-              ),
-            ),
-          ),
-          SizedBox(height: SizeConfig.screenHeight * 0.005),
+          SizedBox(height: getProportionateScreenHeight(30)),
           buildDepartmentFormField(),
           SizedBox(height: getProportionateScreenHeight(20)),
           Container(
@@ -102,18 +93,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.005),
           buildAreaFormField(),
-          SizedBox(height: getProportionateScreenHeight(20)),
-          Container(
-            alignment: Alignment(-0.8, 0.0),
-            child: Text(
-              "키",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: getProportionateScreenWidth(13),
-              ),
-            ),
-          ),
-          SizedBox(height: SizeConfig.screenHeight * 0.005),
+          SizedBox(height: getProportionateScreenHeight(30)),
           buildHeightFormField(),
           SizedBox(height: getProportionateScreenHeight(20)),
           Container(
@@ -141,13 +121,50 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.005),
           buildSmokeFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildHobbyFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildIntroduceFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "회원가입 완료",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, SignInScreen.routeName);
+                // print(nickName);
+                // print(genderMode);
+                // print(birthday);
+                // print(department);
+                // print(selectedMbti);
+                // print(selectedArea);
+                // print(height);
+                // print(selectedDrink);
+                // print(selectedSmoke);
+                // print(hobby);
+                // print(introduce);
+                response = await dio.post(
+                    'http://13.125.168.216:3000/auth/signupProfile/${userId}',
+                    data: {
+                      'NickName': nickName,
+                      'Sex': genderMode,
+                      'Birth': birthday,
+                      'Department': department,
+                      'Mbti': selectedMbti,
+                      'Location': selectedArea,
+                      'Height': height,
+                      'Drink': selectedDrink,
+                      'Smoke': selectedSmoke,
+                      'Hobby': hobby,
+                      'Introduce': introduce
+                    });
+                Map responseBody = response.data;
+                print(response.data);
+                bool success = responseBody['success'];
+
+                if (success) {
+                  Navigator.pushNamed(context, SignInScreen.routeName);
+                }
+
               }
             },
           ),
@@ -246,47 +263,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     );
   }
 
-  Center buildHeightFormField() {
-    return Center(
-      child: Column(
-          children: <Widget> [
-            Container(
-              width: SizeConfig.screenWidth,
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                    color: Colors.black54
-                ),
-              ),
-              child: DropdownButton<String>(
-                isExpanded: true,
-                value: selectedHeight,
-                onChanged: (String? newValue) =>
-                    setState(() => selectedHeight = newValue!),
-                items: heights
-                    .map<DropdownMenuItem<String>>(
-                        (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: Theme.of(context).textTheme.bodyText1,
-                        textAlign: TextAlign.center,
-                      ),
-                    ))
-                    .toList(),
-                // add extra sugar..
-                icon: Icon(Icons.arrow_drop_down),
-                iconSize: 35,
-                underline: SizedBox(),
-              ),
-            ),
-          ]
-      ),
-    );
-  }
-
   Center buildAreaFormField() {
     return Center(
       child: Column(
@@ -348,47 +324,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 onChanged: (String? newValue) =>
                     setState(() => selectedMbti = newValue!),
                 items: mbtis
-                    .map<DropdownMenuItem<String>>(
-                        (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: Theme.of(context).textTheme.bodyText1,
-                        textAlign: TextAlign.center,
-                      ),
-                    ))
-                    .toList(),
-                // add extra sugar..
-                icon: Icon(Icons.arrow_drop_down),
-                iconSize: 35,
-                underline: SizedBox(),
-              ),
-            ),
-          ]
-      ),
-    );
-  }
-
-  Center buildDepartmentFormField() {
-    return Center(
-      child: Column(
-          children: <Widget> [
-            Container(
-              width: SizeConfig.screenWidth,
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                    color: Colors.black54
-                ),
-              ),
-              child: DropdownButton<String>(
-                isExpanded: true,
-                value: selectedDepartment,
-                onChanged: (String? newValue) =>
-                    setState(() => selectedDepartment = newValue!),
-                items: departments
                     .map<DropdownMenuItem<String>>(
                         (String value) => DropdownMenuItem<String>(
                       value: value,
@@ -543,6 +478,131 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildDepartmentFormField() {
+    return TextFormField(
+      onSaved: (newValue) => department = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kDepartmentNullError);
+        } else if (value.length <= 15) {
+          removeError(error: kLongDepartmentError);
+        }
+        department = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kDepartmentNullError);
+          return "";
+        } else if (value.length > 15) {
+          addError(error: kLongDepartmentError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "학과",
+        hintText: "학과를 입력하세요",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildHeightFormField() {
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      onSaved: (newValue) => height = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kHeightNullError);
+        } else if (value.length <= 4) {
+          removeError(error: kLongHeightError);
+        }
+        height = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kHeightNullError);
+          return "";
+        } else if (value.length > 4) {
+          addError(error: kLongHeightError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "키",
+        hintText: "키를 입력하세요",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildHobbyFormField() {
+    return TextFormField(
+      onSaved: (newValue) => hobby = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kHobbyNullError);
+        } else if (value.length <= 30) {
+          removeError(error: kLongHobbyError);
+        }
+        hobby = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kHobbyNullError);
+          return "";
+        } else if (value.length > 30) {
+          addError(error: kLongHobbyError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "취미",
+        hintText: "취미를 입력하세요",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildIntroduceFormField() {
+    return TextFormField(
+      onSaved: (newValue) => introduce = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kIntroduceNullError);
+        } else if (value.length <= 30) {
+          removeError(error: kLongIntroduceError);
+        }
+        introduce = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kIntroduceNullError);
+          return "";
+        } else if (value.length > 30) {
+          addError(error: kLongIntroduceError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "자기소개",
+        hintText: "자신을 소개해주세요",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
   }

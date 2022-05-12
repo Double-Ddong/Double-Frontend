@@ -61,9 +61,10 @@ class _SignUpFormState extends State<SignUpForm> {
                 response = await dio.post('http://13.125.168.216:3000/auth/signup', data: {'Email': email, 'Password': password});
                 Map responseBody = response.data;
                 bool success = responseBody['success'];
+                int userid = responseBody['data'];
 
                 if(success) {
-                  Navigator.pushNamed(context, AuthPhoneScreen.routeName);
+                  Navigator.pushNamed(context, AuthPhoneScreen.routeName, arguments: userid);
                 } else {
                   void FlutterDialog() {
                     showDialog(

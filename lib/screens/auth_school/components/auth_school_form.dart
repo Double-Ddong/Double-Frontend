@@ -85,6 +85,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
   @override
   Widget build(BuildContext context) {
     getUnivList();
+    final userId = ModalRoute.of(context)?.settings.arguments;
     return Form(
       key: _formKey,
       child: Column(
@@ -107,7 +108,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
 
                 if (success) {
                   confirm_auth_num = responseBody['data']['sendNum'];
-                  Navigator.pushNamed(context, AuthSchoolScreen2.routeName, arguments: confirm_auth_num);
+                  Navigator.pushNamed(context, AuthSchoolScreen2.routeName, arguments: [confirm_auth_num,userId]);
                 }
 
               }

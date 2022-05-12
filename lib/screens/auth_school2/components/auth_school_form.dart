@@ -51,7 +51,16 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
 
   @override
   Widget build(BuildContext context) {
-    final confirm_auth_num = ModalRoute.of(context)?.settings.arguments;
+    var arg = ModalRoute.of(context)?.settings.arguments;
+
+    // String argument = arg.toString().replaceAll("{", "");
+    // argument = argument.toString().replaceAll("}", "");
+    // String confirm_auth_num = argument.substring(0,4);
+    // int userId = int.parse(argument.substring(6, argument.length));
+    String confirm_auth_num = 'argument.substring(0,4)';
+    int userId = 3;
+
+
     return Form(
       child: Column(
         children: [
@@ -71,7 +80,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
                   onChanged: (value) {
                     nextField(value, pin2FocusNode);
                     auth1 = value;
-                    print(auth1);
+                    //print(auth1);
                   },
                 ),
               ),
@@ -87,7 +96,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
                   onChanged: (value) {
                     nextField(value, pin3FocusNode);
                     auth2 = value;
-                    print(auth2);
+                    //print(auth2);
                   }
                 ),
               ),
@@ -103,7 +112,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
                   onChanged: (value) {
                     nextField(value, pin4FocusNode);
                     auth3 = value;
-                    print(auth3);
+                    //print(auth3);
                   }
                 ),
               ),
@@ -147,7 +156,7 @@ class _AuthSchoolForm2State extends State<AuthSchoolForm2> {
             text: "완료",
             press: () {
               if(auth_num == confirm_auth_num) {
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+                Navigator.pushNamed(context, CompleteProfileScreen.routeName, arguments: userId);
               } else {
                 void FlutterDialog() {
                   showDialog(

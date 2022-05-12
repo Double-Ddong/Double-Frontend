@@ -44,6 +44,7 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
 
   @override
   Widget build(BuildContext context) {
+    final userId = ModalRoute.of(context)?.settings.arguments;
     return Form(
       key: _formKey,
       child: Column(
@@ -60,7 +61,7 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 if(auth_num == confirm_auth_num) {
-                  Navigator.pushNamed(context, AuthSchoolScreen.routeName);
+                  Navigator.pushNamed(context, AuthSchoolScreen.routeName, arguments: userId);
                 }
               }
             },
