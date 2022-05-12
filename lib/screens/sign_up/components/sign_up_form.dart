@@ -5,6 +5,7 @@ import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/screens/auth_phone/auth_phone_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
+import 'package:dio/dio.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -21,6 +22,8 @@ class _SignUpFormState extends State<SignUpForm> {
   String? conform_password;
   bool remember = false;
   final List<String?> errors = [];
+  late Response response;
+  var dio = Dio();
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -51,11 +54,56 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "다음",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, AuthPhoneScreen.routeName);
+                response = await dio.post('http://13.125.168.216:3000/auth/signup', data: {'Email': email, 'Password': password});
+                Map responseBody = response.data;
+                bool success = responseBody['success'];
+
+                if(success) {
+                  Navigator.pushNamed(context, AuthPhoneScreen.routeName);
+                } else {
+                  void FlutterDialog() {
+                    showDialog(
+                        context: context,
+                        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            //Dialog Main Title
+                            title: Column(
+                              children: <Widget>[
+                                new Text("회원가입 실패"),
+                              ],
+                            ),
+                            //
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "중복된 이메일이 존재합니다.",
+                                ),
+                              ],
+                            ),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Text("확인"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                  FlutterDialog();
+                }
               }
             },
           ),

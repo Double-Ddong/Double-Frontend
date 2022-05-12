@@ -9,7 +9,7 @@ import 'package:shop_app/screens/auth_school2/auth_school_screen2.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/otp/otp_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
-
+import 'package:dio/dio.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -26,7 +26,21 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
   String? password;
   String? conform_password;
   bool remember = false;
+  String selectedDrink = '';
+  final drinks = ['음주를 하지 않음', '적당히 함', '즐김'];
+  final smokes = ['비흡연', '흡연'];
   final List<String?> errors = [];
+  late Response response;
+  var dio = Dio();
+
+  @override
+  Future<void> initState() async {
+    // TODO: implement initState
+    super.initState();
+    response = await dio.get('http://13.125.168.216:3000/auth/signupPhoneAuth');
+    Map responseBody = response.data;
+    print(response.data);
+  }
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -120,37 +134,71 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
   }
 
 
-  TextFormField buildSchoolFormField() {
-    return TextFormField(
-      // onSaved: (newValue) => email = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kSchoolNullError);
-        }
-        // else if (emailValidatorRegExp.hasMatch(value)) {
-        //   removeError(error: kSchoolNullError);
-        // }
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kSchoolNullError);
-          return "";
-        }
-        // else if (!emailValidatorRegExp.hasMatch(value)) {
-        //   addError(error: kSchoolNullError);
-        //   return "";
-        // }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "학교",
-        hintText: "학교를 선택하세요",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Plus Icon.svg"),
-      ),
-    );
+ Container buildSchoolFormField() {
+     return Container(
+       width: SizeConfig.screenWidth,
+       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 4),
+       decoration: BoxDecoration(
+         color: Colors.white,
+         borderRadius: BorderRadius.circular(30),
+         border: Border.all(
+             color: Colors.black54
+         ),
+       ),
+       child: DropdownButton<String>(
+         isExpanded: true,
+         value: selectedDrink,
+         onChanged: (String? newValue) =>
+             setState(() => selectedDrink = newValue!),
+         items: drinks
+             .map<DropdownMenuItem<String>>(
+                 (String value) => DropdownMenuItem<String>(
+               value: value,
+               child: Text(
+                 value,
+                 style: Theme.of(context).textTheme.bodyText1,
+                 textAlign: TextAlign.center,
+               ),
+             ))
+             .toList(),
+         // add extra sugar..
+         icon: Icon(Icons.arrow_drop_down),
+         iconSize: 35,
+         underline: SizedBox(),
+       ),
+     );
+    // return TextFormField(
+    //   // onSaved: (newValue) => email = newValue,
+    //   onChanged: (value) {
+    //     if (value.isNotEmpty) {
+    //       removeError(error: kSchoolNullError);
+    //     }
+    //     // else if (emailValidatorRegExp.hasMatch(value)) {
+    //     //   removeError(error: kSchoolNullError);
+    //     // }
+    //     return null;
+    //   },
+    //   validator: (value) {
+    //     if (value!.isEmpty) {
+    //       addError(error: kSchoolNullError);
+    //       return "";
+    //     }
+    //     // else if (!emailValidatorRegExp.hasMatch(value)) {
+    //     //   addError(error: kSchoolNullError);
+    //     //   return "";
+    //     // }
+    //     return null;
+    //   },
+    //   decoration: InputDecoration(
+    //     labelText: "학교",
+    //     hintText: "학교를 선택하세요",
+    //     // If  you are using latest version of flutter then lable text and hint text shown like this
+    //     // if you r using flutter less then 1.20.* then maybe this is not working properly
+    //     floatingLabelBehavior: FloatingLabelBehavior.always,
+    //     suffixIcon: CustomSurffixIcon(
+    //       svgIcon: "assets/icons/Plus Icon.svg",
+    //     ),
+    //   ),
+    // );
   }
 }
