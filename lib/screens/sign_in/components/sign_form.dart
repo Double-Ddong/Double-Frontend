@@ -101,8 +101,9 @@ class _SignFormState extends State<SignForm> {
                 bool success = responseBody['success'];
 
                 if(success) {
-                  print(responseBody['data']['userid']);
-                  Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                  int userId = responseBody['data']['userid'];
+                  //print('${userId}로그인성공');
+                  Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: userId);
                 } else {
                   void FlutterDialog() {
                     showDialog(

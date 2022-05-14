@@ -6,6 +6,7 @@ import 'package:shop_app/size_config.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final userId = ModalRoute.of(context)?.settings.arguments;
     return Column(
       children: [
         SizedBox(height: SizeConfig.screenHeight * 0.04,
@@ -29,7 +30,7 @@ class Body extends StatelessWidget {
           child: DefaultButton(
             text: "홈으로 돌아가기",
             press: () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
+              Navigator.pushNamed(context, HomeScreen.routeName, arguments: userId);
             },
           ),
         ),
