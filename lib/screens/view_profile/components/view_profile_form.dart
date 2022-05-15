@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:shop_app/models/Person.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -13,8 +14,12 @@ class ViewProfileForm extends StatefulWidget {
 class _ViewProfileFormState extends State<ViewProfileForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String?> errors = [];
-  bool universityMode = false;  // true - 같은 대학교 소개, false - 다른 대학교 소개
-  bool personMode = false; // true - 아는 사람 차단, false - 아른 사람 차단 X
+  //bool universityMode = false;  // true - 같은 대학교 소개, false - 다른 대학교 소개
+  //bool personMode = false; // true - 아는 사람 차단, false - 아른 사람 차단 X
+  String profile = '';
+  String nickName = '';
+  late int age;
+
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -32,33 +37,34 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    final Person args = ModalRoute.of(context)?.settings.arguments as Person;
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          buildProfileImageFormField(),
+          buildProfileImageFormField(args),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildProfileFormField(),
+          buildProfileFormField(args),
         ],
       ),
     );
   }
 
-  Center buildProfileImageFormField() {
+  Center buildProfileImageFormField(Person args) {
     return Center(
-      child: 
-        Image.asset("assets/images/Profile Image Basic.png", width: getProportionateScreenWidth(300), height: getProportionateScreenHeight(300)),
+      child:
+        Image.network(args.profile, width: getProportionateScreenWidth(300), height: getProportionateScreenHeight(300)),
     );
   }
 
-  Column buildProfileFormField() {
+  Column buildProfileFormField(Person args) {
     return Column(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(10)),
         Container(
           alignment: Alignment(-0.9, 0.0),
           child: Text(
-            "사용자 이름",
+            '${args.nickname} (24)',
             style: TextStyle(
               color: Colors.black,
               fontSize: getProportionateScreenWidth(20),
@@ -68,27 +74,12 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         ),
         Row(
           children: [
-            SizedBox(width: getProportionateScreenWidth(15)),
+            SizedBox(width: getProportionateScreenWidth(10)),
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                "나이",
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              style:
-                OutlinedButton.styleFrom(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(50))
-                  )
-                ),
-            ),
-            SizedBox(width: getProportionateScreenWidth(5)),
-            OutlinedButton(
-              onPressed: () => {},
-              child: Text(
-                "학교",
+                //args.university,
+                '광운대학교',
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -104,7 +95,27 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                "학과",
+                args.department,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              style:
+              OutlinedButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50))
+                  )
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            SizedBox(width: getProportionateScreenWidth(10)),
+            OutlinedButton(
+              onPressed: () => {},
+              child: Text(
+                args.location,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -120,7 +131,23 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                "MBTI",
+                args.mbti,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              style:
+              OutlinedButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50))
+                  )
+              ),
+            ),
+            SizedBox(width: getProportionateScreenWidth(5)),
+            OutlinedButton(
+              onPressed: () => {},
+              child: Text(
+                args.smoke,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -148,9 +175,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         ),
         SizedBox(height: getProportionateScreenHeight(8)),
         Container(
-          alignment: Alignment(-0.4, 0.0),
+          alignment: Alignment(-0.7, 0.0),
           child: Text(
-            "안녕하세요~~ 저는 땡땡대학교 누구입니다",
+            args.introduce,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: getProportionateScreenWidth(12),
@@ -171,9 +198,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         ),
         SizedBox(height: getProportionateScreenHeight(8)),
         Container(
-          alignment: Alignment(-0.3, 0.0),
+          alignment: Alignment(-0.7, 0.0),
           child: Text(
-            "저는 컴퓨터게임 좋아해요 롤 좋아하시는 분~",
+            args.hobby,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: getProportionateScreenWidth(12),

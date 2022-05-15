@@ -1,49 +1,74 @@
 import 'package:flutter/material.dart';
 
-class LogInPerson {
-  final int userid;
+class Person {
+  late String userid, nickname, profile, university, department, mbti, location, smoke, drink, hobby, introduce, birth, phone, email;
+  late int age, height, sendCookie, receiveCookie;
 
-  LogInPerson({
-    required this.userid,
-  });
-
-  factory LogInPerson.fromJson(Map <String, dynamic> json){
-    return LogInPerson(
-      userid: int.parse(json['userid']),
-    );
-  }
-
-  Map<String, dynamic> toJson() =>
-      {'userid' : userid};
+  Person(this.userid, this.profile, this.nickname, this.university, this.department, this.mbti, this.location,
+      this.smoke, this.drink, this.hobby, this.introduce, this.age, this.birth, this.phone, this.height,
+      this.sendCookie, this.receiveCookie, this.email);
 }
+// class LogInPerson {
+//   late final int? userid;
+//   late final String? profile;
+//
+//   LogInPerson(String? userId, String? profile, {
+//     required this.userid,
+//     required this.profile
+//   });
+
+  // factory LogInPerson.fromJson(Map <String, dynamic> json){
+  //   return LogInPerson(
+  //     userid: int.parse(json['userid']),
+  //   );
+  // }
+  //
+  // Map<String, dynamic> toJson() =>
+  //     {'userid' : userid};
+//}
+
+// class testPerson {
+//   late final String userId, nickName, profile;
+//   late int sendCookie, receiveCookie;
+// // final List<String> images;
+// // final List<int> sendCookie;
+// // final List<int> receiveCookie;
+//
+//   Person(String userId, String, nickName, String, profile, int sendCookie, int receiveCookie{
+//     required this.userId,
+//     required this.nickName,
+//     required this.profile,
+//     required this.sendCookie,
+//     required this.receiveCookie
+//   });
+// }
 
 // class Person {
-//   final int id;
-//   final String name, nickName, age, university, department, mbti, area, height, smoke, drink;
+//   late final String userId, name, nickName, age, university, department, mbti, area, height, smoke, drink;
 //   final List<String> images;
 //   final List<int> sendCookie;
 //   final List<int> receiveCookie;
 //
-//   Person({
-//     required this.id,
-//     required this.images,
-//     required this.sendCookie,
-//     required this.receiveCookie,
-//     required this.name,
-//     required this.nickName,
-//     required this.age,
-//     required this.university,
-//     required this.department,
-//     required this.mbti,
-//     required this.area,
-//     required this.height,
-//     required this.smoke,
-//     required this.drink,
-//   });
+//   // Person({
+//   //   required this.userId,
+//   //   required this.images,
+//   //   required this.sendCookie,
+//   //   required this.receiveCookie,
+//   //   required this.name,
+//   //   required this.nickName,
+//   //   required this.age,
+//   //   required this.university,
+//   //   required this.department,
+//   //   required this.mbti,
+//   //   required this.area,
+//   //   required this.height,
+//   //   required this.smoke,
+//   //   required this.drink,
+//   // });
 // }
 
 // Our demo Products
-
+//
 // List<Person> demoPersons = [
 //   Person(
 //     id: 1,
@@ -119,6 +144,6 @@ class LogInPerson {
 //     isFavourite: true,
 //   ),
 // ];
-//
+
 // const String description =
 //     "Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …";

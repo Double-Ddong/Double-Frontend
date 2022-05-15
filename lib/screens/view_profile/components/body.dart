@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/size_config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/screens/setting/setting_screen.dart';
@@ -10,6 +11,7 @@ import 'view_profile_form.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as Person;
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -25,7 +27,7 @@ class Body extends StatelessWidget {
                     IconButton(
                         icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
                         onPressed: () {
-                          Navigator.pushNamed(context, SettingScreen.routeName);
+                          Navigator.pushNamed(context, SettingScreen.routeName, arguments: args);
                         }
                     ),
                     SizedBox(width: getProportionateScreenWidth(210),),
@@ -39,7 +41,7 @@ class Body extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, ModifyProfileScreen.routeName);
+                        Navigator.pushNamed(context, ModifyProfileScreen.routeName, arguments: args);
                       },
                     ),
                   ],

@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/view_profile/view_profile_screen.dart';
 import 'package:shop_app/screens/setting/setting_screen.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/components/send_button_small.dart';
-
+import 'dart:io';
 import 'profile_pic.dart';
 
 import '../../../constants.dart';
@@ -21,23 +23,25 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String?> errors = [];
 
-  String name = '사용자이름';
-  String? nickName = 'oeckikek';
+  String? nickName = '';
   String birth = '1999-08-05';
   String phone = '010-1234-5678';
   DateTime? _selectedDate;
-  String department = '소프트웨어학과';
-  String mbti = 'ENTJ';
-  String area = '서울특별시';
-  String height = '150';
+  String? department = '';
+  String mbti = '';
+  String changeMbti = '';
+  String area = '';
+  String? height = '158';
   String drink = '즐김';
   String smoke = '비흡연';
-  final departments = ['소프트웨어학과', '경영학과', '법학과', '전자공학과', '전기공학과'];
   final mbtis = ['ENTJ', 'ENTP', 'ENFJ', 'ENFP', 'ESTJ', 'ESTP', 'ESFJ', 'ESFP', 'INTJ', 'INTP', 'INFJ', 'INFP', 'ISTJ', 'ISTP', 'ISFJ', 'ISFP'];
-  final areas = ['서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시','울산광역시', '세종특별자치시', '경기도', '강원도', '충청북도', '충청남도', '전라북도', '전라남도', '경상북도', '경상남도', '제주특별자치도'];
-  final heights = ['140', '141', '142', '143', '144', '145', '146', '147', '148', '149', '150', '151','152', '153', '154', '155', '156', '157','158', '159', '160', '161', '162', '163','164', '165', '166', '167', '168', '169', '170', '171', '172', '173', '174', '175'];
+  final areas = ['강남구', '강동구', '강북구', '강서구', '관악구','구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', '양천구', '영등포구','용산구','은평구','종로구','중구','중랑구'];
   final drinks = ['음주를 하지 않음', '적당히 함', '즐김'];
   final smokes = ['비흡연', '흡연'];
+
+  File? _image;
+  final _picker = ImagePicker();
+  String sendimage= '';
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -53,19 +57,43 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
       });
   }
 
+  Future<void> _openImagePicker() async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+        sendimage = pickedImage.path;
+      });
+    }
+    else{
+      sendimage = 'assets/images/Profile Image.png';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Person args = ModalRoute.of(context)?.settings.arguments as Person;
+    nickName = args.nickname;
+    //birth = args.birth;
+    //phone = args.phone;
+    department = args.department;
+    area = args.location;
+    //height = args.height;
+    //drink = args.drink;
+    smoke = args.smoke;
+
     return Form(
       key: _formKey,
       child: Column(
         children: [
           Row(
             children: [
-              //SizedBox(width: getProportionateScreenWidth(5),),
               IconButton(
                   icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
                   onPressed: () {
-                    Navigator.pushNamed(context, ViewProfileScreen.routeName);
+                    Navigator.pushNamed(
+                        context, ViewProfileScreen.routeName, arguments: args);
                   }
               ),
               SizedBox(width: getProportionateScreenWidth(80),),
@@ -100,10 +128,11 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             ],
           ),
           SizedBox(height: getProportionateScreenHeight(20)),
-          ProfilePic(),
+          image(args),
+          //ProfilePic(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildNameFormField(),
-          SizedBox(height: getProportionateScreenHeight(20)),
+          //buildNameFormField(),
+          //SizedBox(height: getProportionateScreenHeight(20)),
           buildNickNameFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
@@ -113,50 +142,17 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildDepartmentFormField(),
           SizedBox(height: getProportionateScreenHeight(10)),
-          buildMBTIFormField(),
+          buildMBTIFormField(args),
           SizedBox(height: getProportionateScreenHeight(10)),
-          buildAreaFormField(),
+          buildAreaFormField(args),
           SizedBox(height: getProportionateScreenHeight(10)),
           buildHeightFormField(),
           SizedBox(height: getProportionateScreenHeight(10)),
           buildDrinkFormField(),
           SizedBox(height: getProportionateScreenHeight(10)),
-          buildSmokeFormField(),
+          buildSmokeFormField(args),
         ],
       ),
-    );
-  }
-
-  Row buildNameFormField() {
-    return Row(
-      children: <Widget> [
-        SizedBox(width: getProportionateScreenWidth(20)),
-        Container(
-          width: getProportionateScreenWidth(120),
-          height: getProportionateScreenHeight(30),
-          alignment: Alignment(-1.0, 0.0),
-          child: Text(
-            "이름",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: getProportionateScreenWidth(15),
-              //fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        //SizedBox(width: getProportionateScreenWidth(20)),
-        Container(
-          //alignment: Alignment(-0.9, 0.0),
-          child: Text(
-            name,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: getProportionateScreenWidth(15),
-              //fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -192,6 +188,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
                   removeError(error: kLongNickNameError);
                 }
                 nickName = value;
+                print(nickName);
               },
               validator: (value) {
                 if (value!.isEmpty) {
@@ -310,8 +307,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(20)),
         Container(
-          width: getProportionateScreenWidth(100),
-          height: getProportionateScreenHeight(30),
+          width: getProportionateScreenWidth(45),
           //alignment: Alignment(-0.9, 0.0),
           child: Text(
             "학과",
@@ -322,40 +318,47 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             ),
           ),
         ),
-        SizedBox(width: getProportionateScreenWidth(20)),
+        SizedBox(width: getProportionateScreenWidth(30)),
         Container(
-          width: getProportionateScreenWidth(180),
-          child: DropdownButton<String>(
-              isExpanded: true,
-              value: department,
-              onChanged: (String? newValue) =>
-                  setState(() => department = newValue!),
-              items: departments
-                  .map<DropdownMenuItem<String>>(
-                      (String value) => DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(15),
-                        //fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ))
-                  .toList(),
-              // add extra sugar..
-              icon: Icon(Icons.arrow_drop_down),
-              iconSize: 35,
-              underline: SizedBox(),
+          width: getProportionateScreenWidth(240),
+          height: getProportionateScreenHeight(50),
+          //alignment: Alignment(0.0, 1.0),
+          child:
+          TextFormField(
+            initialValue: department,
+            onSaved: (newValue) => department = newValue,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: kDepartmentNullError);
+              } else if (value.length <= 15) {
+                removeError(error: kLongDepartmentError);
+              }
+              department = value;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: kDepartmentNullError);
+                return "";
+              } else if (value.length > 15) {
+                addError(error: kLongDepartmentError);
+                return "";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: Colors.white),
+              ),
             ),
+          ),
         ),
-      ]
+      ],
     );
   }
 
-  Row buildMBTIFormField() {
+  Row buildMBTIFormField(Person args) {
     return Row(
         children: <Widget> [
           SizedBox(width: getProportionateScreenWidth(20)),
@@ -377,9 +380,11 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             width: getProportionateScreenWidth(180),
             child: DropdownButton<String>(
               isExpanded: true,
-              value: mbti,
+              value: args.mbti,
               onChanged: (String? newValue) =>
-                  setState(() => mbti = newValue!),
+                  setState(() {
+                    args.mbti = newValue!;
+                  }),
               items: mbtis
                   .map<DropdownMenuItem<String>>(
                       (String value) => DropdownMenuItem<String>(
@@ -405,7 +410,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildAreaFormField() {
+  Row buildAreaFormField(Person args) {
     return Row(
         children: <Widget> [
           SizedBox(width: getProportionateScreenWidth(20)),
@@ -427,9 +432,9 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             width: getProportionateScreenWidth(180),
             child: DropdownButton<String>(
               isExpanded: true,
-              value: area,
+              value: args.location,
               onChanged: (String? newValue) =>
-                  setState(() => area = newValue!),
+                  setState(() => args.location = newValue!),
               items: areas
                   .map<DropdownMenuItem<String>>(
                       (String value) => DropdownMenuItem<String>(
@@ -457,51 +462,58 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
 
   Row buildHeightFormField() {
     return Row(
-        children: <Widget> [
-          SizedBox(width: getProportionateScreenWidth(20)),
-          Container(
-            width: getProportionateScreenWidth(100),
-            height: getProportionateScreenHeight(30),
-            //alignment: Alignment(-0.9, 0.0),
-            child: Text(
-              "키",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: getProportionateScreenWidth(15),
-                //fontWeight: FontWeight.bold,
+      children: <Widget> [
+        SizedBox(width: getProportionateScreenWidth(20)),
+        Container(
+          width: getProportionateScreenWidth(45),
+          //alignment: Alignment(-0.9, 0.0),
+          child: Text(
+            "키",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenWidth(15),
+              //fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(width: getProportionateScreenWidth(30)),
+        Container(
+          width: getProportionateScreenWidth(240),
+          height: getProportionateScreenHeight(50),
+          //alignment: Alignment(0.0, 1.0),
+          child:
+          TextFormField(
+            keyboardType: TextInputType.phone,
+            initialValue: height,
+            onSaved: (newValue) => height = newValue,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: kHeightNullError);
+              } else if (value.length <= 4) {
+                removeError(error: kLongHeightError);
+              }
+              height = value;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: kHeightNullError);
+                return "";
+              } else if (value.length > 4) {
+                addError(error: kLongHeightError);
+                return "";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: Colors.white),
               ),
             ),
           ),
-          SizedBox(width: getProportionateScreenWidth(20)),
-          Container(
-            width: getProportionateScreenWidth(180),
-            child: DropdownButton<String>(
-              isExpanded: true,
-              value: height,
-              onChanged: (String? newValue) =>
-                  setState(() => height = newValue!),
-              items: heights
-                  .map<DropdownMenuItem<String>>(
-                      (String value) => DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(15),
-                        //fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ))
-                  .toList(),
-              // add extra sugar..
-              icon: Icon(Icons.arrow_drop_down),
-              iconSize: 35,
-              underline: SizedBox(),
-            ),
-          ),
-        ]
+        ),
+      ],
     );
   }
 
@@ -555,7 +567,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildSmokeFormField() {
+  Row buildSmokeFormField(Person args) {
     return Row(
         children: <Widget> [
           SizedBox(width: getProportionateScreenWidth(20)),
@@ -577,9 +589,9 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             width: getProportionateScreenWidth(180),
             child: DropdownButton<String>(
               isExpanded: true,
-              value: smoke,
+              value: args.smoke,
               onChanged: (String? newValue) =>
-                  setState(() => smoke = newValue!),
+                  setState(() => args.smoke = newValue!),
               items: smokes
                   .map<DropdownMenuItem<String>>(
                       (String value) => DropdownMenuItem<String>(
@@ -602,6 +614,47 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             ),
           ),
         ]
+    );
+  }
+
+  Widget image(Person args) {
+    return SizedBox(
+      height: getProportionateScreenHeight(200),
+      width: getProportionateScreenWidth(200),
+      child: Stack(
+        fit: StackFit.expand,
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: getProportionateScreenWidth(200),
+            height: getProportionateScreenHeight(200),
+            child: _image != null
+                ? Image.file(_image!, fit: BoxFit.fill)
+                : Image.network(args.profile),
+          ),
+          Positioned(
+            right: -16,
+            bottom: -5,
+            child: SizedBox(
+              height: 46,
+              width: 46,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    side: BorderSide(color: Colors.white),
+                  ),
+                  primary: Colors.white,
+                  backgroundColor: Color(0xFFF5F6F9),
+                ),
+                onPressed: _openImagePicker,
+                child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

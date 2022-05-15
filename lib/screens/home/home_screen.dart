@@ -1,10 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
 import 'package:shop_app/enums.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/setting/setting_screen.dart';
-
+import 'package:shop_app/models/Person.dart';
 import '../../size_config.dart';
 import 'components/NavBar.dart';
 import 'components/body.dart';
@@ -12,8 +13,13 @@ import 'components/home_header.dart';
 
 class HomeScreen extends StatelessWidget {
   static String routeName = "/home";
+
+  late Response response;
+  var dio = Dio();
+
   @override
   Widget build(BuildContext context) {
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return Scaffold(
       drawer:  NavBar(),
       appBar:
@@ -28,8 +34,8 @@ class HomeScreen extends StatelessWidget {
             actions: [
               IconButton(
                   icon: SvgPicture.asset("assets/icons/Settings.svg"),
-                  onPressed: () {
-                    Navigator.pushNamed(context, SettingScreen.routeName);
+                  onPressed: () async{
+                    Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
                   }
               ),
             ],
@@ -37,21 +43,15 @@ class HomeScreen extends StatelessWidget {
                 Builder(
                   builder: (context) => IconButton(
                     icon: SvgPicture.asset("assets/icons/Menu.svg"),
-                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                      },
                   ),
                 ),
-
-            // IconButton(
-            //     icon: SvgPicture.asset("assets/icons/Menu.svg"),
-            //     onPressed: () =>
-            //       // Navigator.pushNamed(context, CartScreen.routeName);
-            //       Scaffold.of(context).openDrawer()
-            //
-            // ),
         ),
-
       body: Body(),
-      //bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
     );
   }
+
+
 }

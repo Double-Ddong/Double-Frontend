@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/size_config.dart';
 
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final userId = ModalRoute.of(context)?.settings.arguments;
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return Column(
       children: [
         SizedBox(height: SizeConfig.screenHeight * 0.04,
@@ -30,7 +31,7 @@ class Body extends StatelessWidget {
           child: DefaultButton(
             text: "홈으로 돌아가기",
             press: () {
-              Navigator.pushNamed(context, HomeScreen.routeName, arguments: userId);
+              Navigator.pushNamed(context, HomeScreen.routeName, arguments: loginPerson);
             },
           ),
         ),

@@ -649,7 +649,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             height: getProportionateScreenHeight(200),
             child: _image != null
                 ? Image.file(_image!, fit: BoxFit.fill)
-                : const Text('Please select an image'),
+                : const Text('프로필 사진을 선택해주세요'),
           ),
           Positioned(
             right: -16,

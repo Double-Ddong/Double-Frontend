@@ -3,6 +3,7 @@ import 'package:shop_app/components/cancel_button.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/auth_phone/auth_phone_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/screens/setting/setting_screen.dart';
@@ -39,6 +40,7 @@ class _ModifyPasswordFormState extends State<ModifyPasswordForm> {
 
   @override
   Widget build(BuildContext context) {
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return Form(
       key: _formKey,
       child: Column(
@@ -80,7 +82,7 @@ class _ModifyPasswordFormState extends State<ModifyPasswordForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, SettingScreen.routeName);
+                Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
               }
             },
           ),
@@ -88,11 +90,7 @@ class _ModifyPasswordFormState extends State<ModifyPasswordForm> {
           CancelButton(
             text: "취소",
             press: () {
-              // if (_formKey.currentState!.validate()) {
-              // {  _formKey.currentState!.save();
-              // if all are valid then go to success screen
-              Navigator.pushNamed(context, SettingScreen.routeName);
-              // }
+              Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
             },
           ),
         ],

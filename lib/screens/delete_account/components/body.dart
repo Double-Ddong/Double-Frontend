@@ -1,18 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/cancel_button.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/complete_profile/components/complete_profile_form.dart';
 import 'package:shop_app/screens/forgot_id/components/forgot_id_form.dart';
 import 'package:shop_app/screens/setting/setting_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import '../../../size_config.dart';
-import '../../../constants.dart';
-import 'delete_account_form.dart';
 
 class Body extends StatelessWidget {
+  late Response response;
+  var dio = Dio();
+
   @override
   Widget build(BuildContext context) {
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return SafeArea(
       child:
       SizedBox(
@@ -26,11 +30,10 @@ class Body extends StatelessWidget {
                 children: [
                 Row(
                 children: [
-                  //SizedBox(width: getProportionateScreenWidth(12),),
                   IconButton(
                     icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
                     onPressed: () {
-                      Navigator.pushNamed(context, SettingScreen.routeName);
+                      Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
                     }
                 ),
                   SizedBox(width: getProportionateScreenWidth(90),),
@@ -73,19 +76,22 @@ class Body extends StatelessWidget {
                 SizedBox(height: SizeConfig.screenHeight * 0.05),
                 DefaultButton(
                   text: "탈퇴",
-                  press: () {
-                    // if (_formKey.currentState!.validate()) {
-                    // _formKey.currentState!.save();
-                    // // if all are valid then go to success screen
-                    Navigator.pushNamed(context, SignInScreen.routeName);
-                    // }
+                  press: () async {
+                    response = await dio.get('http://13.125.168.216:3000/setting/deleteUser/${loginPerson.userid}');
+                    Map responseBody = response.data;
+                    bool success = responseBody['success'];
+
+                    if(success) {
+                      Navigator.pushNamed(context, SignInScreen.routeName);
+                    }
+
                   },
                 ),
                 SizedBox(height: getProportionateScreenHeight(10)),
                 CancelButton(
                   text: "취소",
                   press: () {
-                    Navigator.pushNamed(context, SettingScreen.routeName);
+                    Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
                   },
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),

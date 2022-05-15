@@ -28,7 +28,6 @@ class _SignFormState extends State<SignForm> {
   late Response response;
   var dio = Dio();
 
-
   void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
@@ -97,13 +96,36 @@ class _SignFormState extends State<SignForm> {
                 KeyboardUtil.hideKeyboard(context);
 
                 response = await dio.post('http://13.125.168.216:3000/auth/signin', data: {'Email': email, 'Password': password});
-                Map responseBody = response.data;
-                bool success = responseBody['success'];
+                //response = await dio.post('http://192.168.35.217:3000/auth/signin', data: {'Email': email, 'Password': password});
+                Map responseBody1 = response.data;
+                bool success = responseBody1['success'];
 
                 if(success) {
-                  int userId = responseBody['data']['userid'];
-                  //print('${userId}로그인성공');
-                  Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: userId);
+                  String userId = responseBody1['data']['userid'].toString();
+                  response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${userId}');
+                  Map responseBody2 = response.data;
+                  bool success = responseBody2['success'];
+
+                  if(success) {
+                    response = await dio.get('http://13.125.168.216:3000/main/tab/${userId}');
+                    Map responseBody3 = response.data;
+                    bool success = responseBody3['success'];
+
+                    if(success) {
+                      Person loginPerson = Person(
+                          userId.toString(),
+                          responseBody2['data'][0][0]['Profile'], responseBody2['data'][0][0]['NickName'],
+                          responseBody2['data'][0][0]['University'], responseBody2['data'][0][0]['Department'],
+                          responseBody2['data'][0][0]['MBTI'], responseBody2['data'][0][0]['Location'],
+                          responseBody2['data'][0][0]['Smoke'], responseBody2['data'][0][0]['Drink'],
+                          responseBody2['data'][0][0]['Hobby'], responseBody2['data'][0][0]['Introduce'],
+                          responseBody2['data'][0][0]['Age'], responseBody2['data'][0][0]['Birth'],
+                          responseBody2['data'][0][0]['Phone'], responseBody2['data'][0][0]['Height'],
+                          responseBody3['data'][0]['SendCookie'], responseBody3['data'][0]['ReceiveCookie'],
+                          responseBody3['data'][0]['Email']);
+                      Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: loginPerson);
+                    }
+                  }
                 } else {
                   void FlutterDialog() {
                     showDialog(
