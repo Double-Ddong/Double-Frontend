@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class Person {
   late String userid, nickname, profile, university, department, mbti, location, smoke, drink, hobby, introduce, birth, phone, email;
-  late int age, height, sendCookie, receiveCookie;
+  late String age, height, sendCookie, receiveCookie;
+  late int scopeUniversity, scopePeople;
 
   Person(this.userid, this.profile, this.nickname, this.university, this.department, this.mbti, this.location,
       this.smoke, this.drink, this.hobby, this.introduce, this.age, this.birth, this.phone, this.height,
-      this.sendCookie, this.receiveCookie, this.email);
+      this.sendCookie, this.receiveCookie, this.email, this.scopeUniversity, this.scopePeople);
 }
 // class LogInPerson {
 //   late final int? userid;

@@ -11,7 +11,7 @@ import 'view_profile_form.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as Person;
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -27,7 +27,7 @@ class Body extends StatelessWidget {
                     IconButton(
                         icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
                         onPressed: () {
-                          Navigator.pushNamed(context, SettingScreen.routeName, arguments: args);
+                          Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
                         }
                     ),
                     SizedBox(width: getProportionateScreenWidth(210),),
@@ -41,7 +41,7 @@ class Body extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, ModifyProfileScreen.routeName, arguments: args);
+                        Navigator.pushNamed(context, ModifyProfileScreen.routeName, arguments: loginPerson);
                       },
                     ),
                   ],

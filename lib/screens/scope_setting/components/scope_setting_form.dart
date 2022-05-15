@@ -1,7 +1,12 @@
+import 'dart:math';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-
+import 'package:shop_app/models/Person.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/screens/setting/setting_screen.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -15,6 +20,9 @@ class _ScopeSettingFormState extends State<ScopeSettingForm> {
   final List<String?> errors = [];
   bool universityMode = false;  // true - 같은 대학교 소개, false - 다른 대학교 소개
   bool personMode = false; // true - 아는 사람 차단, false - 아른 사람 차단 X
+
+  late Response response;
+  var dio = Dio();
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -32,19 +40,70 @@ class _ScopeSettingFormState extends State<ScopeSettingForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          buildUniversityFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildPersonFormField(),
-        ],
-      ),
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
+    return Column(
+      children: [
+        Row(
+          children: [
+            IconButton(
+                icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
+                onPressed: () {
+                  Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
+                }
+            ),
+            SizedBox(width: getProportionateScreenWidth(65),),
+            Container(
+              alignment: Alignment(-0.8, 0.0),
+              child: Text(
+                "소개 범위 설정",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: getProportionateScreenWidth(15),
+                ),
+              ),
+            ),
+            SizedBox(width: getProportionateScreenWidth(50),),
+            TextButton(
+              child: Text(
+                "저장",
+                style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: getProportionateScreenWidth(18),
+                  //fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () async {
+                response = await dio.get(
+                  'http://13.125.168.216:3000/setting/setScope/${loginPerson.userid}/${loginPerson.scopeUniversity}/${loginPerson.scopePeople}',
+                );
+
+                Map responseBody = response.data;
+                bool success = responseBody['success'];
+
+                if(success){
+                  Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
+                }
+
+              },
+            ),
+          ],
+        ),
+        SizedBox(height: getProportionateScreenHeight(30)),
+        Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              buildUniversityFormField(loginPerson),
+              SizedBox(height: getProportionateScreenHeight(30)),
+              buildPersonFormField(loginPerson),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
-  Column buildUniversityFormField() {
+  Column buildUniversityFormField(Person loginPerson) {
     return Column(
       children: <Widget> [
         Row(
@@ -69,10 +128,15 @@ class _ScopeSettingFormState extends State<ScopeSettingForm> {
               toggleSize: 15.0,
               borderRadius: 10.0,
               activeColor: kPrimaryColor,
-              value: universityMode,
+              value: loginPerson.scopeUniversity == 1 ? true : false,
               onToggle: (value) {
                 setState(() {
-                  universityMode = value;
+                  if(value) {
+                    loginPerson.scopeUniversity = 1;
+                  } else {
+                    loginPerson.scopeUniversity = 0;
+                  }
+                  print(loginPerson.scopeUniversity);
                 });
               },
             ),
@@ -92,7 +156,7 @@ class _ScopeSettingFormState extends State<ScopeSettingForm> {
     );
   }
 
-  Column buildPersonFormField() {
+  Column buildPersonFormField(Person loginPerson) {
     return Column(
       children: <Widget> [
         Row(
@@ -117,10 +181,15 @@ class _ScopeSettingFormState extends State<ScopeSettingForm> {
               toggleSize: 15.0,
               borderRadius: 10.0,
               activeColor: kPrimaryColor,
-              value: personMode,
+              value: loginPerson.scopePeople == 1 ? true : false,
               onToggle: (value) {
                 setState(() {
-                  personMode = value;
+                  if(value) {
+                    loginPerson.scopePeople = 1;
+                  } else {
+                    loginPerson.scopePeople = 0;
+                  }
+                  print(loginPerson.scopePeople);
                 });
               },
             ),

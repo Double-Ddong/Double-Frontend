@@ -16,55 +16,55 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
   final List<String?> errors = [];
   //bool universityMode = false;  // true - 같은 대학교 소개, false - 다른 대학교 소개
   //bool personMode = false; // true - 아는 사람 차단, false - 아른 사람 차단 X
-  String profile = '';
-  String nickName = '';
-  late int age;
+  //String profile = '';
+  //String nickName = '';
+  //late int age;
 
 
-  void addError({String? error}) {
-    if (!errors.contains(error))
-      setState(() {
-        errors.add(error);
-      });
-  }
-
-  void removeError({String? error}) {
-    if (errors.contains(error))
-      setState(() {
-        errors.remove(error);
-      });
-  }
+  // void addError({String? error}) {
+  //   if (!errors.contains(error))
+  //     setState(() {
+  //       errors.add(error);
+  //     });
+  // }
+  //
+  // void removeError({String? error}) {
+  //   if (errors.contains(error))
+  //     setState(() {
+  //       errors.remove(error);
+  //     });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final Person args = ModalRoute.of(context)?.settings.arguments as Person;
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          buildProfileImageFormField(args),
+          buildProfileImageFormField(loginPerson),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildProfileFormField(args),
+          buildProfileFormField(loginPerson),
         ],
       ),
     );
   }
 
-  Center buildProfileImageFormField(Person args) {
+  Center buildProfileImageFormField(Person loginPerson) {
     return Center(
       child:
-        Image.network(args.profile, width: getProportionateScreenWidth(300), height: getProportionateScreenHeight(300)),
+        Image.network(loginPerson.profile, width: getProportionateScreenWidth(300), height: getProportionateScreenHeight(300)),
     );
   }
 
-  Column buildProfileFormField(Person args) {
+  Column buildProfileFormField(Person loginPerson) {
     return Column(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(10)),
         Container(
           alignment: Alignment(-0.9, 0.0),
           child: Text(
-            '${args.nickname} (24)',
+            '${loginPerson.nickname} (${loginPerson.age})',
             style: TextStyle(
               color: Colors.black,
               fontSize: getProportionateScreenWidth(20),
@@ -78,8 +78,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                //args.university,
-                '광운대학교',
+                loginPerson.university,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -95,7 +94,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                args.department,
+                loginPerson.department,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -115,7 +114,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                args.location,
+                loginPerson.location,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -131,7 +130,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                args.mbti,
+                loginPerson.mbti,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -147,7 +146,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                args.smoke,
+                loginPerson.smoke,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -177,7 +176,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         Container(
           alignment: Alignment(-0.7, 0.0),
           child: Text(
-            args.introduce,
+            loginPerson.introduce,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: getProportionateScreenWidth(12),
@@ -200,7 +199,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         Container(
           alignment: Alignment(-0.7, 0.0),
           child: Text(
-            args.hobby,
+            loginPerson.hobby,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: getProportionateScreenWidth(12),
