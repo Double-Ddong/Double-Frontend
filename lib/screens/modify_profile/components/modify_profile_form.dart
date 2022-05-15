@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -22,18 +25,7 @@ class ModifyProfileForm extends StatefulWidget {
 class _ModifyProfileFormState extends State<ModifyProfileForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String?> errors = [];
-
-  String? nickName = '';
-  String birth = '1999-08-05';
-  String phone = '010-1234-5678';
   DateTime? _selectedDate;
-  String? department = '';
-  String mbti = '';
-  String changeMbti = '';
-  String area = '';
-  String? height = '158';
-  String drink = '즐김';
-  String smoke = '비흡연';
   final mbtis = ['ENTJ', 'ENTP', 'ENFJ', 'ENFP', 'ESTJ', 'ESTP', 'ESFJ', 'ESFP', 'INTJ', 'INTP', 'INFJ', 'INFP', 'ISTJ', 'ISTP', 'ISFJ', 'ISFP'];
   final areas = ['강남구', '강동구', '강북구', '강서구', '관악구','구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', '양천구', '영등포구','용산구','은평구','종로구','중구','중랑구'];
   final drinks = ['음주를 하지 않음', '적당히 함', '즐김'];
@@ -42,6 +34,9 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
   File? _image;
   final _picker = ImagePicker();
   String sendimage= '';
+
+  late Response response;
+  var dio = Dio();
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -73,15 +68,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    final Person args = ModalRoute.of(context)?.settings.arguments as Person;
-    nickName = args.nickname;
-    //birth = args.birth;
-    //phone = args.phone;
-    department = args.department;
-    area = args.location;
-    //height = args.height;
-    //drink = args.drink;
-    smoke = args.smoke;
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
 
     return Form(
       key: _formKey,
@@ -93,7 +80,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
                   icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
                   onPressed: () {
                     Navigator.pushNamed(
-                        context, ViewProfileScreen.routeName, arguments: args);
+                        context, ViewProfileScreen.routeName, arguments: loginPerson);
                   }
               ),
               SizedBox(width: getProportionateScreenWidth(80),),
@@ -117,46 +104,76 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
                     //fontWeight: FontWeight.bold,
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    // if all are valid then go to success screen
-                    Navigator.pushNamed(context, SettingScreen.routeName);
+
+                    dio.options.contentType = 'multipart/form-data';
+                    dio.options.maxRedirects.isFinite;
+
+                    var formData3 = FormData.fromMap({
+                      "img": await MultipartFile.fromFile(sendimage, filename: 'upload.png'),
+                      "NickName": loginPerson.nickname,
+                      "Birth": loginPerson.birth,
+                      "Department": loginPerson.department,
+                      'MBTI': loginPerson.mbti,
+                      'Location': loginPerson.location,
+                      'Height': loginPerson.height,
+                      'Drink': loginPerson.drink,
+                      'Smoke': loginPerson.smoke,
+                      'Hobby': loginPerson.hobby,
+                      'Introduce': loginPerson.introduce,
+                    });
+
+                    response = await dio.post(
+                        'http://13.125.168.216:3000/setting/modifyProfile/${loginPerson.userid}',
+                        data: formData3
+                    );
+
+                    Map responseBody = response.data;
+                    bool success = responseBody['success'];
+
+                    if(success){
+                      loginPerson.profile = responseBody['data'];
+                      Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
+                    }
+
                   }
-                },
+                }
               ),
             ],
           ),
           SizedBox(height: getProportionateScreenHeight(20)),
-          image(args),
-          //ProfilePic(),
+          image(loginPerson),
           SizedBox(height: getProportionateScreenHeight(30)),
-          //buildNameFormField(),
-          //SizedBox(height: getProportionateScreenHeight(20)),
-          buildNickNameFormField(),
+          buildNickNameFormField(loginPerson),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          buildBirthFormField(),
+          buildBirthFormField(loginPerson),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildPhoneFormField(),
+          buildPhoneFormField(loginPerson),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildDepartmentFormField(),
+          buildDepartmentFormField(loginPerson),
           SizedBox(height: getProportionateScreenHeight(10)),
-          buildMBTIFormField(args),
+          buildMBTIFormField(loginPerson),
           SizedBox(height: getProportionateScreenHeight(10)),
-          buildAreaFormField(args),
+          buildAreaFormField(loginPerson),
           SizedBox(height: getProportionateScreenHeight(10)),
-          buildHeightFormField(),
+          buildHeightFormField(loginPerson),
           SizedBox(height: getProportionateScreenHeight(10)),
-          buildDrinkFormField(),
+          buildDrinkFormField(loginPerson),
           SizedBox(height: getProportionateScreenHeight(10)),
-          buildSmokeFormField(args),
+          buildSmokeFormField(loginPerson),
+          SizedBox(height: getProportionateScreenHeight(10)),
+          buildHobbyFormField(loginPerson),
+          SizedBox(height: getProportionateScreenHeight(10)),
+          buildIntroduceFormField(loginPerson),
         ],
       ),
     );
   }
 
-  Row buildNickNameFormField() {
+  Row buildNickNameFormField(Person loginPerson) {
     return Row(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(20)),
@@ -179,16 +196,15 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
           //alignment: Alignment(0.0, 1.0),
           child:
             TextFormField(
-              initialValue: nickName,
-              onSaved: (newValue) => nickName = newValue,
+              initialValue: loginPerson.nickname,
+              onSaved: (newValue) => loginPerson.nickname = newValue!,
               onChanged: (value) {
                 if (value.isNotEmpty) {
                   removeError(error: kNickNameNullError);
                 } else if (value.length <= 10) {
                   removeError(error: kLongNickNameError);
                 }
-                nickName = value;
-                print(nickName);
+                loginPerson.nickname = value;
               },
               validator: (value) {
                 if (value!.isEmpty) {
@@ -213,12 +229,11 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildBirthFormField() {
+  Row buildBirthFormField(Person loginPerson) {
     return Row(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(20)),
         Container(
-          //alignment: Alignment(-0.9, 0.0),
           child: Text(
             "생년월일",
             style: TextStyle(
@@ -233,7 +248,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
           width: getProportionateScreenWidth(100),
           height: getProportionateScreenHeight(20),
           child: Text(
-            birth,
+            loginPerson.birth,
             style: TextStyle(
               color: Colors.black,
               fontSize: getProportionateScreenWidth(15),
@@ -242,36 +257,68 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
           ),
         ),
         Spacer(),
-        //SizedBox(width: getProportionateScreenWidth(30)),
-        SendButtonSMALL(
-          text: "선택",
-          press: _presentDatePicker,
+        SizedBox(
+          width: SizeConfig.screenWidth * 0.18,//double.infinity,
+          height: SizeConfig.screenHeight * 0.05,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              primary: Colors.white,
+              backgroundColor: kPrimaryColor,
+            ),
+            onPressed : () {
+              showDatePicker(
+                  context: context,
+                  initialDate:DateTime.now(),
+                  firstDate:DateTime(1900),
+                  lastDate:DateTime.now())
+                  .then((pickedDate) {
+                // Check if no date is selected
+                if (pickedDate == null) {
+                  return;
+                }
+                setState(() {
+                  // using state so that the UI will be rerendered when date is picked
+                  _selectedDate = pickedDate;
+                  loginPerson.birth = _selectedDate.toString().substring(0,10);
+                });
+              });
+            },
+            child: Text(
+              '선택',
+              style: TextStyle(
+                fontSize: getProportionateScreenWidth(18),
+                color: Colors.white,
+              ),
+            ),
+          ),
         ),
       ],
     );
   }
 
-  void _presentDatePicker() {
-    // showDatePicker is a pre-made funtion of Flutter
-    showDatePicker(
-        context: context,
-        initialDate:DateTime.now(),
-        firstDate:DateTime(1900),
-        lastDate:DateTime.now())
-        .then((pickedDate) {
-      // Check if no date is selected
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        // using state so that the UI will be rerendered when date is picked
-        _selectedDate = pickedDate;
-        birth = _selectedDate.toString().substring(0,10);
-      });
-    });
-  }
+  // void _presentDatePicker() {
+  //   // showDatePicker is a pre-made funtion of Flutter
+  //   showDatePicker(
+  //       context: context,
+  //       initialDate:DateTime.now(),
+  //       firstDate:DateTime(1900),
+  //       lastDate:DateTime.now())
+  //       .then((pickedDate) {
+  //     // Check if no date is selected
+  //     if (pickedDate == null) {
+  //       return;
+  //     }
+  //     setState(() {
+  //       // using state so that the UI will be rerendered when date is picked
+  //       _selectedDate = pickedDate;
+  //       birth = _selectedDate.toString().substring(0,10);
+  //     });
+  //   });
+  // }
 
-  Row buildPhoneFormField() {
+  Row buildPhoneFormField(Person loginPerson) {
     return Row(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(20)),
@@ -290,7 +337,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
         Container(
           //alignment: Alignment(-0.9, 0.0),
           child: Text(
-            phone,
+            loginPerson.phone,
             style: TextStyle(
               color: Colors.black,
               fontSize: getProportionateScreenWidth(15),
@@ -302,7 +349,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildDepartmentFormField() {
+  Row buildDepartmentFormField(Person loginPerson) {
     return Row(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(20)),
@@ -325,15 +372,15 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
           //alignment: Alignment(0.0, 1.0),
           child:
           TextFormField(
-            initialValue: department,
-            onSaved: (newValue) => department = newValue,
+            initialValue: loginPerson.department,
+            onSaved: (newValue) => loginPerson.department = newValue!,
             onChanged: (value) {
               if (value.isNotEmpty) {
                 removeError(error: kDepartmentNullError);
               } else if (value.length <= 15) {
                 removeError(error: kLongDepartmentError);
               }
-              department = value;
+              loginPerson.department = value;
             },
             validator: (value) {
               if (value!.isEmpty) {
@@ -358,7 +405,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildMBTIFormField(Person args) {
+  Row buildMBTIFormField(Person loginPerson) {
     return Row(
         children: <Widget> [
           SizedBox(width: getProportionateScreenWidth(20)),
@@ -380,10 +427,10 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             width: getProportionateScreenWidth(180),
             child: DropdownButton<String>(
               isExpanded: true,
-              value: args.mbti,
+              value: loginPerson.mbti,
               onChanged: (String? newValue) =>
                   setState(() {
-                    args.mbti = newValue!;
+                    loginPerson.mbti = newValue!;
                   }),
               items: mbtis
                   .map<DropdownMenuItem<String>>(
@@ -410,7 +457,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildAreaFormField(Person args) {
+  Row buildAreaFormField(Person loginPerson) {
     return Row(
         children: <Widget> [
           SizedBox(width: getProportionateScreenWidth(20)),
@@ -432,9 +479,9 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             width: getProportionateScreenWidth(180),
             child: DropdownButton<String>(
               isExpanded: true,
-              value: args.location,
+              value: loginPerson.location,
               onChanged: (String? newValue) =>
-                  setState(() => args.location = newValue!),
+                  setState(() => loginPerson.location = newValue!),
               items: areas
                   .map<DropdownMenuItem<String>>(
                       (String value) => DropdownMenuItem<String>(
@@ -460,7 +507,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildHeightFormField() {
+  Row buildHeightFormField(Person loginPerson) {
     return Row(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(20)),
@@ -484,15 +531,15 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
           child:
           TextFormField(
             keyboardType: TextInputType.phone,
-            initialValue: height,
-            onSaved: (newValue) => height = newValue,
+            initialValue: loginPerson.height,
+            onSaved: (newValue) => loginPerson.height = newValue!,
             onChanged: (value) {
               if (value.isNotEmpty) {
                 removeError(error: kHeightNullError);
               } else if (value.length <= 4) {
                 removeError(error: kLongHeightError);
               }
-              height = value;
+              loginPerson.height = value;
             },
             validator: (value) {
               if (value!.isEmpty) {
@@ -517,7 +564,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildDrinkFormField() {
+  Row buildDrinkFormField(Person loginPerson) {
     return Row(
         children: <Widget> [
           SizedBox(width: getProportionateScreenWidth(20)),
@@ -539,9 +586,9 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             width: getProportionateScreenWidth(180),
             child: DropdownButton<String>(
               isExpanded: true,
-              value: drink,
+              value: loginPerson.drink,
               onChanged: (String? newValue) =>
-                  setState(() => drink = newValue!),
+                  setState(() => loginPerson.drink = newValue!),
               items: drinks
                   .map<DropdownMenuItem<String>>(
                       (String value) => DropdownMenuItem<String>(
@@ -567,7 +614,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Row buildSmokeFormField(Person args) {
+  Row buildSmokeFormField(Person loginPerson) {
     return Row(
         children: <Widget> [
           SizedBox(width: getProportionateScreenWidth(20)),
@@ -589,9 +636,9 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             width: getProportionateScreenWidth(180),
             child: DropdownButton<String>(
               isExpanded: true,
-              value: args.smoke,
+              value: loginPerson.smoke,
               onChanged: (String? newValue) =>
-                  setState(() => args.smoke = newValue!),
+                  setState(() => loginPerson.smoke = newValue!),
               items: smokes
                   .map<DropdownMenuItem<String>>(
                       (String value) => DropdownMenuItem<String>(
@@ -617,7 +664,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
     );
   }
 
-  Widget image(Person args) {
+  Widget image(Person loginPerson) {
     return SizedBox(
       height: getProportionateScreenHeight(200),
       width: getProportionateScreenWidth(200),
@@ -631,7 +678,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
             height: getProportionateScreenHeight(200),
             child: _image != null
                 ? Image.file(_image!, fit: BoxFit.fill)
-                : Image.network(args.profile),
+                : Image.network(loginPerson.profile),
           ),
           Positioned(
             right: -16,
@@ -655,6 +702,118 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
           )
         ],
       ),
+    );
+  }
+
+  Row buildHobbyFormField(Person loginPerson) {
+    return Row(
+      children: <Widget> [
+        SizedBox(width: getProportionateScreenWidth(20)),
+        Container(
+          width: getProportionateScreenWidth(45),
+          //alignment: Alignment(-0.9, 0.0),
+          child: Text(
+            "취미",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenWidth(15),
+              //fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(width: getProportionateScreenWidth(30)),
+        Container(
+          width: getProportionateScreenWidth(240),
+          height: getProportionateScreenHeight(50),
+          //alignment: Alignment(0.0, 1.0),
+          child:
+          TextFormField(
+            initialValue: loginPerson.hobby,
+            onSaved: (newValue) => loginPerson.hobby = newValue!,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: kHobbyNullError);
+              } else if (value.length <= 30) {
+                removeError(error: kLongHobbyError);
+              }
+              loginPerson.hobby = value;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: kHobbyNullError);
+                return "";
+              } else if (value.length > 30) {
+                addError(error: kLongHobbyError);
+                return "";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+  
+  Row buildIntroduceFormField(Person loginPerson) {
+    return Row(
+      children: <Widget> [
+        SizedBox(width: getProportionateScreenWidth(20)),
+        Container(
+          width: getProportionateScreenWidth(65),
+          //alignment: Alignment(-0.9, 0.0),
+          child: Text(
+            "자기소개",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenWidth(15),
+              //fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(width: getProportionateScreenWidth(15)),
+        Container(
+          width: getProportionateScreenWidth(230),
+          height: getProportionateScreenHeight(50),
+          //alignment: Alignment(0.0, 1.0),
+          child:
+          TextFormField(
+            initialValue: loginPerson.introduce,
+            onSaved: (newValue) => loginPerson.introduce = newValue!,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: kIntroduceNullError);
+              } else if (value.length <= 30) {
+                removeError(error: kLongIntroduceError);
+              }
+              loginPerson.nickname = value;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: kIntroduceNullError);
+                return "";
+              } else if (value.length > 30) {
+                addError(error: kLongIntroduceError);
+                return "";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

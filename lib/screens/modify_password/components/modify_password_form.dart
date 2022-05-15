@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/cancel_button.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
@@ -23,6 +24,9 @@ class _ModifyPasswordFormState extends State<ModifyPasswordForm> {
   String? conform_password;
   bool remember = false;
   final List<String?> errors = [];
+
+  late Response response;
+  var dio = Dio();
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -78,11 +82,61 @@ class _ModifyPasswordFormState extends State<ModifyPasswordForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "확인",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                // if all are valid then go to success screen
-                Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
+
+                response = await dio.post(
+                  'http://13.125.168.216:3000/setting/changePW/${loginPerson.userid}',
+                    data: {'CurPW': cur_password, 'NewPW': password}
+                );
+
+                Map responseBody = response.data;
+                bool success = responseBody['success'];
+
+                if(success){
+                  Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
+                } else {
+                  void FlutterDialog() {
+                    showDialog(
+                        context: context,
+                        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            //Dialog Main Title
+                            title: Column(
+                              children: <Widget>[
+                                new Text("비밀번호 변경 실패"),
+                              ],
+                            ),
+                            //
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "비밀번호가 일치하지 않습니다",
+                                ),
+                              ],
+                            ),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Text("확인"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                  FlutterDialog();
+                }
+
               }
             },
           ),

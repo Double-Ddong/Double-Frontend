@@ -112,18 +112,26 @@ class _SignFormState extends State<SignForm> {
                     bool success = responseBody3['success'];
 
                     if(success) {
-                      Person loginPerson = Person(
-                          userId.toString(),
-                          responseBody2['data'][0][0]['Profile'], responseBody2['data'][0][0]['NickName'],
-                          responseBody2['data'][0][0]['University'], responseBody2['data'][0][0]['Department'],
-                          responseBody2['data'][0][0]['MBTI'], responseBody2['data'][0][0]['Location'],
-                          responseBody2['data'][0][0]['Smoke'], responseBody2['data'][0][0]['Drink'],
-                          responseBody2['data'][0][0]['Hobby'], responseBody2['data'][0][0]['Introduce'],
-                          responseBody2['data'][0][0]['Age'], responseBody2['data'][0][0]['Birth'],
-                          responseBody2['data'][0][0]['Phone'], responseBody2['data'][0][0]['Height'],
-                          responseBody3['data'][0]['SendCookie'], responseBody3['data'][0]['ReceiveCookie'],
-                          responseBody3['data'][0]['Email']);
-                      Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: loginPerson);
+                      response = await dio.get('http://13.125.168.216:3000/setting/getScope/${userId}');
+                      Map responseBody4 = response.data;
+                      bool success = responseBody4['success'];
+
+                      if(success){
+                        //print(responseBody4['message'][0]['ScopeUniversity']);
+                        Person loginPerson = Person(
+                            userId.toString(),
+                            responseBody2['data'][0][0]['Profile'], responseBody2['data'][0][0]['NickName'],
+                            responseBody2['data'][0][0]['University'], responseBody2['data'][0][0]['Department'],
+                            responseBody2['data'][0][0]['MBTI'], responseBody2['data'][0][0]['Location'],
+                            responseBody2['data'][0][0]['Smoke'], responseBody2['data'][0][0]['Drink'],
+                            responseBody2['data'][0][0]['Hobby'], responseBody2['data'][0][0]['Introduce'],
+                            responseBody2['data'][0][0]['Age'].toString(), responseBody2['data'][0][0]['Birth'],
+                            responseBody2['data'][0][0]['Phone'].toString(), responseBody2['data'][0][0]['Height'].toString(),
+                            responseBody3['data'][0]['SendCookie'].toString(), responseBody3['data'][0]['ReceiveCookie'].toString(),
+                            responseBody3['data'][0]['Email'], responseBody4['message'][0]['ScopeUniversity'],
+                            responseBody4['message'][0]['ScopePeople']);
+                        Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: loginPerson);
+                      }
                     }
                   }
                 } else {
