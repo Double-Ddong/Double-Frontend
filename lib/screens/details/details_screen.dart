@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/Friends.dart';
 
 import '../../models/Product.dart';
 import 'components/body.dart';
@@ -11,6 +12,8 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProductDetailsArguments agrs =
         ModalRoute.of(context)!.settings.arguments as ProductDetailsArguments;
+    final FriendDetailsArguments friendagrs =
+    ModalRoute.of(context)!.settings.arguments as FriendDetailsArguments;
     return Scaffold(
       //backgroundColor: Color(0xFFF5F6F9),
       appBar: PreferredSize(
@@ -29,4 +32,10 @@ class ProductDetailsArguments {
   final Product product;
 
   ProductDetailsArguments({required this.product});
+}
+
+class FriendDetailsArguments {
+  final Friends friends;
+
+  FriendDetailsArguments({required this.friends});
 }
