@@ -9,10 +9,14 @@ class Person {
   late List<Friends> Department;
   late List<Friends> Nearby;
   late List<Friends> MBTI;
+  late List<Friends> Receive;
+  late List<Friends> Send;
+
 
   Person(this.userid, this.profile, this.nickname, this.university, this.department, this.mbti, this.location,
       this.smoke, this.drink, this.hobby, this.introduce, this.age, this.birth, this.phone, this.height,
       this.sendCookie, this.receiveCookie, this.email, this.scopeUniversity, this.scopePeople, this.friendclick,
+      this.Receive, this.Send,
       {
         required this.Department,
         required this.Nearby,

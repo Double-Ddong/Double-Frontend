@@ -25,7 +25,8 @@ class Body extends StatelessWidget {
                     IconButton(
                         icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
                         onPressed: () {
-                          Navigator.pushNamed(context, FriendsListScreen.routeName);
+
+                          Navigator.pushNamed(context, FriendsListScreen.routeName, );
                         }
                     ),
                   ],

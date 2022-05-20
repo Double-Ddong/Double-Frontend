@@ -6,6 +6,7 @@ import 'package:shop_app/components/product_card.dart';
 import 'package:shop_app/models/Friends.dart';
 import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/friends_list/friends_list_screen.dart';
 
 import '../../../size_config.dart';
 import 'section_title.dart';
@@ -20,7 +21,14 @@ class MBTIFriends extends StatelessWidget {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SectionTitle(title: "나와 잘 맞는 MBTI 친구들", press: () {}),
+          child: SectionTitle(title: "나와 잘 맞는 MBTI 친구들", press: () =>
+          {
+            loginPerson.friendclick = 3,
+            Navigator.pushNamed(
+              context, FriendsListScreen.routeName,
+              arguments: loginPerson,
+            ),
+          }),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(

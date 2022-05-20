@@ -140,6 +140,8 @@ class _SignFormState extends State<SignForm> {
                               Map FriendListBody3 = response.data;
                               bool success = FriendListBody3['success'];
                               if(success){
+
+
                                 //친구 리스트 1
                                 int depart_len = FriendListBody['data'][0].length;
                                 List<Friends> Departmentfriends = [];
@@ -148,10 +150,24 @@ class _SignFormState extends State<SignForm> {
                                     FriendListBody['data'][0][i]['UserId'],
                                     FriendListBody['data'][0][i]['Profile'],
                                     FriendListBody['data'][0][i]['NickName'],
-                                    FriendListBody['data'][0][i]['Age'],
+                                    Age : FriendListBody['data'][0][i]['Age'],
                                     department : true,
                                   );
                                   Departmentfriends.add(department);
+                                }
+
+                                for(int i = 0; i < depart_len; i++){
+                                  response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${Departmentfriends[i].UserId}');
+                                  Map FriendListBody10 = response.data;
+                                  bool success = FriendListBody10['success'];
+
+                                  if(success){
+                                    Departmentfriends[i].University = FriendListBody10['data'][0][0]['University'];
+                                    Departmentfriends[i].Department = FriendListBody10['data'][0][0]['Department'];
+                                    Departmentfriends[i].MBTI_input = FriendListBody10['data'][0][0]['MBTI'];
+                                    Departmentfriends[i].Introduce = FriendListBody10['data'][0][0]['Introduce'];
+                                    Departmentfriends[i].Hobby = FriendListBody10['data'][0][0]['Hobby'];
+                                  }
                                 }
                                 //  친구리스트 2
                                 int nearby_len = FriendListBody2['data'][0].length;
@@ -161,11 +177,23 @@ class _SignFormState extends State<SignForm> {
                                     FriendListBody2['data'][0][i]['UserId'],
                                     FriendListBody2['data'][0][i]['Profile'],
                                     FriendListBody2['data'][0][i]['NickName'],
-                                    FriendListBody2['data'][0][i]['Age'],
+                                    Age : FriendListBody2['data'][0][i]['Age'],
                                     Nearby : true,
                                   );
                                   Nearbyfriends.add(nearby);
                                   }
+                                for(int i = 0; i < nearby_len; i++){
+                                  response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${Nearbyfriends[i].UserId}');
+                                  Map FriendListBody20 = response.data;
+                                  bool success = FriendListBody20['success'];
+                                  if(success){
+                                    Nearbyfriends[i].University = FriendListBody20['data'][0][0]['University'];
+                                    Nearbyfriends[i].Department = FriendListBody20['data'][0][0]['Department'];
+                                    Nearbyfriends[i].MBTI_input = FriendListBody20['data'][0][0]['MBTI'];
+                                    Nearbyfriends[i].Introduce = FriendListBody20['data'][0][0]['Introduce'];
+                                    Nearbyfriends[i].Hobby = FriendListBody20['data'][0][0]['Hobby'];
+                                  }
+                                }
                                 //  친구리스트3
                                 int mbti_len = FriendListBody3['data'][0].length;
                                 List<Friends> MBTIfriends = [];
@@ -174,27 +202,102 @@ class _SignFormState extends State<SignForm> {
                                 FriendListBody3['data'][0][i]['UserId'],
                                 FriendListBody3['data'][0][i]['Profile'],
                                 FriendListBody3['data'][0][i]['NickName'],
-                                FriendListBody3['data'][0][i]['Age'],
+                                Age : FriendListBody3['data'][0][i]['Age'],
                                 MBTI : true,
                                 );
                                 MBTIfriends.add(MBTI);
                                 }
+                                for(int i = 0; i < nearby_len; i++){
+                                  response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${MBTIfriends[i].UserId}');
+                                  Map FriendListBody30 = response.data;
+                                  bool success = FriendListBody30['success'];
+                                  if(success){
+                                    MBTIfriends[i].University = FriendListBody30['data'][0][0]['University'];
+                                    MBTIfriends[i].Department = FriendListBody30['data'][0][0]['Department'];
+                                    MBTIfriends[i].MBTI_input = FriendListBody30['data'][0][0]['MBTI'];
+                                    MBTIfriends[i].Introduce = FriendListBody30['data'][0][0]['Introduce'];
+                                    MBTIfriends[i].Hobby = FriendListBody30['data'][0][0]['Hobby'];
+                                  }
+                                }
+                                response = await dio.get('http://13.125.168.216:3000/main/cookie/receive/${userId.toString()}');
+                                Map FriendListBody200 = response.data;
+                                bool success = FriendListBody200['success'];
+
+                                if(success){
+                                  response = await dio.get('http://13.125.168.216:3000/main/cookie/send/${userId.toString()}');
+                                  Map FriendListBody100 = response.data;
+                                  bool success = FriendListBody100['success'];
+                                  print(FriendListBody100['data'][1][0]['UserId']);
+
+                                  if(success){
+                                    int send_len = FriendListBody100['data'][1].length;
+                                    List<Friends> SendFriends = [];
+                                    for(int i = 0; i < send_len; i++){
+                                      Friends send = Friends(
+                                        FriendListBody100['data'][1][i]['UserId'],
+                                        FriendListBody100['data'][1][i]['Profile'],
+                                        FriendListBody100['data'][1][i]['NickName'],
+
+                                        University : FriendListBody100['data'][1][i]['University'],
+                                        Department : FriendListBody100['data'][1][i]['Department'],
+
+                                      );
+                                      SendFriends.add(send);
+                                    }
+                                    int receive_len = FriendListBody200['data'][1].length;
+                                    List<Friends> Receivefriends = [];
+                                    for(int i = 0; i < receive_len; i++){
+                                      Friends MBTI = Friends(
+                                        FriendListBody200['data'][1][i]['UserId'],
+                                        FriendListBody200['data'][1][i]['Profile'],
+                                        FriendListBody200['data'][1][i]['NickName'],
+                                        University : FriendListBody200['data'][1][i]['University'],
+                                        Department : FriendListBody200['data'][1][i]['Department'],
+                                      );
+                                      Receivefriends.add(MBTI);
+                                    }
+
+                                    for(int i = 0; i<send_len;i++){
+                                      response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${SendFriends[i].UserId}');
+                                      Map FriendListBody1000 = response.data;
+                                      SendFriends[i].MBTI_input = FriendListBody1000['data'][0][0]['MBTI'];
+                                      SendFriends[i].Introduce = FriendListBody1000['data'][0][0]['Introduce'];
+                                      SendFriends[i].Hobby = FriendListBody1000['data'][0][0]['Hobby'];
+                                    }
+                                    for(int i = 0; i<receive_len;i++){
+                                      response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${Receivefriends[i].UserId}');
+                                      Map FriendListBody2000 = response.data;
+                                      Receivefriends[i].MBTI_input = FriendListBody2000['data'][0][0]['MBTI'];
+                                      Receivefriends[i].Introduce = FriendListBody2000['data'][0][0]['Introduce'];
+                                      Receivefriends[i].Hobby = FriendListBody2000['data'][0][0]['Hobby'];
+                                    }
+
+
+
+                                    Person loginPerson = Person(
+                                        userId.toString(),
+                                        responseBody2['data'][0][0]['Profile'], responseBody2['data'][0][0]['NickName'],
+                                        responseBody2['data'][0][0]['University'], responseBody2['data'][0][0]['Department'],
+                                        responseBody2['data'][0][0]['MBTI'], responseBody2['data'][0][0]['Location'],
+                                        responseBody2['data'][0][0]['Smoke'], responseBody2['data'][0][0]['Drink'],
+                                        responseBody2['data'][0][0]['Hobby'], responseBody2['data'][0][0]['Introduce'],
+                                        responseBody2['data'][0][0]['Age'].toString(), responseBody2['data'][0][0]['Birth'],
+                                        responseBody2['data'][0][0]['Phone'].toString(), responseBody2['data'][0][0]['Height'].toString(),
+                                        responseBody3['data'][0]['SendCookie'].toString(), responseBody3['data'][0]['ReceiveCookie'].toString(),
+                                        responseBody3['data'][0]['Email'], responseBody4['message'][0]['ScopeUniversity'],
+                                        responseBody4['message'][0]['ScopePeople'],0,
+                                        Receivefriends, SendFriends,
+                                        Department: Departmentfriends, Nearby: Nearbyfriends, MBTI: MBTIfriends
+                                    );
+                                    Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: loginPerson);
+                                  }
+
+                                }
+
+
+
                               //
-                              Person loginPerson = Person(
-                                userId.toString(),
-                                responseBody2['data'][0][0]['Profile'], responseBody2['data'][0][0]['NickName'],
-                                responseBody2['data'][0][0]['University'], responseBody2['data'][0][0]['Department'],
-                                responseBody2['data'][0][0]['MBTI'], responseBody2['data'][0][0]['Location'],
-                                responseBody2['data'][0][0]['Smoke'], responseBody2['data'][0][0]['Drink'],
-                                responseBody2['data'][0][0]['Hobby'], responseBody2['data'][0][0]['Introduce'],
-                                responseBody2['data'][0][0]['Age'].toString(), responseBody2['data'][0][0]['Birth'],
-                                responseBody2['data'][0][0]['Phone'].toString(), responseBody2['data'][0][0]['Height'].toString(),
-                                responseBody3['data'][0]['SendCookie'].toString(), responseBody3['data'][0]['ReceiveCookie'].toString(),
-                                responseBody3['data'][0]['Email'], responseBody4['message'][0]['ScopeUniversity'],
-                                responseBody4['message'][0]['ScopePeople'],0,
-                                Department: Departmentfriends, Nearby: Nearbyfriends, MBTI: MBTIfriends
-                                );
-                                Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: loginPerson);
+
 
                               }
                             }

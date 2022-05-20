@@ -33,7 +33,7 @@ class _Mainpage1 extends State<SimilarFriends>{
         responseBody['data'][0][i]['UserId'],
         responseBody['data'][0][i]['Profile'],
         responseBody['data'][0][i]['NickName'],
-        responseBody['data'][0][i]['Age'],
+        Age : responseBody['data'][0][i]['Age'],
         department : true,
       );
       Departmentfriends.add(department);
@@ -62,7 +62,7 @@ class _Mainpage1 extends State<SimilarFriends>{
           responseBody['data'][0][i]['UserId'],
           responseBody['data'][0][i]['Profile'],
           responseBody['data'][0][i]['NickName'],
-          responseBody['data'][0][i]['Age'],
+          Age : responseBody['data'][0][i]['Age'],
           department : true,
         );
         Departmentfriends.add(department);

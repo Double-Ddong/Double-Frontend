@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button_half.dart';
 import 'package:shop_app/components/cancel_button_half.dart';
 import 'package:shop_app/components/mail_text.dart';
+import 'package:shop_app/models/Friends.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/match/match_screen.dart';
 import 'package:shop_app/screens/chat/chat_screen.dart';
 
@@ -38,38 +40,39 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    final FriendDetailsArguments friendagrs =
-    ModalRoute.of(context)!.settings.arguments as FriendDetailsArguments;
+    // final Person loginperson =
+    // ModalRoute.of(context)!.settings.arguments as Person;
+    final Friends friend =
+    ModalRoute.of(context)!.settings.arguments as Friends;
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          buildProfileImageFormField(friendagrs),
+          buildProfileImageFormField(friend),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildProfileFormField(friendagrs),
+          buildProfileFormField(friend),
         ],
       ),
     );
   }
 
-  Center buildProfileImageFormField(FriendDetailsArguments friendagrs) {
+  Center buildProfileImageFormField(Friends f) {
     return Center(
       child:
-      Image.network(friendagrs.friends.Profile),
-      // Image.asset("assets/images/Profile Image Basic.png",
-      //     width: getProportionateScreenWidth(300),
-      //     height: getProportionateScreenHeight(300)),
+      Image.network(f.Profile,
+          width: getProportionateScreenWidth(300),
+          height: getProportionateScreenHeight(300)),
     );
   }
 
-  Column buildProfileFormField(FriendDetailsArguments friendagrs) {
+  Column buildProfileFormField(Friends f) {
     return Column(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(10)),
         Container(
-          alignment: Alignment(-0.9, 0.0),
+          alignment: Alignment.center,
           child: Text(
-            friendagrs.friends.NickName,
+            f.NickName,
             style: TextStyle(
               color: Colors.black,
               fontSize: getProportionateScreenWidth(20),
@@ -79,11 +82,11 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         ),
         Row(
           children: [
-            SizedBox(width: getProportionateScreenWidth(15)),
+            // SizedBox(width: getProportionateScreenWidth(15)),
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                friendagrs.friends.Age.toString(),
+                f.Age.toString(),
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -99,7 +102,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                "학교",
+                f.University,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -115,7 +118,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                "학과",
+                f.Department,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -131,7 +134,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                "MBTI",
+                f.Age.toString(),
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -182,9 +185,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         ),
         SizedBox(height: getProportionateScreenHeight(8)),
         Container(
-          alignment: Alignment(-0.4, 0.0),
+          alignment: Alignment.center,
           child: Text(
-            "안녕하세요~~ 저는 땡땡대학교 누구입니다",
+            f.Introduce,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: getProportionateScreenWidth(12),
@@ -205,9 +208,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         ),
         SizedBox(height: getProportionateScreenHeight(8)),
         Container(
-          alignment: Alignment(-0.3, 0.0),
+          alignment: Alignment.center,
           child: Text(
-            "저는 컴퓨터게임 좋아해요 롤 좋아하시는 분~",
+            f.Hobby,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: getProportionateScreenWidth(12),

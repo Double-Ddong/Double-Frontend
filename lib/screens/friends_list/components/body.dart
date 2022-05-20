@@ -22,36 +22,12 @@ class Body extends StatefulWidget{
   @override
   _Body createState() => _Body();
 }
-// Widget getList(){
-//   GridView.count(
-//       crossAxisCount:2,
-//       children : List.generate(10, (index) {
-//         return Center(
-//           child: Text("예시"),
-//         );
-//       }
-//       )
-//   );
-// }
 class _Body extends State<Body> {
   @override
   void initState() {
     // TODO: implement activate
     super.initState();
   }
-
-
-// Widget listview(){
-//   final List<Friends> friends = ModalRoute.of(context)?.settings.arguments as List<Friends>;
-//   return ListView.builder(
-//     itemCount: friends.length,
-//     itemBuilder: (BuildContext context, int index){
-//       return Container(
-//         child: Center(child: Image.network(friends[index].Profile),),
-//       );
-//     },
-//   )
-// }
   @override
   Widget build(BuildContext context) {
     final Person loginperson = ModalRoute
@@ -74,49 +50,88 @@ class _Body extends State<Body> {
       friendtype = loginperson.mbti;
       friendlist = loginperson.MBTI;
     }
-
-
-    return Container(
-        padding: const EdgeInsets.all((30)),
-        child: Column(
-            children: [
-              Row(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "${friendtype} 친구들",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black
+    return GestureDetector(
+        child:
+          Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${friendtype} 친구들",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black
+                      ),
                     ),
-                  ),
-                  // GridView.builder(
-                  //     scrollDirection: Axis.vertical,
-                  //     shrinkWrap: true,
-                  //     itemCount: friendlist.length,
-                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //       crossAxisCount: 2,
-                  //       childAspectRatio: 1/1,
-                  //
-                  //     ),
-                  //     itemBuilder: (BuildContext context, int index){
-                  //       return Container(
-                  //         width: 10,
-                  //         height: 10,
-                  //
-                  //
-                  //         child: Text("예시"),
-                  //       );
-                  //     })
-                  // getList(),
+                  ],
+                ),
+                SizedBox(height: 10,),
+                GridView.builder(
 
-                ],
-              ),
-            ]
-        )
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: friendlist.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5 / 1,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
 
+                          width: SizeConfig.screenWidth * 0.35,
+                          height: SizeConfig.screenHeight * 0.25,
+                          padding: EdgeInsets.only(
+                              top: 10, left: 30, right: 30, bottom: 5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            // image: DecorationImage(
+                            //     image: NetworkImage(friendlist[index].Profile)),
+                          ),
+
+                          child: Card(
+                            child: ListTile(
+                              title: Text("${friendlist[index].NickName}"),
+                              // subtitle:
+                              //     Row(
+                              //       children : [
+                              //         Container(
+                              //         width: SizeConfig.screenWidth * 0.08,
+                              //         height: 27,
+                              //         decoration: BoxDecoration(
+                              //           color: kSecondaryColor.withOpacity(0.1),
+                              //           borderRadius: BorderRadius.circular(15),
+                              //         ),
+                              //         child: Text(
+                              //           friendlist[index].NickName,
+                              //           style: TextStyle(height: 1.5),
+                              //           textAlign: TextAlign.center,
+                              //         ),
+                              //       ),
+                              //       ]
+                              //
+                              //     ),
+                              leading: ClipRRect(
+                                borderRadius : BorderRadius.circular(10),
+                                child: Image.network(friendlist[index].Profile),
+                              ),
+                              onTap: () =>{
+                                Navigator.pushNamed(context, DetailsScreen.routeName, arguments: friendlist[index])}
+
+                            ),
+                          )
+                      );
+                    })
+
+
+              ]
+          )
     );
+
+
+
   }
 
   //

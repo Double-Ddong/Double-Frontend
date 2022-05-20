@@ -1,17 +1,40 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/Person.dart';
+import 'package:shop_app/screens/details/details_screen.dart';
 // import 'package:shop_app/screens/setting/components/profile_pic.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class CookieList extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
+    final Person loginperson =
+    ModalRoute.of(context)!.settings.arguments as Person;
     // TODO: implement build
     return
       Scaffold(
         body: Center(
-          child: _buildList(),
+          child: GridView.builder(
+              // scrollDirection: Axis.vertical,
+              // shrinkWrap: true,
+              itemCount: loginperson.Send.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    childAspectRatio: 4 / 1,
+                ),
+              itemBuilder: (BuildContext context, int i) {
+                print(loginperson.Send[i].NickName);
+                print(loginperson.Send[i].Age);
+                return _tile(context, loginperson, i, loginperson.Send[i].NickName, loginperson.Send[i].Age.toString() ,
+                    loginperson.Send[i].University , loginperson.Send[i].Department, loginperson.Send[i].Profile);
+
+
+              })
+
         ),
       );
     // return
@@ -118,15 +141,7 @@ class CookieList extends StatelessWidget{
 
 }
 
-Widget _buildList() => ListView(
-  children: [
-    _tile("김보현", "23", "광운대학교", "소프트웨어학과"),
-    _tile("최보현", "20", "서울대학교", "소프트웨어학과"),
-    _tile("박보현", "23", "연세대학교", "소프트웨어학과"),
-  ],
-);
-
-ListTile _tile(String title, String subtitle1, String subtitle2, String subtitle3) => ListTile(
+ListTile _tile(BuildContext context, Person p, int i, String title, String subtitle1, String subtitle2, String subtitle3, String img) => ListTile(
     title: Text(title),
     subtitle: Row(
                 children : [
@@ -173,6 +188,8 @@ ListTile _tile(String title, String subtitle1, String subtitle2, String subtitle
     // Text(subtitle1),
     leading: ClipRRect(
       borderRadius : BorderRadius.circular(100),
-      child: Image.network("https://randomuser.me/api/portraits/women/31.jpg"),
-    )
+      child: Image.network(img),
+    ),
+    onTap: () =>{
+      Navigator.pushNamed(context, DetailsScreen.routeName, arguments: p.Send[i])},
     );

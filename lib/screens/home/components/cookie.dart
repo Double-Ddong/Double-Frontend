@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../size_config.dart';
+import 'ReceiveCookieList.dart';
 import 'cookielist.dart';
 import 'home_header.dart';
 
@@ -29,7 +30,7 @@ class CookieScreen extends StatelessWidget{
               )
           )
       ),
-      body: CookieList()
+      body: ReceiveCookieList()
     );
   }
 

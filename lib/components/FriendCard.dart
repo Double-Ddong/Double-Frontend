@@ -29,7 +29,7 @@ class FriendCard extends StatelessWidget {
           onTap: () => Navigator.pushNamed(
             context,
             DetailsScreen.routeName,
-            arguments: FriendDetailsArguments(friends: friends),
+            arguments: friends,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Friends.dart';
+import 'package:shop_app/models/Person.dart';
 
 import '../../models/Product.dart';
 import 'components/body.dart';
@@ -10,10 +11,8 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final ProductDetailsArguments agrs =
-    //     ModalRoute.of(context)!.settings.arguments as ProductDetailsArguments;
-    final FriendDetailsArguments friendagrs =
-    ModalRoute.of(context)!.settings.arguments as FriendDetailsArguments;
+    // final Person loginperson =
+    //     ModalRoute.of(context)!.settings.arguments as Person;
     return Scaffold(
       //backgroundColor: Color(0xFFF5F6F9),
       appBar: PreferredSize(
