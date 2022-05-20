@@ -191,7 +191,7 @@ class _SignFormState extends State<SignForm> {
                                 responseBody2['data'][0][0]['Phone'].toString(), responseBody2['data'][0][0]['Height'].toString(),
                                 responseBody3['data'][0]['SendCookie'].toString(), responseBody3['data'][0]['ReceiveCookie'].toString(),
                                 responseBody3['data'][0]['Email'], responseBody4['message'][0]['ScopeUniversity'],
-                                responseBody4['message'][0]['ScopePeople'],
+                                responseBody4['message'][0]['ScopePeople'],0,
                                 Department: Departmentfriends, Nearby: Nearbyfriends, MBTI: MBTIfriends
                                 );
                                 Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: loginPerson);

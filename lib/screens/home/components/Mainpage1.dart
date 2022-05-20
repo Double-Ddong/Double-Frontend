@@ -37,9 +37,10 @@ class _Mainpage1 extends State<Mainpage1>{
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(title: "나와 비슷한 학과 친구들", press: () =>
           {
+            loginPerson.friendclick = 1,
             Navigator.pushNamed(
             context, FriendsListScreen.routeName,
-            arguments: loginPerson.Department,
+            arguments: loginPerson,
           ),
           }),
         ),
