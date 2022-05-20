@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/friends_list/components/section_title.dart';
 import 'package:shop_app/screens/home/components/MBTI_friends.dart';
+import 'package:shop_app/screens/home/components/Mainpage1.dart';
 import 'package:shop_app/screens/home/components/similar_friends.dart';
 
 import '../../../size_config.dart';
@@ -22,11 +23,12 @@ class Body extends StatelessWidget {
             SizedBox(height: getProportionateScreenWidth(20)),
             Categories(),
             SizedBox(height: getProportionateScreenWidth(15)),
-            SimilarFriends(),
+            Mainpage1(),
             SizedBox(height: getProportionateScreenWidth(30)),
             NearbyFriends(),
             SizedBox(height: getProportionateScreenWidth(30)),
             MBTIFriends(),
+            SizedBox(height: getProportionateScreenWidth(30)),
           ],
         ),
       ),

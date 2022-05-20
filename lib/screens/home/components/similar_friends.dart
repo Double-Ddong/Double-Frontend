@@ -12,41 +12,73 @@ import 'section_title.dart';
 
 late Response response;
 var dio = Dio();
-List<Friends> Departmentfriends = [];
-void GetFriends(String userid) async{
-  response = await dio.get('http://13.125.168.216:3000/main/mainpage1/${userid}');
-  Map responseBody = response.data;
-  print(responseBody);
-  int depart_len = responseBody['data'][0].length;
 
-  print(responseBody['data'][0].length);
-  for(int i = 0; i < depart_len; i++){
+class SimilarFriends extends StatefulWidget{
+  @override
+  _Mainpage1 createState() => _Mainpage1();
+}
 
-    Friends department = Friends(
+class _Mainpage1 extends State<SimilarFriends>{
+
+
+  void GetFriends(String userid) async{
+
+    response = await dio.get('http://13.125.168.216:3000/main/mainpage1/${userid}');
+    Map responseBody = response.data;
+
+    int depart_len = responseBody['data'][0].length;
+
+    for(int i = 0; i < depart_len; i++){
+      Friends department = Friends(
         responseBody['data'][0][i]['UserId'],
         responseBody['data'][0][i]['Profile'],
         responseBody['data'][0][i]['NickName'],
         responseBody['data'][0][i]['Age'],
         department : true,
-    );
-    print(department);
-    Departmentfriends.add(department);
+      );
+      Departmentfriends.add(department);
+    }
   }
 
-  print(Departmentfriends);
-}
+  List<Friends> Departmentfriends = [];
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   print('size');
+  // }
+  @override
+  void initState(){
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
+      // GetFriends(loginPerson.userid);
+      response = await dio.get('http://13.125.168.216:3000/main/mainpage1/${loginPerson.userid}');
+      Map responseBody = response.data;
 
+      int depart_len = responseBody['data'][0].length;
 
-class SimilarFriends extends StatelessWidget {
+      for(int i = 0; i < depart_len; i++){
+        Friends department = Friends(
+          responseBody['data'][0][i]['UserId'],
+          responseBody['data'][0][i]['Profile'],
+          responseBody['data'][0][i]['NickName'],
+          responseBody['data'][0][i]['Age'],
+          department : true,
+        );
+        Departmentfriends.add(department);
+      }
+      print(Departmentfriends);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
-    GetFriends(loginPerson.userid);
+    // TODO: implement build
     return Column(
       children: [
         Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(title: "나와 비슷한 학과 친구들", press: () {}),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
@@ -54,20 +86,6 @@ class SimilarFriends extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children:
-            // [
-            //   ...List.generate(
-            //     demoProducts.length,
-            //     (index) {
-            //       if (demoProducts[index].isPopular)
-            //         return ProductCard(product: demoProducts[index]);
-            //         // return FriendsList();
-            //       return SizedBox
-            //           .shrink(); // here by default width and height is 0
-            //     },
-            //   ),
-            //   SizedBox(width: getProportionateScreenWidth(20)),
-            // ],
-
             [
               ...List.generate(
                 Departmentfriends.length,
@@ -86,4 +104,41 @@ class SimilarFriends extends StatelessWidget {
       ],
     );
   }
+// Widget build(BuildContext context) {
+//   // TODO: implement build
+//   return Column(
+//     children: [
+//       Padding(
+//         padding:
+//         EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+//         child: SectionTitle(title: "나와 비슷한 학과 친구들", press: () {}),
+//       ),
+//       SizedBox(height: getProportionateScreenWidth(20)),
+//       SingleChildScrollView(
+//         scrollDirection: Axis.horizontal,
+//         child: Row(
+//           children:
+//           [
+//             ...List.generate(
+//               Departmentfriends.length,
+//                   (index) {
+//                 if (Departmentfriends[index].department)
+//                   return FriendCard(friends : Departmentfriends[index]);
+//                 // return FriendsList();
+//                 return SizedBox
+//                     .shrink(); // here by default width and height is 0
+//               },
+//             ),
+//             SizedBox(width: getProportionateScreenWidth(20)),
+//           ],
+//         ),
+//       )
+//     ],
+//   );
+// }
+
+
+
+
+
 }

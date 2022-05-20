@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/Friends.dart';
 
 class Person {
   late String userid, nickname, profile, university, department, mbti, location, smoke, drink, hobby, introduce, birth, phone, email;
   late String age, height, sendCookie, receiveCookie;
   late int scopeUniversity, scopePeople;
+  late List<Friends> Department;
+  late List<Friends> Nearby;
+  late List<Friends> MBTI;
 
   Person(this.userid, this.profile, this.nickname, this.university, this.department, this.mbti, this.location,
       this.smoke, this.drink, this.hobby, this.introduce, this.age, this.birth, this.phone, this.height,
-      this.sendCookie, this.receiveCookie, this.email, this.scopeUniversity, this.scopePeople);
+      this.sendCookie, this.receiveCookie, this.email, this.scopeUniversity, this.scopePeople,
+      {
+        required this.Department,
+        required this.Nearby,
+        required this.MBTI,
+      }
+      );
 }
 // class LogInPerson {
 //   late final int? userid;

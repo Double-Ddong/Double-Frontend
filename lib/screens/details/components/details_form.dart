@@ -8,6 +8,7 @@ import 'package:shop_app/screens/chat/chat_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import '../details_screen.dart';
 
 class ViewProfileForm extends StatefulWidget {
   @override
@@ -37,35 +38,38 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    final FriendDetailsArguments friendagrs =
+    ModalRoute.of(context)!.settings.arguments as FriendDetailsArguments;
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          buildProfileImageFormField(),
+          buildProfileImageFormField(friendagrs),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildProfileFormField(),
+          buildProfileFormField(friendagrs),
         ],
       ),
     );
   }
 
-  Center buildProfileImageFormField() {
+  Center buildProfileImageFormField(FriendDetailsArguments friendagrs) {
     return Center(
       child:
-      Image.asset("assets/images/Profile Image Basic.png",
-          width: getProportionateScreenWidth(300),
-          height: getProportionateScreenHeight(300)),
+      Image.network(friendagrs.friends.Profile),
+      // Image.asset("assets/images/Profile Image Basic.png",
+      //     width: getProportionateScreenWidth(300),
+      //     height: getProportionateScreenHeight(300)),
     );
   }
 
-  Column buildProfileFormField() {
+  Column buildProfileFormField(FriendDetailsArguments friendagrs) {
     return Column(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(10)),
         Container(
           alignment: Alignment(-0.9, 0.0),
           child: Text(
-            "사용자 이름",
+            friendagrs.friends.NickName,
             style: TextStyle(
               color: Colors.black,
               fontSize: getProportionateScreenWidth(20),
@@ -79,7 +83,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             OutlinedButton(
               onPressed: () => {},
               child: Text(
-                "나이",
+                friendagrs.friends.Age.toString(),
                 style: TextStyle(
                   color: Colors.black,
                 ),

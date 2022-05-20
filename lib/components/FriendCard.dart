@@ -28,8 +28,7 @@ class FriendCard extends StatelessWidget {
         child: GestureDetector(
           onTap: () => Navigator.pushNamed(
             context,
-            // DetailsScreen.routeName,
-            FriendsListScreen.routeName,
+            DetailsScreen.routeName,
             arguments: FriendDetailsArguments(friends: friends),
           ),
           child: Column(

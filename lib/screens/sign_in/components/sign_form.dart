@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/helper/keyboard.dart';
+import 'package:shop_app/models/Friends.dart';
 import 'package:shop_app/screens/forgot_id/forgot_id_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
+import 'package:shop_app/screens/home/components/MBTI_friends.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:shop_app/models/Person.dart';
@@ -94,43 +97,114 @@ class _SignFormState extends State<SignForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-
+                //1. 로그인 하기
                 response = await dio.post('http://13.125.168.216:3000/auth/signin', data: {'Email': email, 'Password': password});
                 //response = await dio.post('http://192.168.35.217:3000/auth/signin', data: {'Email': email, 'Password': password});
                 Map responseBody1 = response.data;
                 bool success = responseBody1['success'];
 
                 if(success) {
+                  //2. 로그인해서 얻은 userid로 사용자의 프로필 정보
                   String userId = responseBody1['data']['userid'].toString();
                   response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${userId}');
                   Map responseBody2 = response.data;
                   bool success = responseBody2['success'];
 
                   if(success) {
+                    //3. userid로 사용자의 tab 정보 (받은 쿠키, 보낸 쿠기 수, email)
                     response = await dio.get('http://13.125.168.216:3000/main/tab/${userId}');
                     Map responseBody3 = response.data;
                     bool success = responseBody3['success'];
 
                     if(success) {
+                      //4. userid로 사용자의 친구범위 정보
                       response = await dio.get('http://13.125.168.216:3000/setting/getScope/${userId}');
                       Map responseBody4 = response.data;
                       bool success = responseBody4['success'];
 
                       if(success){
-                        //print(responseBody4['message'][0]['ScopeUniversity']);
-                        Person loginPerson = Person(
-                            userId.toString(),
-                            responseBody2['data'][0][0]['Profile'], responseBody2['data'][0][0]['NickName'],
-                            responseBody2['data'][0][0]['University'], responseBody2['data'][0][0]['Department'],
-                            responseBody2['data'][0][0]['MBTI'], responseBody2['data'][0][0]['Location'],
-                            responseBody2['data'][0][0]['Smoke'], responseBody2['data'][0][0]['Drink'],
-                            responseBody2['data'][0][0]['Hobby'], responseBody2['data'][0][0]['Introduce'],
-                            responseBody2['data'][0][0]['Age'].toString(), responseBody2['data'][0][0]['Birth'],
-                            responseBody2['data'][0][0]['Phone'].toString(), responseBody2['data'][0][0]['Height'].toString(),
-                            responseBody3['data'][0]['SendCookie'].toString(), responseBody3['data'][0]['ReceiveCookie'].toString(),
-                            responseBody3['data'][0]['Email'], responseBody4['message'][0]['ScopeUniversity'],
-                            responseBody4['message'][0]['ScopePeople']);
-                        Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: loginPerson);
+                        //5. userid로 친구 정보
+                        response = await dio.get('http://13.125.168.216:3000/main/mainpage2/${userId}/1');
+                        Map FriendListBody = response.data;
+                        bool success = FriendListBody['success'];
+
+                        if(success){
+                            //6. userid로 친구 정보2
+                            response = await dio.get('http://13.125.168.216:3000/main/mainpage2/${userId}/2');
+                            Map FriendListBody2 = response.data;
+                            bool success = FriendListBody2['success'];
+
+                            if(success){
+                              //7. userid로 친구 정보3
+                              response = await dio.get('http://13.125.168.216:3000/main/mainpage2/${userId}/3');
+                              Map FriendListBody3 = response.data;
+                              bool success = FriendListBody3['success'];
+                              if(success){
+                                //친구 리스트 1
+                                int depart_len = FriendListBody['data'][0].length;
+                                List<Friends> Departmentfriends = [];
+                                for(int i = 0; i < depart_len; i++){
+                                  Friends department = Friends(
+                                    FriendListBody['data'][0][i]['UserId'],
+                                    FriendListBody['data'][0][i]['Profile'],
+                                    FriendListBody['data'][0][i]['NickName'],
+                                    FriendListBody['data'][0][i]['Age'],
+                                    department : true,
+                                  );
+                                  Departmentfriends.add(department);
+                                }
+                                //  친구리스트 2
+                                int nearby_len = FriendListBody2['data'][0].length;
+                                List<Friends> Nearbyfriends = [];
+                                for(int i = 0; i < nearby_len; i++){
+                                  Friends nearby = Friends(
+                                    FriendListBody2['data'][0][i]['UserId'],
+                                    FriendListBody2['data'][0][i]['Profile'],
+                                    FriendListBody2['data'][0][i]['NickName'],
+                                    FriendListBody2['data'][0][i]['Age'],
+                                    Nearby : true,
+                                  );
+                                  Nearbyfriends.add(nearby);
+                                  }
+                                //  친구리스트3
+                                int mbti_len = FriendListBody3['data'][0].length;
+                                List<Friends> MBTIfriends = [];
+                                for(int i = 0; i < mbti_len; i++){
+                                Friends MBTI = Friends(
+                                FriendListBody3['data'][0][i]['UserId'],
+                                FriendListBody3['data'][0][i]['Profile'],
+                                FriendListBody3['data'][0][i]['NickName'],
+                                FriendListBody3['data'][0][i]['Age'],
+                                MBTI : true,
+                                );
+                                MBTIfriends.add(MBTI);
+                                }
+                              //
+                              Person loginPerson = Person(
+                                userId.toString(),
+                                responseBody2['data'][0][0]['Profile'], responseBody2['data'][0][0]['NickName'],
+                                responseBody2['data'][0][0]['University'], responseBody2['data'][0][0]['Department'],
+                                responseBody2['data'][0][0]['MBTI'], responseBody2['data'][0][0]['Location'],
+                                responseBody2['data'][0][0]['Smoke'], responseBody2['data'][0][0]['Drink'],
+                                responseBody2['data'][0][0]['Hobby'], responseBody2['data'][0][0]['Introduce'],
+                                responseBody2['data'][0][0]['Age'].toString(), responseBody2['data'][0][0]['Birth'],
+                                responseBody2['data'][0][0]['Phone'].toString(), responseBody2['data'][0][0]['Height'].toString(),
+                                responseBody3['data'][0]['SendCookie'].toString(), responseBody3['data'][0]['ReceiveCookie'].toString(),
+                                responseBody3['data'][0]['Email'], responseBody4['message'][0]['ScopeUniversity'],
+                                responseBody4['message'][0]['ScopePeople'],
+                                Department: Departmentfriends, Nearby: Nearbyfriends, MBTI: MBTIfriends
+                                );
+                                Navigator.pushNamed(context, LoginSuccessScreen.routeName, arguments: loginPerson);
+
+                              }
+                            }
+
+
+                            }
+
+                        }
+
+
                       }
                     }
                   }
@@ -174,9 +248,8 @@ class _SignFormState extends State<SignForm> {
                   }
                   FlutterDialog();
                 }
-
               }
-            },
+            ,
           ),
         ],
       ),

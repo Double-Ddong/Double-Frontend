@@ -10,8 +10,8 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProductDetailsArguments agrs =
-        ModalRoute.of(context)!.settings.arguments as ProductDetailsArguments;
+    // final ProductDetailsArguments agrs =
+    //     ModalRoute.of(context)!.settings.arguments as ProductDetailsArguments;
     final FriendDetailsArguments friendagrs =
     ModalRoute.of(context)!.settings.arguments as FriendDetailsArguments;
     return Scaffold(
@@ -38,4 +38,10 @@ class FriendDetailsArguments {
   final Friends friends;
 
   FriendDetailsArguments({required this.friends});
+}
+
+class FriendFullArguments {
+  final List<Friends> friends;
+
+  FriendFullArguments({required this.friends});
 }
