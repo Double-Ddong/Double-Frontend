@@ -11,6 +11,9 @@ class Person {
   late List<Friends> MBTI;
   late List<Friends> Receive;
   late List<Friends> Send;
+  late int frienddetail = 0;
+  late Friends frienddetailfrom;
+  late List<String> matchimg;
 
 
   Person(this.userid, this.profile, this.nickname, this.university, this.department, this.mbti, this.location,
