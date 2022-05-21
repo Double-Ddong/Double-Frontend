@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button_half.dart';
@@ -11,7 +12,8 @@ import 'package:shop_app/screens/chat/chat_screen.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 import '../details_screen.dart';
-
+late Response response;
+var dio = Dio();
 class ViewProfileForm extends StatefulWidget {
   @override
   _ViewProfileFormState createState() => _ViewProfileFormState();
@@ -40,17 +42,17 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    // final Person loginperson =
-    // ModalRoute.of(context)!.settings.arguments as Person;
-    final Friends friend =
-    ModalRoute.of(context)!.settings.arguments as Friends;
+    final Person loginperson =
+    ModalRoute.of(context)!.settings.arguments as Person;
+    // final Friends friend =
+    // ModalRoute.of(context)!.settings.arguments as Friends;
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          buildProfileImageFormField(friend),
+          buildProfileImageFormField(loginperson.frienddetailfrom),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildProfileFormField(friend),
+          buildProfileFormField(loginperson.frienddetailfrom, loginperson),
         ],
       ),
     );
@@ -65,7 +67,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
     );
   }
 
-  Column buildProfileFormField(Friends f) {
+  Column buildProfileFormField(Friends f, Person p) {
     return Column(
       children: <Widget> [
         SizedBox(width: getProportionateScreenWidth(10)),
@@ -154,12 +156,61 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             SizedBox(width: getProportionateScreenWidth(15)),
             DefaultButtonHalf(
               text: "쿠키 보내기",
-              press: () {
-                if (isMatch) {
-                  Navigator.pushNamed(context, MatchScreen.routeName);
-                } else {
-
+              press: () async {
+                response = await dio.post('http://13.125.168.216:3000/main/sendCookie/${p.userid}',data: {'userid' : f.UserId});
+                Map FriendListBody100 = response.data;
+                bool success = FriendListBody100['success'];
+                if(success){
+                  if(FriendListBody100['message'] == "쿠키를 보냈습니다, 매치는 안된 상태."){
+                    void FlutterDialog() {
+                      showDialog(
+                          context: context,
+                          //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              //Dialog Main Title
+                              title: Column(
+                                children: <Widget>[
+                                  new Text("쿠키 전송완료!"),
+                                ],
+                              ),
+                              //
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "상대방도 쿠키를 보내면 \n채팅방이 개설됩니다!",
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                new FlatButton(
+                                  child: new Text("확인"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    }
+                    FlutterDialog();
+                  }
+                  else{
+                    Navigator.pushNamed(context, MatchScreen.routeName, arguments: p);
+                  }
                 }
+
+                // if (isMatch) {
+                //   Navigator.pushNamed(context, MatchScreen.routeName);
+                // } else {
+                //
+                // }
               },
             ),
             SizedBox(width: getProportionateScreenWidth(8)),

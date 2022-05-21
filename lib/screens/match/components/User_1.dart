@@ -1,13 +1,20 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/models/Person.dart';
 
 class UserOne extends StatelessWidget {
   const UserOne({
     Key? key,
+    required this.person,
   }) : super(key: key);
 
+  final Person person;
   @override
   Widget build(BuildContext context) {
+    final Person loginperson =
+    ModalRoute.of(context)!.settings.arguments as Person;
     return SizedBox(
       height: 150,
       width: 150,
@@ -17,7 +24,7 @@ class UserOne extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
-            child: Image.asset("assets/images/Profile Image Basic.png"),
+            child: Image.network(loginperson.profile),
           ),
           Positioned(
             left: -20,

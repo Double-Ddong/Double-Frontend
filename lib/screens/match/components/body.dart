@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/size_config.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/cancel_button.dart';
@@ -12,6 +13,8 @@ import 'User_2.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Person loginperson =
+    ModalRoute.of(context)!.settings.arguments as Person;
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -25,7 +28,7 @@ class Body extends StatelessWidget {
                 alignment: Alignment(0.8, 0.0),
                 child: Transform.rotate(
                   angle: 5 * pi / 180,
-                  child: UserOne(),
+                  child: UserOne(person: loginperson),
                 ),
               ),
               SizedBox(height: getProportionateScreenHeight(5)),
@@ -33,7 +36,7 @@ class Body extends StatelessWidget {
                 alignment: Alignment(-0.8, 0.0),
                 child: Transform.rotate(
                   angle: -5 * pi / 180,
-                  child: UserTwo(),
+                  child: UserTwo(person : loginperson),
                 ),
               ),
               SizedBox(height: getProportionateScreenHeight(50)),

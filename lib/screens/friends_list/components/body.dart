@@ -117,8 +117,11 @@ class _Body extends State<Body> {
                                 borderRadius : BorderRadius.circular(10),
                                 child: Image.network(friendlist[index].Profile),
                               ),
-                              onTap: () =>{
-                                Navigator.pushNamed(context, DetailsScreen.routeName, arguments: friendlist[index])}
+                              onTap: () {
+                                loginperson.frienddetail = friendlist[index].UserId;
+                                loginperson.frienddetailfrom = friendlist[index];
+                                Navigator.pushNamed(context, DetailsScreen.routeName, arguments: loginperson);
+                              }
 
                             ),
                           )
