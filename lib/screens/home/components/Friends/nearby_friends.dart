@@ -8,8 +8,8 @@ import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/friends_list/friends_list_screen.dart';
 
-import '../../../size_config.dart';
-import 'section_title.dart';
+import '../../../../size_config.dart';
+import '../section_title.dart';
 late Response response;
 var dio = Dio();
 
@@ -39,8 +39,14 @@ class NearbyFriends extends StatelessWidget {
               ...List.generate(
                 loginPerson.Nearby.length,
                 (index) {
-                  if (loginPerson.Nearby[index].Nearby)
-                    return FriendCard(friends : loginPerson.Nearby[index]);
+                  if (loginPerson.Nearby[index].Nearby){
+
+                    loginPerson.frienddetailfrom = loginPerson.Nearby[index];
+                    // loginPerson.frienddetail = index;
+                    // loginPerson.whatkind = 2;
+                    return FriendCard(person : loginPerson.Nearby[index]);
+                  }
+
                     // return FriendsList();
                   return SizedBox
                       .shrink(); // here by default width and height is 0

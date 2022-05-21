@@ -8,7 +8,7 @@ import 'package:shop_app/helper/keyboard.dart';
 import 'package:shop_app/models/Friends.dart';
 import 'package:shop_app/screens/forgot_id/forgot_id_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
-import 'package:shop_app/screens/home/components/MBTI_friends.dart';
+import 'package:shop_app/screens/home/components/Friends/MBTI_friends.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:shop_app/models/Person.dart';

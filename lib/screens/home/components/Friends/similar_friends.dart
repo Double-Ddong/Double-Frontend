@@ -7,8 +7,8 @@ import 'package:shop_app/models/Friends.dart';
 import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/models/Product.dart';
 
-import '../../../size_config.dart';
-import 'section_title.dart';
+import '../../../../size_config.dart';
+import '../section_title.dart';
 
 late Response response;
 var dio = Dio();
@@ -90,8 +90,8 @@ class _Mainpage1 extends State<SimilarFriends>{
               ...List.generate(
                 Departmentfriends.length,
                     (index) {
-                  if (Departmentfriends[index].department)
-                    return FriendCard(friends : Departmentfriends[index]);
+                  // if (Departmentfriends[index].department)
+                  //   return FriendCard(person : );
                   // return FriendsList();
                   return SizedBox
                       .shrink(); // here by default width and height is 0

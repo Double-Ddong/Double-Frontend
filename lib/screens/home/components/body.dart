@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/friends_list/components/section_title.dart';
-import 'package:shop_app/screens/home/components/MBTI_friends.dart';
-import 'package:shop_app/screens/home/components/Mainpage1.dart';
-import 'package:shop_app/screens/home/components/similar_friends.dart';
+import 'package:shop_app/screens/home/components/Friends/MBTI_friends.dart';
+import 'package:shop_app/screens/home/components/Friends/Mainpage1.dart';
+import 'package:shop_app/screens/home/components/Friends/similar_friends.dart';
 
 import '../../../size_config.dart';
 import 'categories.dart';
 import 'discount_banner.dart';
 import 'home_header.dart';
-import 'nearby_friends.dart';
+import 'Friends/nearby_friends.dart';
 
 import 'special_offers.dart';
 

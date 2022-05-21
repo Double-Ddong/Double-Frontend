@@ -7,7 +7,8 @@ import 'package:shop_app/screens/setting/setting_screen.dart';
 import 'package:shop_app/screens/modify_profile/modify_profile_screen.dart';
 import 'package:shop_app/screens/friends_list/friends_list_screen.dart';
 
-import 'details_form.dart';
+import '../../../Cookie/cookie.dart';
+import 'ViewProfileInCookie.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -30,13 +31,13 @@ class Body extends StatelessWidget {
                     IconButton(
                         icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
                         onPressed: () {
-                          Navigator.pushNamed(context, FriendsListScreen.routeName, arguments: loginperson);
+                          Navigator.pushNamed(context, CookieScreen.routeName, arguments: loginperson);
                         }
                     ),
                   ],
                 ),
                 SizedBox(height: getProportionateScreenHeight(30)),
-                ViewProfileForm(),
+                ViewProfileInCookie(),
               ],
             ),
           ),
