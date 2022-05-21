@@ -199,9 +199,48 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                             );
                           });
                     }
+                    //쿠키 개수 업데이트
+                    response = await dio.get('http://13.125.168.216:3000/main/tab/${p.userid}');
+                    Map ResponseBody = response.data;
+                    p.sendCookie = ResponseBody['data'][0]['SendCookie'].toString();
+                    //보낸쿠키 친구 리스트 업데이트
+                    response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${f.UserId}');
+                    Map FriendListBody1000 = response.data;
+                    Friends friend = Friends(
+                      f.UserId,
+                      FriendListBody1000['data'][0][0]['Profile'],
+                      FriendListBody1000['data'][0][0]['NickName'],
+                      Age: FriendListBody1000['data'][0][0]['Age'],
+                      University : FriendListBody1000['data'][0][0]['University'],
+                      Department : FriendListBody1000['data'][0][0]['Department'],
+                      MBTI_input : FriendListBody1000['data'][0][0]['MBTI'],
+                      Introduce : FriendListBody1000['data'][0][0]['Introduce'],
+                      Hobby : FriendListBody1000['data'][0][0]['Hobby'],
+                    );
+                    p.Receive.add(friend);
+
                     FlutterDialog();
                   }
                   else{
+                    response = await dio.get('http://13.125.168.216:3000/main/tab/${p.userid}');
+                    Map ResponseBody = response.data;
+                    p.sendCookie = ResponseBody['data'][0]['SendCookie'].toString();
+                    // 보낸쿠기 친구리스트 업데이트
+                    //보낸쿠키 친구 리스트 업데이트
+                    response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${f.UserId}');
+                    Map FriendListBody1000 = response.data;
+                    Friends friend = Friends(
+                      f.UserId,
+                      FriendListBody1000['data'][0][0]['Profile'],
+                      FriendListBody1000['data'][0][0]['NickName'],
+                      Age: FriendListBody1000['data'][0][0]['Age'],
+                      University : FriendListBody1000['data'][0][0]['University'],
+                      Department : FriendListBody1000['data'][0][0]['Department'],
+                      MBTI_input : FriendListBody1000['data'][0][0]['MBTI'],
+                      Introduce : FriendListBody1000['data'][0][0]['Introduce'],
+                      Hobby : FriendListBody1000['data'][0][0]['Hobby'],
+                    );
+                    p.Receive.add(friend);
                     Navigator.pushNamed(context, MatchScreen.routeName, arguments: p);
                   }
                 }
