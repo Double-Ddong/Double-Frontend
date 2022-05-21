@@ -51,14 +51,14 @@ class NavBar extends StatelessWidget {
                   leading: Icon(Icons.favorite),
                   title: Text('받은 쿠키 (${loginPerson.receiveCookie})'),
                   onTap: () {
-                    Navigator.pushNamed(context, CookieGotScreen.routeName, arguments: loginPerson);
+                    Navigator.pushNamed(context, CookieScreen.routeName, arguments: loginPerson);
                   },
                 ),
                 ListTile(
                     leading: Icon(Icons.favorite),
                     title: Text('보낸 쿠키 (${loginPerson.sendCookie})'),
                     onTap: () {
-                      Navigator.pushNamed(context, CookieScreen.routeName, arguments: loginPerson);
+                      Navigator.pushNamed(context, CookieGotScreen.routeName, arguments: loginPerson);
                     }
                 ),
               ]
