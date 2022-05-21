@@ -82,28 +82,65 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             ),
           ),
         ),
+
+        Row(children: [
+          SizedBox(width: getProportionateScreenWidth(5)),
+          OutlinedButton(
+            onPressed: () => {},
+            child: Text(
+              "${f.Age.toString()}살",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            style:
+            OutlinedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50))
+                )
+            ),
+          ),
+          SizedBox(width: getProportionateScreenWidth(5)),
+          OutlinedButton(
+            onPressed: () => {},
+            child: Text(
+              f.University,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            style:
+            OutlinedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50))
+                )
+            ),
+          ),
+          SizedBox(width: getProportionateScreenWidth(5)),
+          OutlinedButton(
+            onPressed: () => {},
+            child: Text(
+              f.Department,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            style:
+            OutlinedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50))
+                )
+            ),
+          ) ,
+          SizedBox(width: getProportionateScreenWidth(5)),
+        ],),
         Row(
           children: [
-            Expanded(flex : 1,child: OutlinedButton(
-              onPressed: () => {},
-              child: Text(
-                f.Age.toString(),
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              style:
-              OutlinedButton.styleFrom(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50))
-                  )
-              ),
-            )),
             SizedBox(width: getProportionateScreenWidth(5)),
-            Expanded(flex : 2,child: OutlinedButton(
+            OutlinedButton(
               onPressed: () => {},
               child: Text(
-                f.University,
+                f.Location.toString(),
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -114,12 +151,12 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       borderRadius: BorderRadius.all(Radius.circular(50))
                   )
               ),
-            )),
+            ),
             SizedBox(width: getProportionateScreenWidth(5)),
-            Expanded(flex: 3, child: OutlinedButton(
+            OutlinedButton(
               onPressed: () => {},
               child: Text(
-                f.Department,
+                f.MBTI_input.toString(),
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -130,12 +167,12 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       borderRadius: BorderRadius.all(Radius.circular(50))
                   )
               ),
-            ) ,),
+            ),
             SizedBox(width: getProportionateScreenWidth(5)),
-            Expanded(flex: 1, child: OutlinedButton(
+            OutlinedButton(
               onPressed: () => {},
               child: Text(
-                f.Age.toString(),
+                f.Smoke.toString(),
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -146,11 +183,30 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       borderRadius: BorderRadius.all(Radius.circular(50))
                   )
               ),
-            ),)
+            )
             ,
           ],
         ),
         SizedBox(height: getProportionateScreenHeight(10)),
+        Row(children: [
+          SizedBox(width: getProportionateScreenWidth(5)),
+          OutlinedButton(
+            onPressed: () => {},
+            child: Text(
+              f.Drink.toString(),
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            style:
+            OutlinedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50))
+                )
+            ),
+          ),
+          SizedBox(width: getProportionateScreenWidth(5)),
+        ],),
         Row(
           children: [
             SizedBox(width: getProportionateScreenWidth(15)),
@@ -216,7 +272,11 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       MBTI_input : FriendListBody1000['data'][0][0]['MBTI'],
                       Introduce : FriendListBody1000['data'][0][0]['Introduce'],
                       Hobby : FriendListBody1000['data'][0][0]['Hobby'],
+
                     );
+                    friend.Location = FriendListBody1000['data'][0][0]['Location'];
+                    friend.Smoke = FriendListBody1000['data'][0][0]['Smoke'];
+                    friend.Drink = FriendListBody1000['data'][0][0]['Drink'];
                     p.Send.add(friend);
 
                     FlutterDialog();
@@ -240,6 +300,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       Introduce : FriendListBody1000['data'][0][0]['Introduce'],
                       Hobby : FriendListBody1000['data'][0][0]['Hobby'],
                     );
+                    friend.Location = FriendListBody1000['data'][0][0]['Location'];
+                    friend.Smoke = FriendListBody1000['data'][0][0]['Smoke'];
+                    friend.Drink = FriendListBody1000['data'][0][0]['Drink'];
                     p.Send.add(friend);
                     Navigator.pushNamed(context, MatchScreen.routeName, arguments: p);
                   }

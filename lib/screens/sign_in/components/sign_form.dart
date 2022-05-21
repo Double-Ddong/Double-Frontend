@@ -167,6 +167,9 @@ class _SignFormState extends State<SignForm> {
                                     Departmentfriends[i].MBTI_input = FriendListBody10['data'][0][0]['MBTI'];
                                     Departmentfriends[i].Introduce = FriendListBody10['data'][0][0]['Introduce'];
                                     Departmentfriends[i].Hobby = FriendListBody10['data'][0][0]['Hobby'];
+                                    Departmentfriends[i].Location = FriendListBody10['data'][0][0]['Location'];
+                                    Departmentfriends[i].Smoke = FriendListBody10['data'][0][0]['Smoke'];
+                                    Departmentfriends[i].Drink = FriendListBody10['data'][0][0]['Drink'];
                                   }
                                 }
                                 //  친구리스트 2
@@ -192,6 +195,9 @@ class _SignFormState extends State<SignForm> {
                                     Nearbyfriends[i].MBTI_input = FriendListBody20['data'][0][0]['MBTI'];
                                     Nearbyfriends[i].Introduce = FriendListBody20['data'][0][0]['Introduce'];
                                     Nearbyfriends[i].Hobby = FriendListBody20['data'][0][0]['Hobby'];
+                                    Nearbyfriends[i].Location = FriendListBody20['data'][0][0]['Location'];
+                                    Nearbyfriends[i].Smoke = FriendListBody20['data'][0][0]['Smoke'];
+                                    Nearbyfriends[i].Drink = FriendListBody20['data'][0][0]['Drink'];
                                   }
                                 }
                                 //  친구리스트3
@@ -217,6 +223,9 @@ class _SignFormState extends State<SignForm> {
                                     MBTIfriends[i].MBTI_input = FriendListBody30['data'][0][0]['MBTI'];
                                     MBTIfriends[i].Introduce = FriendListBody30['data'][0][0]['Introduce'];
                                     MBTIfriends[i].Hobby = FriendListBody30['data'][0][0]['Hobby'];
+                                    MBTIfriends[i].Location = FriendListBody30['data'][0][0]['Location'];
+                                    MBTIfriends[i].Smoke = FriendListBody30['data'][0][0]['Smoke'];
+                                    MBTIfriends[i].Drink = FriendListBody30['data'][0][0]['Drink'];
                                   }
                                 }
                                 response = await dio.get('http://13.125.168.216:3000/main/cookie/receive/${userId.toString()}');
@@ -263,6 +272,9 @@ class _SignFormState extends State<SignForm> {
                                       SendFriends[i].MBTI_input = FriendListBody1000['data'][0][0]['MBTI'];
                                       SendFriends[i].Introduce = FriendListBody1000['data'][0][0]['Introduce'];
                                       SendFriends[i].Hobby = FriendListBody1000['data'][0][0]['Hobby'];
+                                      SendFriends[i].Location = FriendListBody1000['data'][0][0]['Location'];
+                                      SendFriends[i].Smoke = FriendListBody1000['data'][0][0]['Smoke'];
+                                      SendFriends[i].Drink = FriendListBody1000['data'][0][0]['Drink'];
                                     }
                                     for(int i = 0; i<receive_len;i++){
                                       response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${Receivefriends[i].UserId}');
@@ -270,6 +282,9 @@ class _SignFormState extends State<SignForm> {
                                       Receivefriends[i].MBTI_input = FriendListBody2000['data'][0][0]['MBTI'];
                                       Receivefriends[i].Introduce = FriendListBody2000['data'][0][0]['Introduce'];
                                       Receivefriends[i].Hobby = FriendListBody2000['data'][0][0]['Hobby'];
+                                      Receivefriends[i].Location = FriendListBody2000['data'][0][0]['Location'];
+                                      Receivefriends[i].Smoke = FriendListBody2000['data'][0][0]['Smoke'];
+                                      Receivefriends[i].Drink = FriendListBody2000['data'][0][0]['Drink'];
                                     }
 
 
