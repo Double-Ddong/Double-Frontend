@@ -7,35 +7,13 @@ import 'package:shop_app/screens/chat/chat_screen.dart';
 import 'package:shop_app/screens/home/components/cookie.dart';
 import '../../../size_config.dart';
 import 'gotcookie.dart';
+import 'package:shop_app/models/Chat.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 
 class NavBar extends StatelessWidget {
 
   late Response response;
   var dio = Dio();
-
-  //String NickName = '';
-  //String Profile = '';
-  //String Email = '';
-  //late int SendCookie = 0;
-  //late int ReceiveCookie = 0;
-
-  // void getMyInfo(final userId) async {
-  //   try {
-  //     response = await dio.get('http://13.125.168.216:3000/main/tab/${userId}');
-  //     Map responseBody = response.data;
-  //     bool success = responseBody['success'];
-  //
-  //     if (success) {
-  //       Profile = responseBody['data'][0]['Profile'];
-  //       NickName = responseBody['data'][0]['NickName'];
-  //       Email = responseBody['data'][0]['Email'];
-  //       SendCookie = responseBody['data'][0]['SendCookie'];
-  //       ReceiveCookie = responseBody['data'][0]['ReceiveCookie'];
-  //     }
-  //
-  //   } catch(e) { print(e); }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,15 +65,35 @@ class NavBar extends StatelessWidget {
           ListTile(
             // leading: Icon(Icons.favorite),
             title: Text('홈'),
-            onTap: () {
+            onTap: ()  {
               Navigator.pushNamed(context, HomeScreen.routeName, arguments: loginPerson);
             },
           ),
           ListTile(
             // leading: Icon(Icons.favorite),
             title: Text('채팅'),
-            onTap: () {
-              Navigator.pushNamed(context, ChatScreen.routeName, arguments: loginPerson);
+            onTap: () async {
+              response = await dio.get('http://13.125.168.216:3000/chat/getChatList/${loginPerson.userid}');
+              Map responseBody = response.data;
+              bool success = responseBody['success'];
+
+              if (success) {
+                List<Chat> chatsData = [];
+                int chatlen = responseBody['message'][0];
+
+                for(int i=0; i<chatlen; i++) {
+                  Chat chat = Chat();
+                  chat.name = responseBody['message'][1][i][(responseBody['message'][1][i].length)-1]['NickName'];
+                  chat.image = responseBody['message'][1][i][(responseBody['message'][1][i].length)-1]['Profile'];
+                  chat.lastMessage = responseBody['message'][1][i][(responseBody['message'][1][i].length)-1]['Message'];
+                  chat.time = responseBody['message'][1][i][(responseBody['message'][1][i].length)-1]['Date'];
+                  chatsData.add(chat);
+                  loginPerson.LastChat = chatsData;
+                }
+
+                Navigator.pushNamed(context, ChatScreen.routeName, arguments: loginPerson);
+              }
+
             },
           ),
           ListTile(

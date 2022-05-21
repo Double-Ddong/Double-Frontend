@@ -26,24 +26,24 @@ class ChatCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage: AssetImage(chat.image),
+                  backgroundImage: NetworkImage(chat.image),
                 ),
-                if (chat.isActive)
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      height: 16,
-                      width: 16,
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            width: 3),
-                      ),
-                    ),
-                  )
+                // if (chat.isActive)
+                //   Positioned(
+                //     right: 0,
+                //     bottom: 0,
+                //     child: Container(
+                //       height: 16,
+                //       width: 16,
+                //       decoration: BoxDecoration(
+                //         color: kPrimaryColor,
+                //         shape: BoxShape.circle,
+                //         border: Border.all(
+                //             color: Theme.of(context).scaffoldBackgroundColor,
+                //             width: 3),
+                //       ),
+                //     ),
+                //   )
               ],
             ),
             Expanded(
@@ -73,7 +73,9 @@ class ChatCard extends StatelessWidget {
             ),
             Opacity(
               opacity: 0.64,
-              child: Text(chat.time),
+              child: Text(
+                  '${chat.time~/60} 시간 ${chat.time%60} 분 전'
+              ),
             ),
           ],
         ),

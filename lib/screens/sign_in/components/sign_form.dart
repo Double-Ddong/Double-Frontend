@@ -227,7 +227,7 @@ class _SignFormState extends State<SignForm> {
                                   response = await dio.get('http://13.125.168.216:3000/main/cookie/send/${userId.toString()}');
                                   Map FriendListBody100 = response.data;
                                   bool success = FriendListBody100['success'];
-                                  print(FriendListBody100['data'][1][0]['UserId']);
+                                  //print(FriendListBody100['data'][1][0]['UserId']);
 
                                   if(success){
                                     int send_len = FriendListBody100['data'][1].length;

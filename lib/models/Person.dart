@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Friends.dart';
+import 'package:shop_app/models/Chat.dart';
 
 class Person {
   late String userid, nickname, profile, university, department, mbti, location, smoke, drink, hobby, introduce, birth, phone, email;
@@ -11,6 +12,7 @@ class Person {
   late List<Friends> MBTI;
   late List<Friends> Receive;
   late List<Friends> Send;
+  late List<Chat> LastChat;
 
 
   Person(this.userid, this.profile, this.nickname, this.university, this.department, this.mbti, this.location,

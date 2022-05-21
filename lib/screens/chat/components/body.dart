@@ -1,14 +1,18 @@
 import 'package:shop_app/components/filled_outline_button.dart';
+import 'package:shop_app/models/Person.dart';
 import '../../../constants.dart';
 import 'package:shop_app/models/Chat.dart';
 import 'package:shop_app/screens/messages/message_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../chat_screen.dart';
 import 'chat_card.dart';
 
 class Body extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return Column(
       children: [
         // Container(
@@ -29,15 +33,19 @@ class Body extends StatelessWidget {
         // ),
         Expanded(
           child: ListView.builder(
-            itemCount: chatsData.length,
+            itemCount: loginPerson.LastChat.length,
             itemBuilder: (context, index) => ChatCard(
-              chat: chatsData[index],
-              press: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MessagesScreen(),
-                ),
-              ),
+              chat: loginPerson.LastChat[index],
+              press: () {
+                Navigator.pushNamed(context, MessagesScreen.routeName, arguments: loginPerson);
+              },
+              // press: () => Navigator.push(
+              //   context,
+              //
+              //   // MaterialPageRoute(
+              //   //   builder: (context) => MessagesScreen(),
+              //   // ),
+              // ),
             ),
           ),
         ),

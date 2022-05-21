@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/home/components/NavBar.dart';
 import 'package:shop_app/screens/setting/setting_screen.dart';
 import 'components/body.dart';
@@ -21,43 +22,11 @@ class _ChatScreenState extends State<ChatScreen> {
       drawer: NavBar(),
       appBar: buildAppBar(),
       body: Body(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   backgroundColor: kPrimaryColor,
-      //   child: Icon(
-      //     Icons.person_add_alt_1,
-      //     color: Colors.white,
-      //   ),
-      // ),
-      //bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
 
-  // BottomNavigationBar buildBottomNavigationBar() {
-  //   return BottomNavigationBar(
-  //     type: BottomNavigationBarType.fixed,
-  //     currentIndex: _selectedIndex,
-  //     onTap: (value) {
-  //       setState(() {
-  //         _selectedIndex = value;
-  //       });
-  //     },
-  //     items: [
-  //       BottomNavigationBarItem(icon: Icon(Icons.messenger), label: "Chats"),
-  //       BottomNavigationBarItem(icon: Icon(Icons.people), label: "People"),
-  //       BottomNavigationBarItem(icon: Icon(Icons.call), label: "Calls"),
-  //       BottomNavigationBarItem(
-  //         icon: CircleAvatar(
-  //           radius: 14,
-  //           backgroundImage: AssetImage("assets/images/user_2.png"),
-  //         ),
-  //         label: "Profile",
-  //       ),
-  //     ],
-  //   );
-  // }
-
   AppBar buildAppBar() {
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return AppBar(
       automaticallyImplyLeading: false,
       title: Padding(
@@ -71,7 +40,7 @@ class _ChatScreenState extends State<ChatScreen> {
         IconButton(
             icon: SvgPicture.asset("assets/icons/Settings.svg"),
             onPressed: () {
-              Navigator.pushNamed(context, SettingScreen.routeName);
+              Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
             }
         ),
       ],
