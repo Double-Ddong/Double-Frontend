@@ -16,8 +16,8 @@ class Person {
   late List<Friends> Send;
   late List<Chat> LastChat;
   //late List<List<ChatMessage>> Message = [] as List<List<ChatMessage>>;
-  late Map<int, List<ChatMessage>> Message;
-  //late List<ChatMessage> SendMessage;
+  //late Map<int, List<ChatMessage>> Message;
+  late List<ChatMessage> Message;
   //late List<ChatMessage> ReceiveMessage;
   late int frienddetail = 0;
   late int whatkind = 0;

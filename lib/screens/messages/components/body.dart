@@ -11,28 +11,27 @@ import '../../../size_config.dart';
 import 'message.dart';
 
 class Body extends StatelessWidget {
+  List<ChatMessage> chatMessage = [];
   @override
   Widget build(BuildContext context) {
     final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
-    ChatMessage sendMessage;
-    int messagelen = loginPerson.Message.length;
-    for(int i=0; i<messagelen; i++) {
-      if(i == loginPerson.chatclick) {
-        List<ChatMessage>? receive = loginPerson.Message[i];
+    for(int i=0; i<loginPerson.Message.length; i++) {
+      if(loginPerson.Message[i].chatRoom == loginPerson.chatclick) {
+        chatMessage.add(loginPerson.Message[i]);
       }
     }
     return Column(
       children: [
-        // Expanded(
-        //   child: Padding(
-        //     padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-        //     child: ListView.builder(
-        //       itemCount: loginPerson.Message.length,
-        //       itemBuilder: (context, index) =>
-        //           Message(message: loginPerson.Message[loginPerson.Message.length-1]![index]),
-        //     ),
-        //   ),
-        // ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+            child: ListView.builder(
+              itemCount: chatMessage.length,
+              itemBuilder: (context, index) =>
+                  Message(message: chatMessage[index]),
+            ),
+          ),
+        ),
         ChatInputField(),
       ],
     );

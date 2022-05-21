@@ -9,6 +9,9 @@ import '../../../constants.dart';
 
 class MessagesScreen extends StatelessWidget {
   static String routeName = "/message";
+  late String name = '';
+  late String profile = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +22,12 @@ class MessagesScreen extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
+    for(int i=0; i<loginPerson.LastChat.length; i++) {
+      if(loginPerson.LastChat[i].chatRoom == loginPerson.chatclick) {
+        name = loginPerson.LastChat[i].name;
+        profile = loginPerson.LastChat[i].image;
+      }
+    }
     return AppBar(
       automaticallyImplyLeading: false,
       title: Row(
@@ -31,13 +40,13 @@ class MessagesScreen extends StatelessWidget {
           ),
           SizedBox(width : getProportionateScreenWidth(65)),
           Text(
-            "${loginPerson.LastChat[loginPerson.chatclick].name}",
+            "${name}",
             style: TextStyle(fontSize: 15, color: Colors.black,),
           ),
           //SizedBox(width : getProportionateScreenWidth(30)),
           Spacer(),
           CircleAvatar(
-            backgroundImage: NetworkImage(loginPerson.LastChat[loginPerson.chatclick].image),
+            backgroundImage: NetworkImage(profile),
           ),
         ],
       ),
