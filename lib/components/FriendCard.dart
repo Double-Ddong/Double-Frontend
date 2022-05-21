@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Friends.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/friends_list/friends_list_screen.dart';
@@ -13,24 +14,40 @@ class FriendCard extends StatelessWidget {
     Key? key,
     this.width = 140,
     this.aspectRetio = 1.02,
-    required this.friends,
+    required this.person,
   }) : super(key: key);
 
   final double width, aspectRetio;
-  final Friends friends;
+  final Friends person;
 
   @override
   Widget build(BuildContext context) {
+    final Person loginperson = ModalRoute.of(context)?.settings.arguments as Person;
+    Friends friends;
+    friends = loginperson.Department[loginperson.frienddetail];
+    if(loginperson.whatkind == 1){
+      friends = loginperson.Department[loginperson.frienddetail];
+    }
+    if(loginperson.whatkind == 2){
+      friends = loginperson.Nearby[loginperson.frienddetail];
+    }
+    if(loginperson.whatkind == 3){
+      friends = loginperson.MBTI[loginperson.frienddetail];
+    }
+
+
     return Padding(
       padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
       child: SizedBox(
         width: getProportionateScreenWidth(width),
         child: GestureDetector(
-          onTap: () => Navigator.pushNamed(
-            context,
-            DetailsScreen.routeName,
-            arguments: friends,
-          ),
+          // onTap: () {
+          //   Navigator.pushNamed(
+          //     context,
+          //     DetailsScreen.routeName,
+          //     arguments: loginperson,
+          //   );
+          // },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -43,51 +60,12 @@ class FriendCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Hero(
-                    tag: friends.UserId.toString(),
-                    child: Image.network(friends.Profile),
+                    tag: person.UserId.toString(),
+                    child: Image.network(person.Profile),
                   ),
                 ),
               ),
               const SizedBox(height: 10),
-              // Text(
-              //   product.title,
-              //   style: TextStyle(color: Colors.black),
-              //   maxLines: 2,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       "\$${product.price}",
-              //       style: TextStyle(
-              //         fontSize: getProportionateScreenWidth(18),
-              //         fontWeight: FontWeight.w600,
-              //         color: kPrimaryColor,
-              //       ),
-              //     ),
-              //     InkWell(
-              //       borderRadius: BorderRadius.circular(50),
-              //       onTap: () {},
-              //       child: Container(
-              //         padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-              //         height: getProportionateScreenWidth(28),
-              //         width: getProportionateScreenWidth(28),
-              //         decoration: BoxDecoration(
-              //           color: product.isFavourite
-              //               ? kPrimaryColor.withOpacity(0.15)
-              //               : kSecondaryColor.withOpacity(0.1),
-              //           shape: BoxShape.circle,
-              //         ),
-              //         child: SvgPicture.asset(
-              //           "assets/icons/Heart Icon_2.svg",
-              //           color: product.isFavourite
-              //               ? Color(0xFFFF4848)
-              //               : Color(0xFFDBDEE4),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // )
             ],
           ),
         ),

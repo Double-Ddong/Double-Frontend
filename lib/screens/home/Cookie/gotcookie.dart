@@ -2,17 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../size_config.dart';
-import 'ReceiveCookieList.dart';
 import 'cookielist.dart';
-import 'home_header.dart';
-
-class CookieScreen extends StatelessWidget{
-  static String routeName = "/cookie";
+class CookieGotScreen extends StatelessWidget{
+  static String routeName = "/cookiegot";
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
           title:
           Padding (
               padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
@@ -20,17 +17,17 @@ class CookieScreen extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children : [
                     Text(
-                      "보낸 쿠키",
+                      "받은 쿠키",
                       // textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: getProportionateScreenWidth(20),
                         color: Colors.black,
                       ),
-                    ),]
-              )
+          ),]
+            )
           )
-      ),
-      body: ReceiveCookieList()
+        ),
+        body: CookieList()
     );
   }
 

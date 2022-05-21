@@ -20,8 +20,9 @@ class Person {
   //late List<ChatMessage> SendMessage;
   //late List<ChatMessage> ReceiveMessage;
   late int frienddetail = 0;
+  late int whatkind = 0;
   late Friends frienddetailfrom;
-  late List<String> matchimg;
+  late List<Friends> FriendCardList;
 
 
   Person(this.userid, this.profile, this.nickname, this.university, this.department, this.mbti, this.location,

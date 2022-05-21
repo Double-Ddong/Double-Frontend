@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
+import 'package:shop_app/screens/home/Cookie/CookieDetail/CookieDetailScreen.dart';
 // import 'package:shop_app/screens/setting/components/profile_pic.dart';
 
 import '../../../constants.dart';
@@ -84,6 +85,8 @@ ListTile _tile(BuildContext context, Person p, int i,String title, String subtit
       borderRadius : BorderRadius.circular(100),
       child: Image.network(img),
     ),
-  onTap: () =>{
-    Navigator.pushNamed(context, DetailsScreen.routeName, arguments: p.Receive[i])},
+  onTap: () {
+    p.frienddetailfrom = p.Receive[i];
+    Navigator.pushNamed(context, DetailsScreen.routeName, arguments: p);
+    },
 );

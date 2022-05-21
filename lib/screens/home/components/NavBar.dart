@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/models/ChatMessage.dart';
 import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/chat/chat_screen.dart';
-import 'package:shop_app/screens/home/components/cookie.dart';
+import 'package:shop_app/screens/home/Cookie/cookie.dart';
+import 'package:shop_app/screens/home/Cookie/gotcookie.dart';
 import '../../../size_config.dart';
-import 'gotcookie.dart';
+import '../Cookie/gotcookie.dart';
 import 'package:shop_app/models/Chat.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 

@@ -8,8 +8,9 @@ import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/forgot_id/forgot_id_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/friends_list/friends_list_screen.dart';
-import 'package:shop_app/screens/home/components/cookie.dart';
-import 'package:shop_app/screens/home/components/gotcookie.dart';
+import 'package:shop_app/screens/home/Cookie/CookieDetail/CookieDetailScreen.dart';
+import 'package:shop_app/screens/home/Cookie/cookie.dart';
+import 'package:shop_app/screens/home/Cookie/gotcookie.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:shop_app/screens/otp/otp_screen.dart';
@@ -56,5 +57,6 @@ final Map<String, WidgetBuilder> routes = {
   ChatScreen.routeName : (context) => ChatScreen(),
   MessagesScreen.routeName : (context) => MessagesScreen(),
   MatchScreen.routeName: (context) => MatchScreen(),
+  CookieDetailsScreen.routeName: (context) => CookieDetailsScreen(),
 
 };
