@@ -217,7 +217,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       Introduce : FriendListBody1000['data'][0][0]['Introduce'],
                       Hobby : FriendListBody1000['data'][0][0]['Hobby'],
                     );
-                    p.Receive.add(friend);
+                    p.Send.add(friend);
 
                     FlutterDialog();
                   }
@@ -240,7 +240,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       Introduce : FriendListBody1000['data'][0][0]['Introduce'],
                       Hobby : FriendListBody1000['data'][0][0]['Hobby'],
                     );
-                    p.Receive.add(friend);
+                    p.Send.add(friend);
                     Navigator.pushNamed(context, MatchScreen.routeName, arguments: p);
                   }
                 }
