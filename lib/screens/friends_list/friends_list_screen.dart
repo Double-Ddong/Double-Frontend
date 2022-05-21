@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
 import 'package:shop_app/enums.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/home/components/NavBar.dart';
 import 'package:shop_app/screens/setting/setting_screen.dart';
@@ -30,6 +31,7 @@ class FriendsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
     return Scaffold(
       drawer: NavBar(),
       appBar:
@@ -45,7 +47,7 @@ class FriendsListScreen extends StatelessWidget {
           IconButton(
               icon: SvgPicture.asset("assets/icons/Settings.svg"),
               onPressed: () {
-                Navigator.pushNamed(context, SettingScreen.routeName);
+                Navigator.pushNamed(context, SettingScreen.routeName, arguments: loginPerson);
               }
           ),
         ],
