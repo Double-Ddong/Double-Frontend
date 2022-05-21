@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/ChatMessage.dart';
 import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/chat/chat_screen.dart';
 import 'package:shop_app/screens/home/Cookie/cookie.dart';
@@ -80,9 +81,14 @@ class NavBar extends StatelessWidget {
 
               if (success) {
                 List<Chat> chatsData = [];
+                //List<List<ChatMessage>> message = [];
+                List<ChatMessage> SendChatMessages = [];
+                List<ChatMessage> ReceiveChatMessages = [];
                 int chatlen = responseBody['message'][0];
+                int messagelen = responseBody['message'][1].length;
 
-                for(int i=0; i<chatlen; i++) {
+
+                for(int i=0; i<chatlen; i++) { // 마지막 메시지
                   Chat chat = Chat();
                   chat.name = responseBody['message'][1][i][(responseBody['message'][1][i].length)-1]['NickName'];
                   chat.image = responseBody['message'][1][i][(responseBody['message'][1][i].length)-1]['Profile'];
@@ -92,6 +98,39 @@ class NavBar extends StatelessWidget {
                   loginPerson.LastChat = chatsData;
                 }
 
+                for(int i=0; i<chatlen; i++) { // 사용자가 받은 메시지
+                  int messagelen = responseBody['message'][1][i].length;
+                  //int chatRoom = responseBody['message'][1][i]['ChatRoom'];
+                  for(int j=0; j<messagelen; j++) {
+                    //int chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
+                    ChatMessage message = ChatMessage(isSender: true);
+                    message.text = responseBody['message'][1][i][j]['Message'];
+                    //print(chatRoom);
+                    SendChatMessages.add(message);
+                    //loginPerson.Message[chatRoom]?.add(message);
+                  }
+                  loginPerson.Message[i] = SendChatMessages;
+                  //loginPerson.Message.add(SendChatMessages);
+                }
+
+                for(int i=chatlen; i<chatlen*2; i++) { // 사용자가 전송한 메시지
+                  int messagelen = responseBody['message'][1][i].length;
+                  //int chatRoom = responseBody['message'][1][i]['ChatRoom'];
+                  for(int j=0; j<messagelen; j++) {
+                    ChatMessage message = ChatMessage(isSender: false);
+                    //int chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
+                    message.text = responseBody['message'][1][i][j]['Message'];
+                    ReceiveChatMessages.add(message);
+                    //loginPerson.Message[chatRoom]?.add(message);
+                  }
+                  loginPerson.Message[i] = ReceiveChatMessages;
+                  //loginPerson.Message.add(ReceiveChatMessages);
+                  //loginPerson.ReceiveMessage = ReceiveChatMessages;
+                  //loginPerson.Message.add(ReceiveChatMessages);
+                  //message[i] = SendChatMessages;
+                }
+                // //loginPerson.Message = message;
+                //print(loginPerson.Message[0][0]?.text);
                 Navigator.pushNamed(context, ChatScreen.routeName, arguments: loginPerson);
               }
 

@@ -37,6 +37,7 @@ class Body extends StatelessWidget {
             itemBuilder: (context, index) => ChatCard(
               chat: loginPerson.LastChat[index],
               press: () {
+                loginPerson.chatclick = index;
                 Navigator.pushNamed(context, MessagesScreen.routeName, arguments: loginPerson);
               },
               // press: () => Navigator.push(

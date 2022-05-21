@@ -18,16 +18,17 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget messageContaint(ChatMessage message) {
-      switch (message.messageType) {
-        case ChatMessageType.text:
-          return TextMessage(message: message);
-        case ChatMessageType.audio:
-          return AudioMessage(message: message);
-        case ChatMessageType.video:
-          return VideoMessage();
-        default:
-          return SizedBox();
-      }
+      return TextMessage(message: message);
+      // switch (message.messageType) {
+      //   case ChatMessageType.text:
+      //     return TextMessage(message: message);
+      //   case ChatMessageType.audio:
+      //     return AudioMessage(message: message);
+      //   case ChatMessageType.video:
+      //     return VideoMessage();
+      //   default:
+      //     return SizedBox();
+      // }
     }
 
     return Padding(
@@ -44,7 +45,7 @@ class Message extends StatelessWidget {
             SizedBox(width: getProportionateScreenWidth(8)),
           ],
           messageContaint(message),
-          if (message.isSender) MessageStatusDot(status: message.messageStatus)
+          //if (message.isSender) MessageStatusDot(status: message.messageStatus)
         ],
       )
     );

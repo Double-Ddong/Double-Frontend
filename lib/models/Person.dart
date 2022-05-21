@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/ChatMessage.dart';
 import 'package:shop_app/models/Friends.dart';
 import 'package:shop_app/models/Chat.dart';
 
@@ -7,12 +8,17 @@ class Person {
   late String age, height, sendCookie, receiveCookie;
   late int scopeUniversity, scopePeople;
   late int friendclick;
+  late int chatclick;
   late List<Friends> Department;
   late List<Friends> Nearby;
   late List<Friends> MBTI;
   late List<Friends> Receive;
   late List<Friends> Send;
   late List<Chat> LastChat;
+  //late List<List<ChatMessage>> Message = [] as List<List<ChatMessage>>;
+  late Map<int, List<ChatMessage>> Message;
+  //late List<ChatMessage> SendMessage;
+  //late List<ChatMessage> ReceiveMessage;
   late int frienddetail = 0;
   late int whatkind = 0;
   late Friends frienddetailfrom;
