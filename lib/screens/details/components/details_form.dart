@@ -84,8 +84,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
         ),
         Row(
           children: [
-            // SizedBox(width: getProportionateScreenWidth(15)),
-            OutlinedButton(
+            Expanded(flex : 1,child: OutlinedButton(
               onPressed: () => {},
               child: Text(
                 f.Age.toString(),
@@ -99,9 +98,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       borderRadius: BorderRadius.all(Radius.circular(50))
                   )
               ),
-            ),
+            )),
             SizedBox(width: getProportionateScreenWidth(5)),
-            OutlinedButton(
+            Expanded(flex : 2,child: OutlinedButton(
               onPressed: () => {},
               child: Text(
                 f.University,
@@ -115,9 +114,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       borderRadius: BorderRadius.all(Radius.circular(50))
                   )
               ),
-            ),
+            )),
             SizedBox(width: getProportionateScreenWidth(5)),
-            OutlinedButton(
+            Expanded(flex: 3, child: OutlinedButton(
               onPressed: () => {},
               child: Text(
                 f.Department,
@@ -131,9 +130,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       borderRadius: BorderRadius.all(Radius.circular(50))
                   )
               ),
-            ),
+            ) ,),
             SizedBox(width: getProportionateScreenWidth(5)),
-            OutlinedButton(
+            Expanded(flex: 1, child: OutlinedButton(
               onPressed: () => {},
               child: Text(
                 f.Age.toString(),
@@ -147,7 +146,8 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                       borderRadius: BorderRadius.all(Radius.circular(50))
                   )
               ),
-            ),
+            ),)
+            ,
           ],
         ),
         SizedBox(height: getProportionateScreenHeight(10)),

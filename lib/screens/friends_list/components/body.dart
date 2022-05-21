@@ -79,7 +79,6 @@ class _Body extends State<Body> {
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-
                           width: SizeConfig.screenWidth * 0.35,
                           height: SizeConfig.screenHeight * 0.25,
                           padding: EdgeInsets.only(
@@ -87,36 +86,53 @@ class _Body extends State<Body> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15),
-                            // image: DecorationImage(
-                            //     image: NetworkImage(friendlist[index].Profile)),
                           ),
-
                           child: Card(
                             child: ListTile(
-                              title: Text("${friendlist[index].NickName}"),
-                              // subtitle:
-                              //     Row(
-                              //       children : [
-                              //         Container(
-                              //         width: SizeConfig.screenWidth * 0.08,
-                              //         height: 27,
-                              //         decoration: BoxDecoration(
-                              //           color: kSecondaryColor.withOpacity(0.1),
-                              //           borderRadius: BorderRadius.circular(15),
-                              //         ),
-                              //         child: Text(
-                              //           friendlist[index].NickName,
-                              //           style: TextStyle(height: 1.5),
-                              //           textAlign: TextAlign.center,
-                              //         ),
-                              //       ),
-                              //       ]
-                              //
-                              //     ),
-                              leading: ClipRRect(
-                                borderRadius : BorderRadius.circular(10),
-                                child: Image.network(friendlist[index].Profile),
-                              ),
+                              title: ClipRRect(
+                                        borderRadius : BorderRadius.circular(10),
+                                        child: Image.network(friendlist[index].Profile,
+                                          width: SizeConfig.screenWidth * 0.08,
+                                          height: SizeConfig.screenHeight * 0.08,),
+                                      ),
+                              // title: Text("${friendlist[index].NickName}"),
+                              subtitle:
+                                  Column(
+                                    children : [
+                                      Container(
+                                      width: SizeConfig.screenWidth * 0.20,
+                                      height: SizeConfig.screenHeight * 0.08,
+                                      // decoration: BoxDecoration(
+                                      //   color: kSecondaryColor.withOpacity(0.1),
+                                      //   borderRadius: BorderRadius.circular(15),
+                                      // ),
+                                        child:
+                                        Text(
+                                          "${friendlist[index].NickName}, ${friendlist[index].Age.toString()}살",
+                                          style: TextStyle(color: Colors.black,fontSize: 17, height: 1.5),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                    ),
+                                      // Container(
+                                      //   width: SizeConfig.screenWidth * 0.18,
+                                      //   height: SizeConfig.screenHeight * 0.08,
+                                      //   // decoration: BoxDecoration(
+                                      //   //   color: kSecondaryColor.withOpacity(0.1),
+                                      //   //   borderRadius: BorderRadius.circular(15),
+                                      //   // ),
+                                      //   child: Text(
+                                      //     friendlist[index].Age.toString(),
+                                      //     style: TextStyle(height: 1.5),
+                                      //     textAlign: TextAlign.center,
+                                      //   ),
+                                      // ),
+                                    ]
+
+                                  ),
+                              // leading: ClipRRect(
+                              //   borderRadius : BorderRadius.circular(10),
+                              //   child: Image.network(friendlist[index].Profile),
+                              // ),
                               onTap: () {
                                 loginperson.frienddetail = friendlist[index].UserId;
                                 loginperson.frienddetailfrom = friendlist[index];
