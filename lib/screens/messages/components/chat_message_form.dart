@@ -39,7 +39,19 @@ class ChatPageState extends State<ChatPage>{
     channelconnect();
     super.initState();
   }
-
+  Future<void> sendmsg(String sendmsg, String id) async {
+    if(connected == true){
+      String msg = "{'auth':'$auth','cmd':'send','userid':'$id', 'msgtext':'$sendmsg'}";
+      setState(() {
+        msgtext.text = "";
+        chatMessage.add(ChatMessage(text: sendmsg, userId: int.parse(myid), isSender: true));
+      });
+      channel.sink.add(msg); //send message to reciever channel
+    }else{
+      channelconnect();
+      print("Websocket is not connected.");
+    }
+  }
   channelconnect(){ //function to connect
     try{
       channel = IOWebSocketChannel.connect("ws://ec2-13-209-40-159.ap-northeast-2.compute.amazonaws.com:6060/$myid"); //channel IP : Port
@@ -90,30 +102,20 @@ class ChatPageState extends State<ChatPage>{
     }
   }
 
-  Future<void> sendmsg(String sendmsg, String id) async {
-    if(connected == true){
-      String msg = "{'auth':'$auth','cmd':'send','userid':'$id', 'msgtext':'$sendmsg'}";
-      setState(() {
-        msgtext.text = "";
-        chatMessage.add(ChatMessage(text: sendmsg, userId: int.parse(myid), isSender: true));
-      });
-      channel.sink.add(msg); //send message to reciever channel
-    }else{
-      channelconnect();
-      print("Websocket is not connected.");
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
     final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
-    for(int i=0; i<loginPerson.Message.length; i++) {
-      if(loginPerson.Message[i].chatRoom == loginPerson.chatclick) {
-        chatMessage.add(loginPerson.Message[i]);
-      }
-    }
-    myid = loginPerson.userid;
-    recieverid = loginPerson.chatUserClick;
+    // for(int i=0; i<loginPerson.Message.length; i++) {
+    //   if(loginPerson.Message[i].chatRoom == loginPerson.chatclick) {
+    //     chatMessage.add(loginPerson.Message[i]);
+    //   }
+    // }
+    myid = 111.toString();
+        // loginPerson.userid;
+    recieverid = 222.toString();
+        // loginPerson.chatUserClick;
     chatRoom = loginPerson.chatclick;
 
     return Scaffold(
@@ -162,7 +164,6 @@ class ChatPageState extends State<ChatPage>{
               ),
 
               Positioned(  //position text field at bottom of screen
-
                 bottom: 0, left:0, right:0,
                 child: Container(
                     color: Colors.white,
