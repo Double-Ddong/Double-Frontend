@@ -9,6 +9,7 @@ class Person {
   late int scopeUniversity, scopePeople;
   late int friendclick;
   late int chatclick;
+  late String chatUserClick;
   late List<Friends> Department;
   late List<Friends> Nearby;
   late List<Friends> MBTI;
