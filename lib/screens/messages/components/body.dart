@@ -15,6 +15,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
+
     return ChatPage();
   }
 }

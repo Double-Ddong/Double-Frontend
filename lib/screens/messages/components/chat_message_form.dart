@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -36,24 +37,36 @@ class ChatPageState extends State<ChatPage>{
   void initState() {
     connected = false;
     msgtext.text = "";
-    channelconnect();
+    //channelconnect();
     super.initState();
+    //print(myid);
   }
-  Future<void> sendmsg(String sendmsg, String id) async {
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Person p = ModalRoute.of(context)?.settings.arguments as Person;
+    channelconnect(p.userid);
+  }
+
+  Future<void> sendmsg(String sendmsg, String id, int chatRoom) async {
     if(connected == true){
       String msg = "{'auth':'$auth','cmd':'send','userid':'$id', 'msgtext':'$sendmsg'}";
+      //print(msg);
       setState(() {
         msgtext.text = "";
-        chatMessage.add(ChatMessage(text: sendmsg, userId: int.parse(myid), isSender: true));
+        chatMessage.add(ChatMessage(text: sendmsg, userId: myid, isSender: true, chatRoom: 1));
       });
       channel.sink.add(msg); //send message to reciever channel
     }else{
-      channelconnect();
+      channelconnect(myid);
       print("Websocket is not connected.");
     }
   }
-  channelconnect(){ //function to connect
+
+  channelconnect(String myid){ //function to connect
     try{
+      //print('userid = $myid');
       channel = IOWebSocketChannel.connect("ws://ec2-13-209-40-159.ap-northeast-2.compute.amazonaws.com:6060/$myid"); //channel IP : Port
       channel.stream.listen((message) {
         print(message);
@@ -112,12 +125,6 @@ class ChatPageState extends State<ChatPage>{
     //     chatMessage.add(loginPerson.Message[i]);
     //   }
     // }
-    myid = 111.toString();
-        // loginPerson.userid;
-    recieverid = 222.toString();
-        // loginPerson.chatUserClick;
-    chatRoom = loginPerson.chatclick;
-
     return Scaffold(
         body: Container(
             child: Stack(children: [
@@ -188,7 +195,13 @@ class ChatPageState extends State<ChatPage>{
                             child:Icon(Icons.send),
                             onPressed: (){
                               if(msgtext.text != ""){
-                                sendmsg(msgtext.text, recieverid); //send message with webspcket
+                                myid = loginPerson.userid.toString();
+                                recieverid = loginPerson.chatUserClick.toString();
+                                //recieverid = '111';
+                                chatRoom = loginPerson.chatclick;
+                                //print(myid);
+                                //print(recieverid);
+                                sendmsg(msgtext.text, recieverid, chatRoom); //send message with webspcket
                               }else{
                                 print("Enter message");
                               }

@@ -93,7 +93,7 @@ class NavBar extends StatelessWidget {
                       ChatMessage message = ChatMessage(isSender: true);
                       message.text = responseBody['message'][1][i][j]['Message'];
                       message.chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
-                      message.userId = responseBody['message'][1][i][j]['UserId'];
+                      message.userId = responseBody['message'][1][i][j]['UserId'].toString();
                       Messages.add(message);
                     } else { // 로그인 사용자가 받은 경우
                       ChatMessage message = ChatMessage(isSender: false);
@@ -105,7 +105,7 @@ class NavBar extends StatelessWidget {
                       chat.lastMessage = responseBody['message'][1][i][j]['Message'];
                       chat.time = responseBody['message'][1][i][j]['Date'];
                       chat.chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
-                      chat.userId = responseBody['message'][1][i][j]['UserId'];
+                      chat.userId = responseBody['message'][1][i][j]['UserId'].toString();
                     }
                   }
                   chatsData.add(chat);

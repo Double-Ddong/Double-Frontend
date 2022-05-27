@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shop_app/models/Chat.dart';
 import 'package:shop_app/models/Person.dart';
+import 'package:shop_app/screens/messages/components/chat_message_form.dart';
 import 'components/body.dart';
 import 'package:shop_app/screens/chat/chat_screen.dart';
 
@@ -16,7 +18,7 @@ class MessagesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      body: Body(),
+      body: ChatPage(),
     );
   }
 

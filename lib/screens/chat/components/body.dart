@@ -38,7 +38,7 @@ class Body extends StatelessWidget {
               chat: loginPerson.LastChat[index],
               press: () {
                 loginPerson.chatclick = loginPerson.LastChat[index].chatRoom;
-                loginPerson.chatUserClick = loginPerson.LastChat[index].userId.toString();
+                loginPerson.chatUserClick = loginPerson.LastChat[index].userId;
                 //print(loginPerson.chatUserClick);
                 Navigator.pushNamed(context, MessagesScreen.routeName, arguments: loginPerson);
               },

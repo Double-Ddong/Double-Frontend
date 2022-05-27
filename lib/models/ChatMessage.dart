@@ -4,7 +4,7 @@ enum MessageStatus { not_sent, not_view, viewed }
 class ChatMessage {
   late String text;
   late int chatRoom;
-  late int userId;
+  late String userId;
   //final ChatMessageType messageType;
   //final MessageStatus messageStatus;
   final bool isSender;
@@ -14,7 +14,7 @@ class ChatMessage {
     this.chatRoom = 0,
     //required this.messageType,
     //required this.messageStatus,
-    this.userId = 0,
+    this.userId = '',
     required this.isSender,
   });
 }
