@@ -1,5 +1,5 @@
 class Chat {
-  late String name, lastMessage, image, userId;
+  late String name, lastMessage, image, userId, date;
   late int time, chatRoom;
   //final bool isActive;
 
@@ -10,6 +10,7 @@ class Chat {
     this.time = 0,
     this.chatRoom = 0,
     this.userId = '',
+    this.date = 'no date',
     //this.isActive = false,
   });
 }

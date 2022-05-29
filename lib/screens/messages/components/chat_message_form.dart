@@ -47,6 +47,11 @@ class ChatPageState extends State<ChatPage>{
     super.didChangeDependencies();
     Person p = ModalRoute.of(context)?.settings.arguments as Person;
     channelconnect(p.userid);
+    for(int i=0; i<p.Message.length; i++) {
+      if(p.Message[i].chatRoom == p.chatclick) {
+        chatMessage.add(p.Message[i]);
+      }
+    }
   }
 
   Future<void> sendmsg(String sendmsg, String id, int chatRoom) async {
@@ -120,11 +125,7 @@ class ChatPageState extends State<ChatPage>{
   @override
   Widget build(BuildContext context) {
     final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
-    // for(int i=0; i<loginPerson.Message.length; i++) {
-    //   if(loginPerson.Message[i].chatRoom == loginPerson.chatclick) {
-    //     chatMessage.add(loginPerson.Message[i]);
-    //   }
-    // }
+
     return Scaffold(
         body: Container(
             child: Stack(children: [
@@ -197,10 +198,8 @@ class ChatPageState extends State<ChatPage>{
                               if(msgtext.text != ""){
                                 myid = loginPerson.userid.toString();
                                 recieverid = loginPerson.chatUserClick.toString();
-                                //recieverid = '111';
                                 chatRoom = loginPerson.chatclick;
-                                //print(myid);
-                                //print(recieverid);
+                                print(recieverid);
                                 sendmsg(msgtext.text, recieverid, chatRoom); //send message with webspcket
                               }else{
                                 print("Enter message");

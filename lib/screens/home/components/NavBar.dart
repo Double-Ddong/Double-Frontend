@@ -95,6 +95,13 @@ class NavBar extends StatelessWidget {
                       message.chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
                       message.userId = responseBody['message'][1][i][j]['UserId'].toString();
                       Messages.add(message);
+                      chat.lastMessage = responseBody['message'][1][i][j]['Message'];
+                      chat.time = responseBody['message'][1][i][j]['Minute'];
+                      if(chat.time >= 1440) {
+                        chat.date = responseBody['message'][1][i][j]['Date'];
+                      } else {
+                        chat.date = 'no date';
+                      }
                     } else { // 로그인 사용자가 받은 경우
                       ChatMessage message = ChatMessage(isSender: false);
                       message.text = responseBody['message'][1][i][j]['Message'];
@@ -102,10 +109,15 @@ class NavBar extends StatelessWidget {
                       Messages.add(message);
                       chat.name = responseBody['message'][1][i][j]['NickName'];
                       chat.image = responseBody['message'][1][i][j]['Profile'];
-                      chat.lastMessage = responseBody['message'][1][i][j]['Message'];
-                      chat.time = responseBody['message'][1][i][j]['Date'];
                       chat.chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
                       chat.userId = responseBody['message'][1][i][j]['UserId'].toString();
+                      chat.lastMessage = responseBody['message'][1][i][j]['Message'];
+                      chat.time = responseBody['message'][1][i][j]['Minute'];
+                      if(chat.time >= 1440) {
+                        chat.date = responseBody['message'][1][i][j]['Date'];
+                      } else {
+                        chat.date = 'no date';
+                      }
                     }
                   }
                   chatsData.add(chat);

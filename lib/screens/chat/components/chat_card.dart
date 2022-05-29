@@ -74,7 +74,7 @@ class ChatCard extends StatelessWidget {
             Opacity(
               opacity: 0.64,
               child: Text(
-                  '${chat.time~/60} 시간 ${chat.time%60} 분 전'
+                  chat.date == 'no date'?'${chat.time~/60} 시간 ${chat.time%60} 분 전':'${chat.date}'
               ),
             ),
           ],
