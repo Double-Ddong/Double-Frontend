@@ -91,7 +91,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
           OutlinedButton(
             onPressed: () => {},
             child: Text(
-              "${f.Age.toString()}살",
+              "${f.Age.toString()}세",
               style: TextStyle(
                 color: Colors.black,
               ),

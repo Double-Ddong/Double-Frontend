@@ -213,7 +213,7 @@ class _SignFormState extends State<SignForm> {
                                 );
                                 MBTIfriends.add(MBTI);
                                 }
-                                for(int i = 0; i < nearby_len; i++){
+                                for(int i = 0; i < mbti_len; i++){
                                   response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${MBTIfriends[i].UserId}');
                                   Map FriendListBody30 = response.data;
                                   bool success = FriendListBody30['success'];
