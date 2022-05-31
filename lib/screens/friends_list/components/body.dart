@@ -108,7 +108,7 @@ class _Body extends State<Body> {
                                       // ),
                                         child:
                                         Text(
-                                          "${friendlist[index].NickName}, ${friendlist[index].Age.toString()}살",
+                                          "${friendlist[index].NickName} \n ${friendlist[index].Age.toString()}살",
                                           style: TextStyle(color: Colors.black,fontSize: 17, height: 1.5),
                                           textAlign: TextAlign.center,
                                         ),

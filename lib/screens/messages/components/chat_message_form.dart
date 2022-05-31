@@ -189,8 +189,7 @@ class ChatPageState extends State<ChatPage>{
                                 recieverid = loginPerson.chatUserClick.toString();
                                 chatRoom = loginPerson.chatclick;
                                 String text = msgtext.text;
-                                sendmsg(msgtext.text, recieverid, chatRoom); //send message with websockets
-
+                                sendmsg(msgtext.text, recieverid, chatRoom);//send message with webspcket
                                 //해당 메세지를 채팅db에 저장한다.
                                 response = await dio.post('http://13.125.168.216:3000/chat/putChatMessage', data: {'SendID' : myid, 'ReceiveID' : recieverid, 'Message' : text, 'ChatRoom' : chatRoom});
                                 Map responseBody1 = response.data;

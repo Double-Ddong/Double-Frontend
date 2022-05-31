@@ -17,7 +17,7 @@ class CookieGotScreen extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children : [
                     Text(
-                      "받은 쿠키",
+                      "보낸 쿠키",
                       // textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: getProportionateScreenWidth(20),
