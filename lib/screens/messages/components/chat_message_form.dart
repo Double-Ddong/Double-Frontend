@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shop_app/models/ChatMessage.dart';
 import 'package:shop_app/models/Person.dart';
 import 'package:web_socket_channel/io.dart';
-
 import '../../../constants.dart';
+
 late Response response;
 var dio = Dio();
+
 class ChatPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -27,10 +24,8 @@ class ChatPageState extends State<ChatPage>{
   String myid = ''; //my id
   String recieverid = ''; //reciever id
   late int chatRoom;
-  // swap myid and recieverid value on another mobile to test send and recieve
   String auth = "chatapphdfgjd34534hjdfk"; //auth key
 
-  //List<MessageData> msglist = [];
   List<ChatMessage> chatMessage = [];
 
   TextEditingController msgtext = TextEditingController();
@@ -39,9 +34,7 @@ class ChatPageState extends State<ChatPage>{
   void initState() {
     connected = false;
     msgtext.text = "";
-    //channelconnect();
     super.initState();
-    //print(myid);
   }
 
   @override
@@ -59,7 +52,6 @@ class ChatPageState extends State<ChatPage>{
   Future<void> sendmsg(String sendmsg, String id, int chatRoom) async {
     if(connected == true){
       String msg = "{'auth':'$auth','cmd':'send','userid':'$id', 'msgtext':'$sendmsg'}";
-      //print(msg);
       setState(() {
         msgtext.text = "";
         chatMessage.add(ChatMessage(text: sendmsg, userId: myid, isSender: true, chatRoom: 1));
@@ -73,7 +65,6 @@ class ChatPageState extends State<ChatPage>{
 
   channelconnect(String myid){ //function to connect
     try{
-      //print('userid = $myid');
       channel = IOWebSocketChannel.connect("ws://ec2-13-209-40-159.ap-northeast-2.compute.amazonaws.com:6060/$myid"); //channel IP : Port
       channel.stream.listen((message) {
         print(message);
@@ -101,6 +92,7 @@ class ChatPageState extends State<ChatPage>{
               chatRoom: chatRoom,
             )
             );
+
             setState(() { //update UI after adding data to message model
 
             });
@@ -122,12 +114,9 @@ class ChatPageState extends State<ChatPage>{
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
-
     return Scaffold(
         body: Container(
             child: Stack(children: [
@@ -179,7 +168,6 @@ class ChatPageState extends State<ChatPage>{
                     color: Colors.white,
                     height: 70,
                     child: Row(children: [
-
                       Expanded(
                           child: Container(
                             margin: EdgeInsets.all(10),
@@ -191,7 +179,6 @@ class ChatPageState extends State<ChatPage>{
                             ),
                           )
                       ),
-
                       Container(
                           margin: EdgeInsets.all(10),
                           child: ElevatedButton(
@@ -201,12 +188,16 @@ class ChatPageState extends State<ChatPage>{
                                 myid = loginPerson.userid.toString();
                                 recieverid = loginPerson.chatUserClick.toString();
                                 chatRoom = loginPerson.chatclick;
-                                print(recieverid);
-                                sendmsg(msgtext.text, recieverid, chatRoom);//send message with webspcket
+                                String text = msgtext.text;
+                                sendmsg(msgtext.text, recieverid, chatRoom); //send message with websockets
+
                                 //해당 메세지를 채팅db에 저장한다.
-                                response = await dio.post('http://13.125.168.216:3000/chat/putChatMessage', data: {'SendID' : myid, 'ReceiveID' : recieverid, 'Message' : msgtext.text, 'ChatRoom' : chatRoom});
+                                response = await dio.post('http://13.125.168.216:3000/chat/putChatMessage', data: {'SendID' : myid, 'ReceiveID' : recieverid, 'Message' : text, 'ChatRoom' : chatRoom});
                                 Map responseBody1 = response.data;
                                 bool success = responseBody1['success'];
+                                if(success){
+                                  loginPerson.Message.add(ChatMessage(text: text, userId: myid, chatRoom: chatRoom, isSender: true));
+                                }
                               }else{
                                 print("Enter message");
                               }
@@ -221,11 +212,3 @@ class ChatPageState extends State<ChatPage>{
     );
   }
 }
-
-// class MessageData{ //message data model
-//   String msgtext, userid;
-//   bool isme;
-//   MessageData({required this.msgtext, required this.userid, required this.isme});
-//
-// }
-

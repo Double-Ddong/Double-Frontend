@@ -173,28 +173,68 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 bool success = responseBody['success'];
 
                 if (success) {
+                  if(_image == null) {
+                    void FlutterDialog() {
+                      showDialog(
+                          context: context,
+                          //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              //Dialog Main Title
+                              title: Column(
+                                children: <Widget>[
+                                  new Text("회원가입 실패"),
+                                ],
+                              ),
+                              //
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "프로필 사진을 선택해주세요.",
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                new FlatButton(
+                                  child: new Text("확인"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    }
+                    FlutterDialog();
+                  } else {
+                    dio.options.contentType = 'multipart/form-data';
+                    dio.options.maxRedirects.isFinite;
 
-                  dio.options.contentType = 'multipart/form-data';
-                  dio.options.maxRedirects.isFinite;
-
-
-                  var formData3 = FormData.fromMap({
+                    var formData3 = FormData.fromMap({
                       "img": await MultipartFile.fromFile(sendimage,filename: 'upload.png')
                     });
-                  response = await dio.post(
-                      'http://13.125.168.216:3000/auth/signupProfileImg/${userId}',
-                      data: formData3
-                      );
-                  print(response.data);
-                  Map responseBody2 = response.data;
-                  bool success2 = responseBody2['success'];
+                    response = await dio.post(
+                        'http://13.125.168.216:3000/auth/signupProfileImg/${userId}',
+                        data: formData3
+                    );
+                    print(response.data);
+                    Map responseBody2 = response.data;
+                    bool success2 = responseBody2['success'];
 
-                  if (success2) {
-                    Navigator.pushNamed(context, SignInScreen.routeName);
+                    if (success2) {
+                      //Navigator.pushNamed(context, SignInScreen.routeName);
+                    }
                   }
                 }
-
               }
+
+
             },
           ),
           SizedBox(height: getProportionateScreenHeight(10)),

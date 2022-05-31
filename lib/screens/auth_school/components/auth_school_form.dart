@@ -5,6 +5,7 @@ import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/components/mail_text.dart';
 import 'package:shop_app/components/send_button.dart';
+import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/auth_school2/auth_school_screen2.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/otp/otp_screen.dart';
@@ -27,14 +28,17 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
   String? sendEmail;
   String? password;
 
-  //String? confirm_password;
-  //bool remember = false;
-  var university = ['KDB금융대학교'];
-  String selectedUniversity = 'KDB금융대학교';
+  List<String> university = ['KDB금융대학교'];
+  String? selectedUniversity;
   late String universityMail = '';
   final List<String?> errors = [];
   late Response response;
   var dio = Dio();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void getUnivList() async {
     try {
@@ -92,7 +96,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
         children: [
           buildSchoolFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildPhoneFormField(),
+          buildMailFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -138,7 +142,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
     );
   }
 
-  Row buildPhoneFormField() {
+  Row buildMailFormField() {
     return Row(
       children: <Widget>[
         SizedBox(
@@ -172,7 +176,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
           width: SizeConfig.screenWidth * 0.43,
           child:
             MailButton(
-              text: '@${universityMail}.ac.kr',
+              text: '@$universityMail.ac.kr',
             ),
         ),
       ],
@@ -193,12 +197,8 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
        ),
        child: DropdownButton<String>(
          isExpanded: true,
+         hint: Text('대학교 선택'),
          value: selectedUniversity,
-         onChanged: (String? newValue) =>
-             setState(() {
-               selectedUniversity = newValue!;
-               getUnivMail();
-             }),
          items: university
              .map<DropdownMenuItem<String>>(
                  (String value) => DropdownMenuItem<String>(
@@ -210,6 +210,11 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
                ),
              ))
              .toList(),
+         onChanged: (String? newValue) =>
+             setState(() {
+               selectedUniversity = newValue!;
+               getUnivMail();
+             }),
          icon: Icon(Icons.arrow_drop_down),
          iconSize: 35,
          underline: SizedBox(),
