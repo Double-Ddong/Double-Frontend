@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button_half.dart';
 import 'package:shop_app/components/cancel_button_half.dart';
 import 'package:shop_app/components/mail_text.dart';
+import 'package:shop_app/models/Chat.dart';
+import 'package:shop_app/models/ChatMessage.dart';
 import 'package:shop_app/models/Friends.dart';
 import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/match/match_screen.dart';
 import 'package:shop_app/screens/chat/chat_screen.dart';
+import 'package:shop_app/screens/messages/message_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -213,10 +216,98 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             DefaultButtonHalf(
               text: "쿠키 보내기",
               press: () async {
+                print("press");print( f.UserId);print(p.userid);
                 response = await dio.post('http://13.125.168.216:3000/main/sendCookie/${p.userid}',data: {'userid' : f.UserId});
                 Map FriendListBody100 = response.data;
+                // print(FriendListBody100);
                 bool success = FriendListBody100['success'];
+
+                if(!success){
+                  if(FriendListBody100['message'][0] == "쿠키를 전에 보냈습니다."){
+                    void FlutterDialog() {
+                      showDialog(
+                          context: context,
+                          //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              //Dialog Main Title
+                              title: Column(
+                                children: <Widget>[
+                                  new Text("알림"),
+                                ],
+                              ),
+                              //
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "전에 쿠키를 보냈습니다.",
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                new FlatButton(
+                                  child: new Text("확인"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    }
+                    FlutterDialog();
+
+                  }
+                }
                 if(success){
+                  print("press성공");
+                  // if(FriendListBody100['message'][0] == "쿠키를 전에 보냈습니다."){
+                  //   void FlutterDialog() {
+                  //     showDialog(
+                  //         context: context,
+                  //         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                  //         barrierDismissible: false,
+                  //         builder: (BuildContext context) {
+                  //           return AlertDialog(
+                  //             // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                  //             shape: RoundedRectangleBorder(
+                  //                 borderRadius: BorderRadius.circular(10.0)),
+                  //             //Dialog Main Title
+                  //             title: Column(
+                  //               children: <Widget>[
+                  //                 new Text("알림"),
+                  //               ],
+                  //             ),
+                  //             //
+                  //             content: Column(
+                  //               mainAxisSize: MainAxisSize.min,
+                  //               crossAxisAlignment: CrossAxisAlignment.center,
+                  //               children: <Widget>[
+                  //                 Text(
+                  //                   "전에 쿠키를 보냈습니다.",
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             actions: <Widget>[
+                  //               new FlatButton(
+                  //                 child: new Text("확인"),
+                  //                 onPressed: () {
+                  //                   Navigator.pop(context);
+                  //                 },
+                  //               ),
+                  //             ],
+                  //           );
+                  //         });
+                  //   }
+                  //   FlutterDialog();
+                  //
+                  // }
                   if(FriendListBody100['message'] == "쿠키를 보냈습니다, 매치는 안된 상태."){
                     void FlutterDialog() {
                       showDialog(
@@ -304,6 +395,13 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                     friend.Smoke = FriendListBody1000['data'][0][0]['Smoke'];
                     friend.Drink = FriendListBody1000['data'][0][0]['Drink'];
                     p.Send.add(friend);
+                    // for(int i = 0;i<p.Receive.length;i++ ){
+                    //   if(p.Receive[i].UserId == f.UserId){
+                    //     p.Receive.removeAt(i);
+                    //   }
+                    // }
+
+
                     Navigator.pushNamed(context, MatchScreen.routeName, arguments: p);
                   }
                 }
@@ -318,8 +416,108 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             SizedBox(width: getProportionateScreenWidth(8)),
             CancelButtonHalf(
               text: "채팅하기",
-              press: () {
-                Navigator.pushNamed(context, ChatScreen.routeName);
+              press: () async {
+                //매치 확인하기
+                response = await dio.get('http://13.125.168.216:3000/main/cookie/match/${p.userid}/${f.UserId}');
+                Map ResponseBody = response.data;
+                bool success = ResponseBody['success'];
+                if(success){
+                  if(ResponseBody['message'][0] == "매치가 안된 상태"){
+                    void FlutterDialog() {
+                      showDialog(
+                          context: context,
+                          //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              //Dialog Main Title
+                              title: Column(
+                                children: <Widget>[
+                                  new Text("알림"),
+                                ],
+                              ),
+                              //
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "서로 쿠키를 보낸 상태가 되면 \n 채팅방이 개설됩니다.",
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                new FlatButton(
+                                  child: new Text("확인"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    }
+                    FlutterDialog();
+                  }
+                  else{
+                    response = await dio.get('http://13.125.168.216:3000/chat/getChatList/${p.userid}');
+                    Map responseBody = response.data;
+                    bool success = responseBody['success'];
+
+                    if (success) {
+                      List<Chat> chatsData = [];
+                      List<ChatMessage> Messages = [];
+                      int chatlen = responseBody['message'][0];
+
+                      for(int i=0; i<chatlen; i++) {
+                        int messagelen = responseBody['message'][1][i].length;
+                        Chat chat = Chat();
+                        for(int j=0; j<messagelen; j++) {
+                          String sendWho = responseBody['message'][1][i][j]['NickName'];
+                          if(sendWho == p.nickname) { // 로그인 사용자가 보낸 경우
+                            ChatMessage message = ChatMessage(isSender: true);
+                            message.text = responseBody['message'][1][i][j]['Message'];
+                            message.chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
+                            message.userId = responseBody['message'][1][i][j]['UserId'].toString();
+                            Messages.add(message);
+                            chat.lastMessage = responseBody['message'][1][i][j]['Message'];
+                            chat.time = responseBody['message'][1][i][j]['Minute'];
+                            if(chat.time >= 1440) {
+                              chat.date = responseBody['message'][1][i][j]['Date'];
+                            } else {
+                              chat.date = 'no date';
+                            }
+                          } else { // 로그인 사용자가 받은 경우
+                            ChatMessage message = ChatMessage(isSender: false);
+                            message.text = responseBody['message'][1][i][j]['Message'];
+                            message.chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
+                            Messages.add(message);
+                            chat.name = responseBody['message'][1][i][j]['NickName'];
+                            chat.image = responseBody['message'][1][i][j]['Profile'];
+                            chat.chatRoom = responseBody['message'][1][i][j]['ChatRoom'];
+                            chat.userId = responseBody['message'][1][i][j]['UserId'].toString();
+                            chat.lastMessage = responseBody['message'][1][i][j]['Message'];
+                            chat.time = responseBody['message'][1][i][j]['Minute'];
+                            if(chat.time >= 1440) {
+                              chat.date = responseBody['message'][1][i][j]['Date'];
+                            } else {
+                              chat.date = 'no date';
+                            }
+                          }
+                        }
+                        chatsData.add(chat);
+                      }
+                      p.LastChat = chatsData;
+                      p.Message = Messages;
+
+                      Navigator.pushNamed(context, ChatScreen.routeName, arguments: p);
+                    }
+                  }
+                }
+
               },
             )
           ],
