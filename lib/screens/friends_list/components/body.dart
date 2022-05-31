@@ -47,7 +47,7 @@ class _Body extends State<Body> {
       friendlist = loginperson.Nearby;
     }
     if(loginperson.friendclick == 3){
-      friendtype = loginperson.mbti;
+      friendtype = '나와 잘 맞는 MBTI';
       friendlist = loginperson.MBTI;
     }
     return GestureDetector(
@@ -67,9 +67,8 @@ class _Body extends State<Body> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: getProportionateScreenHeight(20),),
                 GridView.builder(
-
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemCount: friendlist.length,
@@ -93,23 +92,24 @@ class _Body extends State<Body> {
                                         borderRadius : BorderRadius.circular(10),
                                         child: Image.network(friendlist[index].Profile,
                                           width: SizeConfig.screenWidth * 0.08,
-                                          height: SizeConfig.screenHeight * 0.08,),
+                                          height: SizeConfig.screenHeight * 0.07,
+                                        ),
                                       ),
                               // title: Text("${friendlist[index].NickName}"),
                               subtitle:
                                   Column(
                                     children : [
                                       Container(
-                                      width: SizeConfig.screenWidth * 0.20,
-                                      height: SizeConfig.screenHeight * 0.08,
+                                      width: SizeConfig.screenWidth * 0.50,
+                                      height: SizeConfig.screenHeight * 0.07,
                                       // decoration: BoxDecoration(
                                       //   color: kSecondaryColor.withOpacity(0.1),
                                       //   borderRadius: BorderRadius.circular(15),
                                       // ),
                                         child:
                                         Text(
-                                          "${friendlist[index].NickName} \n ${friendlist[index].Age.toString()}살",
-                                          style: TextStyle(color: Colors.black,fontSize: 17, height: 1.5),
+                                          "${friendlist[index].NickName} \n ${friendlist[index].Age.toString()}세",
+                                          style: TextStyle(color: Colors.black,fontSize: 13, height: 1.5),
                                           textAlign: TextAlign.center,
                                         ),
                                     ),
