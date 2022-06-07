@@ -26,14 +26,14 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 Row(
-                  children: [
-                    IconButton(
-                        icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
-                        onPressed: () {
-                          Navigator.pushNamed(context, FriendsListScreen.routeName, arguments: loginperson);
-                        }
-                    ),
-                  ],
+                  // children: [
+                  //   IconButton(
+                  //       icon: SvgPicture.asset("assets/icons/Back ICon.svg"),
+                  //       onPressed: () {
+                  //         Navigator.pushNamed(context, FriendsListScreen.routeName, arguments: loginperson);
+                  //       }
+                  //   ),
+                  // ],
                 ),
                 SizedBox(height: getProportionateScreenHeight(30)),
                 ViewProfileForm(),

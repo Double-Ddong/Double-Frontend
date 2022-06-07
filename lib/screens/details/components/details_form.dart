@@ -216,8 +216,9 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
             DefaultButtonHalf(
               text: "쿠키 보내기",
               press: () async {
-                print("press");print( f.UserId);print(p.userid);
+
                 response = await dio.post('http://$apiServer:3000/main/sendCookie/${p.userid}',data: {'userid' : f.UserId});
+
                 Map FriendListBody100 = response.data;
                 // print(FriendListBody100);
                 bool success = FriendListBody100['success'];
@@ -266,7 +267,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                   }
                 }
                 if(success){
-                  print("press성공");
+
                   // if(FriendListBody100['message'][0] == "쿠키를 전에 보냈습니다."){
                   //   void FlutterDialog() {
                   //     showDialog(
