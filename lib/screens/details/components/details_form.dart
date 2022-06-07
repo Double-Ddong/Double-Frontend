@@ -217,7 +217,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
               text: "쿠키 보내기",
               press: () async {
                 print("press");print( f.UserId);print(p.userid);
-                response = await dio.post('http://13.125.168.216:3000/main/sendCookie/${p.userid}',data: {'userid' : f.UserId});
+                response = await dio.post('http://$apiServer:3000/main/sendCookie/${p.userid}',data: {'userid' : f.UserId});
                 Map FriendListBody100 = response.data;
                 // print(FriendListBody100);
                 bool success = FriendListBody100['success'];
@@ -347,11 +347,11 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                           });
                     }
                     //쿠키 개수 업데이트
-                    response = await dio.get('http://13.125.168.216:3000/main/tab/${p.userid}');
+                    response = await dio.get('http://$apiServer:3000/main/tab/${p.userid}');
                     Map ResponseBody = response.data;
                     p.sendCookie = ResponseBody['data'][0]['SendCookie'].toString();
                     //보낸쿠키 친구 리스트 업데이트
-                    response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${f.UserId}');
+                    response = await dio.get('http://$apiServer:3000/main/mainpage3/${f.UserId}');
                     Map FriendListBody1000 = response.data;
                     Friends friend = Friends(
                       f.UserId,
@@ -373,12 +373,12 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                     FlutterDialog();
                   }
                   else{
-                    response = await dio.get('http://13.125.168.216:3000/main/tab/${p.userid}');
+                    response = await dio.get('http://$apiServer:3000/main/tab/${p.userid}');
                     Map ResponseBody = response.data;
                     p.sendCookie = ResponseBody['data'][0]['SendCookie'].toString();
                     // 보낸쿠기 친구리스트 업데이트
                     //보낸쿠키 친구 리스트 업데이트
-                    response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${f.UserId}');
+                    response = await dio.get('http://$apiServer:3000/main/mainpage3/${f.UserId}');
                     Map FriendListBody1000 = response.data;
                     Friends friend = Friends(
                       f.UserId,
@@ -418,7 +418,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
               text: "채팅하기",
               press: () async {
                 //매치 확인하기
-                response = await dio.get('http://13.125.168.216:3000/main/cookie/match/${p.userid}/${f.UserId}');
+                response = await dio.get('http://$apiServer:3000/main/cookie/match/${p.userid}/${f.UserId}');
                 Map ResponseBody = response.data;
                 bool success = ResponseBody['success'];
                 if(success){
@@ -463,7 +463,7 @@ class _ViewProfileFormState extends State<ViewProfileForm> {
                     FlutterDialog();
                   }
                   else{
-                    response = await dio.get('http://13.125.168.216:3000/chat/getChatList/${p.userid}');
+                    response = await dio.get('http://$apiServer:3000/chat/getChatList/${p.userid}');
                     Map responseBody = response.data;
                     bool success = responseBody['success'];
 

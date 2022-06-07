@@ -74,7 +74,7 @@ class _ScopeSettingFormState extends State<ScopeSettingForm> {
               ),
               onPressed: () async {
                 response = await dio.get(
-                  'http://13.125.168.216:3000/setting/setScope/${loginPerson.userid}/${loginPerson.scopeUniversity}/${loginPerson.scopePeople}',
+                  'http://$apiServer:3000/setting/setScope/${loginPerson.userid}/${loginPerson.scopeUniversity}/${loginPerson.scopePeople}',
                 );
 
                 Map responseBody = response.data;

@@ -42,7 +42,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
 
   void getUnivList() async {
     try {
-      response = await dio.get('http://13.125.168.216:3000/auth/getUnivName');
+      response = await dio.get('http://$apiServer:3000/auth/getUnivName');
       Map responseBody = response.data;
       bool success = responseBody['success'];
 
@@ -61,7 +61,7 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
 
   void getUnivMail() async {
     try {
-      response = await dio.get('http://13.125.168.216:3000/auth/getUnivName/getMail/${selectedUniversity}');
+      response = await dio.get('http://$apiServer:3000/auth/getUnivName/getMail/${selectedUniversity}');
       Map responseBody = response.data;
       bool success = responseBody['success'];
 
@@ -106,13 +106,13 @@ class _AuthSchoolFormState extends State<AuthSchoolForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 sendEmail = '${email}@${universityMail}.ac.kr';
-                response = await dio.post('http://13.125.168.216:3000/auth/univMailAuth', data: {'Email': sendEmail});
+                response = await dio.post('http://$apiServer:3000/auth/univMailAuth', data: {'Email': sendEmail});
                 Map responseBody = response.data;
                 bool success = responseBody['success'];
 
                 if (success) {
                   confirm_auth_num = responseBody['data']['sendNum'];
-                  response = await dio.post('http://13.125.168.216:3000/auth/univMailAuth/OK/${userId}',
+                  response = await dio.post('http://$apiServer:3000/auth/univMailAuth/OK/${userId}',
                       data: {'University': selectedUniversity, 'UniversityEmail': sendEmail});
                   Map responseBody2 = response.data;
                   print(responseBody2);

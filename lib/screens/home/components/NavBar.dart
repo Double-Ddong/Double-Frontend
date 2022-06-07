@@ -7,6 +7,7 @@ import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/chat/chat_screen.dart';
 import 'package:shop_app/screens/home/Cookie/cookie.dart';
 import 'package:shop_app/screens/home/Cookie/gotcookie.dart';
+import '../../../constants.dart';
 import '../../../size_config.dart';
 import '../Cookie/gotcookie.dart';
 import 'package:shop_app/models/Chat.dart';
@@ -75,7 +76,7 @@ class NavBar extends StatelessWidget {
             // leading: Icon(Icons.favorite),
             title: Text('채팅'),
             onTap: () async {
-              response = await dio.get('http://13.125.168.216:3000/chat/getChatList/${loginPerson.userid}');
+              response = await dio.get('http://$apiServer:3000/chat/getChatList/${loginPerson.userid}');
               Map responseBody = response.data;
               bool success = responseBody['success'];
 

@@ -126,7 +126,7 @@ class _ModifyProfileFormState extends State<ModifyProfileForm> {
                     });
 
                     response = await dio.post(
-                        'http://13.125.168.216:3000/setting/modifyProfile/${loginPerson.userid}',
+                        'http://$apiServer:3000/setting/modifyProfile/${loginPerson.userid}',
                         data: formData3
                     );
 

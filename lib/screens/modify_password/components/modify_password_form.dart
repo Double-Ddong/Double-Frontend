@@ -87,7 +87,7 @@ class _ModifyPasswordFormState extends State<ModifyPasswordForm> {
                 _formKey.currentState!.save();
 
                 response = await dio.post(
-                  'http://13.125.168.216:3000/setting/changePW/${loginPerson.userid}',
+                  'http://$apiServer:3000/setting/changePW/${loginPerson.userid}',
                     data: {'CurPW': cur_password, 'NewPW': password}
                 );
 

@@ -9,6 +9,7 @@ import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/screens/match/match_screen.dart';
 import 'package:shop_app/screens/chat/chat_screen.dart';
 
+import '../../../../../constants.dart';
 import '../../../../../size_config.dart';
 late Response response;
 var dio = Dio();
@@ -155,7 +156,7 @@ class _ViewProfileInCookie extends State<ViewProfileInCookie> {
             DefaultButtonHalf(
               text: "쿠키 보내기",
               press: () async {
-                response = await dio.post('http://13.125.168.216:3000/main/sendCookie/${p.userid}',data: {'userid' : f.UserId});
+                response = await dio.post('http://$apiServer:3000/main/sendCookie/${p.userid}',data: {'userid' : f.UserId});
                 Map FriendListBody100 = response.data;
                 bool success = FriendListBody100['success'];
                 if(success){

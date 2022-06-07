@@ -8,6 +8,7 @@ import 'package:shop_app/screens/forgot_id/components/forgot_id_form.dart';
 import 'package:shop_app/screens/setting/setting_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
+import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class Body extends StatelessWidget {
@@ -77,7 +78,7 @@ class Body extends StatelessWidget {
                 DefaultButton(
                   text: "탈퇴",
                   press: () async {
-                    response = await dio.get('http://13.125.168.216:3000/setting/deleteUser/${loginPerson.userid}');
+                    response = await dio.get('http://$apiServer:3000/setting/deleteUser/${loginPerson.userid}');
                     Map responseBody = response.data;
                     bool success = responseBody['success'];
 

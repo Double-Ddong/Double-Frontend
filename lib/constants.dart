@@ -12,6 +12,8 @@ const kSecondaryColor = Color(0xFF979797);
 const kTextColor = Color(0xFF757575);
 const kContentColorLightTheme = Color(0xFF1D1D35);
 const kErrorColor = Color(0xFFF03738);
+const apiServer = '34.207.147.188';
+const chatServer = 'ec2-3-34-126-156.ap-northeast-2.compute.amazonaws.com';
 
 const kDefaultPadding = 20.0;
 

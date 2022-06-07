@@ -61,7 +61,7 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 if(auth_num == confirm_auth_num) {
-                  response = await dio.post('http://13.125.168.216:3000/auth/signupPhoneAuth/Ok/${userId}', data: {'Phone': phone});
+                  response = await dio.post('http://$apiServer:3000/auth/signupPhoneAuth/Ok/${userId}', data: {'Phone': phone});
                   Map responseBody = response.data;
                   bool success = responseBody['success'];
 
@@ -143,7 +143,7 @@ class _AuthPhoneFormState extends State<AuthPhoneForm> {
           text: "전송",
           press: () async {
             // 서버에서 인증번호 전송하고, 인증번호 받아오기
-            response = await dio.post('http://13.125.168.216:3000/auth/signupPhoneAuth', data: {'Phone': phone});
+            response = await dio.post('http://$apiServer:3000/auth/signupPhoneAuth', data: {'Phone': phone});
             Map responseBody = response.data;
             bool success = responseBody['success'];
 

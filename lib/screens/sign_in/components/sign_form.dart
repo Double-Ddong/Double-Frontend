@@ -98,45 +98,44 @@ class _SignFormState extends State<SignForm> {
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
                 //1. 로그인 하기
-                response = await dio.post('http://13.125.168.216:3000/auth/signin', data: {'Email': email, 'Password': password});
-                //response = await dio.post('http://192.168.35.217:3000/auth/signin', data: {'Email': email, 'Password': password});
+                response = await dio.post('http://$apiServer:3000/auth/signin', data: {'Email': email, 'Password': password});
                 Map responseBody1 = response.data;
                 bool success = responseBody1['success'];
 
                 if(success) {
                   //2. 로그인해서 얻은 userid로 사용자의 프로필 정보
                   String userId = responseBody1['data']['userid'].toString();
-                  response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${userId}');
+                  response = await dio.get('http://$apiServer:3000/main/mainpage3/${userId}');
                   Map responseBody2 = response.data;
                   bool success = responseBody2['success'];
 
                   if(success) {
                     //3. userid로 사용자의 tab 정보 (받은 쿠키, 보낸 쿠기 수, email)
-                    response = await dio.get('http://13.125.168.216:3000/main/tab/${userId}');
+                    response = await dio.get('http://$apiServer:3000/main/tab/${userId}');
                     Map responseBody3 = response.data;
                     bool success = responseBody3['success'];
 
                     if(success) {
                       //4. userid로 사용자의 친구범위 정보
-                      response = await dio.get('http://13.125.168.216:3000/setting/getScope/${userId}');
+                      response = await dio.get('http://$apiServer:3000/setting/getScope/$userId');
                       Map responseBody4 = response.data;
                       bool success = responseBody4['success'];
 
                       if(success){
                         //5. userid로 친구 정보
-                        response = await dio.get('http://13.125.168.216:3000/main/mainpage2/${userId}/1');
+                        response = await dio.get('http://$apiServer:3000/main/mainpage2/$userId/1');
                         Map FriendListBody = response.data;
                         bool success = FriendListBody['success'];
 
                         if(success){
                             //6. userid로 친구 정보2
-                            response = await dio.get('http://13.125.168.216:3000/main/mainpage2/${userId}/2');
+                            response = await dio.get('http://$apiServer:3000/main/mainpage2/$userId/2');
                             Map FriendListBody2 = response.data;
                             bool success = FriendListBody2['success'];
 
                             if(success){
                               //7. userid로 친구 정보3
-                              response = await dio.get('http://13.125.168.216:3000/main/mainpage2/${userId}/3');
+                              response = await dio.get('http://$apiServer:3000/main/mainpage2/$userId/3');
                               Map FriendListBody3 = response.data;
                               bool success = FriendListBody3['success'];
                               if(success){
@@ -157,7 +156,7 @@ class _SignFormState extends State<SignForm> {
                                 }
 
                                 for(int i = 0; i < depart_len; i++){
-                                  response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${Departmentfriends[i].UserId}');
+                                  response = await dio.get('http://$apiServer:3000/main/mainpage3/${Departmentfriends[i].UserId}');
                                   Map FriendListBody10 = response.data;
                                   bool success = FriendListBody10['success'];
 
@@ -186,7 +185,7 @@ class _SignFormState extends State<SignForm> {
                                   Nearbyfriends.add(nearby);
                                   }
                                 for(int i = 0; i < nearby_len; i++){
-                                  response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${Nearbyfriends[i].UserId}');
+                                  response = await dio.get('http://$apiServer:3000/main/mainpage3/${Nearbyfriends[i].UserId}');
                                   Map FriendListBody20 = response.data;
                                   bool success = FriendListBody20['success'];
                                   if(success){
@@ -214,7 +213,7 @@ class _SignFormState extends State<SignForm> {
                                 MBTIfriends.add(MBTI);
                                 }
                                 for(int i = 0; i < mbti_len; i++){
-                                  response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${MBTIfriends[i].UserId}');
+                                  response = await dio.get('http://$apiServer:3000/main/mainpage3/${MBTIfriends[i].UserId}');
                                   Map FriendListBody30 = response.data;
                                   bool success = FriendListBody30['success'];
                                   if(success){
@@ -228,12 +227,12 @@ class _SignFormState extends State<SignForm> {
                                     MBTIfriends[i].Drink = FriendListBody30['data'][0][0]['Drink'];
                                   }
                                 }
-                                response = await dio.get('http://13.125.168.216:3000/main/cookie/receive/${userId.toString()}');
+                                response = await dio.get('http://$apiServer:3000/main/cookie/receive/${userId.toString()}');
                                 Map FriendListBody200 = response.data;
                                 bool success = FriendListBody200['success'];
 
                                 if(success){
-                                  response = await dio.get('http://13.125.168.216:3000/main/cookie/send/${userId.toString()}');
+                                  response = await dio.get('http://$apiServer:3000/main/cookie/send/${userId.toString()}');
                                   Map FriendListBody100 = response.data;
                                   bool success = FriendListBody100['success'];
                                   //print(FriendListBody100['data'][1][0]['UserId']);
@@ -267,7 +266,7 @@ class _SignFormState extends State<SignForm> {
                                     }
 
                                     for(int i = 0; i<send_len;i++){
-                                      response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${SendFriends[i].UserId}');
+                                      response = await dio.get('http://$apiServer:3000/main/mainpage3/${SendFriends[i].UserId}');
                                       Map FriendListBody1000 = response.data;
                                       SendFriends[i].MBTI_input = FriendListBody1000['data'][0][0]['MBTI'];
                                       SendFriends[i].Introduce = FriendListBody1000['data'][0][0]['Introduce'];
@@ -277,7 +276,7 @@ class _SignFormState extends State<SignForm> {
                                       SendFriends[i].Drink = FriendListBody1000['data'][0][0]['Drink'];
                                     }
                                     for(int i = 0; i<receive_len;i++){
-                                      response = await dio.get('http://13.125.168.216:3000/main/mainpage3/${Receivefriends[i].UserId}');
+                                      response = await dio.get('http://$apiServer:3000/main/mainpage3/${Receivefriends[i].UserId}');
                                       Map FriendListBody2000 = response.data;
                                       Receivefriends[i].MBTI_input = FriendListBody2000['data'][0][0]['MBTI'];
                                       Receivefriends[i].Introduce = FriendListBody2000['data'][0][0]['Introduce'];

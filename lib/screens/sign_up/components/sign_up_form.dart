@@ -58,7 +58,7 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                response = await dio.post('http://13.125.168.216:3000/auth/signup', data: {'Email': email, 'Password': password});
+                response = await dio.post('http://$apiServer:3000/auth/signup', data: {'Email': email, 'Password': password});
                 Map responseBody = response.data;
                 bool success = responseBody['success'];
                 int userid = responseBody['data'];

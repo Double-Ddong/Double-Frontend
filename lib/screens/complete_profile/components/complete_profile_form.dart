@@ -155,7 +155,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             press: () async {
               if (_formKey.currentState!.validate()) {
                 response = await dio.post(
-                    'http://13.125.168.216:3000/auth/signupProfile/${userId}',
+                    'http://$apiServer:3000/auth/signupProfile/${userId}',
                     data: {
                       'NickName': nickName,
                       'Sex': genderMode,
@@ -220,7 +220,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                       "img": await MultipartFile.fromFile(sendimage,filename: 'upload.png')
                     });
                     response = await dio.post(
-                        'http://13.125.168.216:3000/auth/signupProfileImg/${userId}',
+                        'http://$apiServer:3000/auth/signupProfileImg/${userId}',
                         data: formData3
                     );
                     print(response.data);

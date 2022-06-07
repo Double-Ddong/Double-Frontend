@@ -7,6 +7,7 @@ import 'package:shop_app/models/Friends.dart';
 import 'package:shop_app/models/Person.dart';
 import 'package:shop_app/models/Product.dart';
 
+import '../../../../constants.dart';
 import '../../../../size_config.dart';
 import '../section_title.dart';
 
@@ -23,7 +24,7 @@ class _Mainpage1 extends State<SimilarFriends>{
 
   void GetFriends(String userid) async{
 
-    response = await dio.get('http://13.125.168.216:3000/main/mainpage1/${userid}');
+    response = await dio.get('http://$apiServer:3000/main/mainpage1/${userid}');
     Map responseBody = response.data;
 
     int depart_len = responseBody['data'][0].length;
@@ -52,7 +53,7 @@ class _Mainpage1 extends State<SimilarFriends>{
     Future.delayed(Duration.zero, () async {
       final Person loginPerson = ModalRoute.of(context)?.settings.arguments as Person;
       // GetFriends(loginPerson.userid);
-      response = await dio.get('http://13.125.168.216:3000/main/mainpage1/${loginPerson.userid}');
+      response = await dio.get('http://$apiServer:3000/main/mainpage1/${loginPerson.userid}');
       Map responseBody = response.data;
 
       int depart_len = responseBody['data'][0].length;

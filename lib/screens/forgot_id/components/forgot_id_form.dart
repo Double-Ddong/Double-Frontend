@@ -61,7 +61,7 @@ class _ForgotIdFormState extends State<ForgotIdForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 if(auth_num == confirm_auth_num) {
-                  response = await dio.post('http://13.125.168.216:3000/auth/findID/getID',data: {'Phone': phone});
+                  response = await dio.post('http://$apiServer:3000/auth/findID/getID',data: {'Phone': phone});
                   Map responseBody = response.data;
                   bool success = responseBody['success'];
                   print(response.data);
@@ -230,7 +230,7 @@ class _ForgotIdFormState extends State<ForgotIdForm> {
           text: "전송",
             press: () async {
               // 서버에서 인증번호 전송하고, 인증번호 받아오기
-              response = await dio.post('http://13.125.168.216:3000/auth/findID', data: {'Phone': phone});
+              response = await dio.post('http://$apiServer:3000/auth/findID', data: {'Phone': phone});
               print(phone);
               Map responseBody = response.data;
               //print(response.data);
